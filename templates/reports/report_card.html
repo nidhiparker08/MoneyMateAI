@@ -1,0 +1,44 @@
+<div class="report-card">
+
+    <div class="report-icon">
+
+        <i class="fa-solid {{ report.icon }}"></i>
+
+    </div>
+
+    <h3>
+
+        {{ report.title }}
+
+    </h3>
+
+    <p>
+
+        {{ report.description }}
+
+    </p>
+
+    {% if report.period == "custom" %}
+
+    <button class="download-btn"
+            id="customReportBtn">
+
+        <i class="fa-solid fa-calendar-days"></i>
+
+        Select Dates
+
+    </button>
+
+    {% else %}
+
+    <a class="download-btn" href="{% url 'reports:download' %}?period={{ report.period }}">
+
+        <i class="fa-solid fa-download"></i>
+
+        Download PDF
+
+    </a>
+
+    {% endif %}
+
+</div>

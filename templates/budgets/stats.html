@@ -1,0 +1,107 @@
+<section class="budget-stats">
+
+    <div class="stat-card total-budget">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-wallet"></i>
+
+        </div>
+
+        <div class="stat-content">
+
+            <span class="stat-title">
+
+                Total Budget
+
+            </span>
+
+            <h2>
+
+                ₹{{ total_budget|default:"0.00" }}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="stat-card spent-budget">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+        </div>
+
+        <div class="stat-content">
+
+            <span class="stat-title">
+
+                Total Spent
+
+            </span>
+
+            <h2>
+
+                ₹{{ total_spent|default:"0.00" }}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="stat-card remaining-budget">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-piggy-bank"></i>
+
+        </div>
+
+        <div class="stat-content">
+
+            <span class="stat-title">
+
+                Remaining
+
+            </span>
+
+            <h2>
+
+                ₹{{ total_remaining|default:"0.00" }}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="stat-card category-count">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-layer-group"></i>
+
+        </div>
+
+        <div class="stat-content">
+
+            <span class="stat-title">
+
+                Categories
+
+            </span>
+
+            <h2>
+
+                {{ budget_summaries|length }}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+</section>

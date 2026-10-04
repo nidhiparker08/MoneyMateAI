@@ -1,0 +1,166 @@
+<div class="analytics-header">
+
+    <div>
+
+        <h2>Analytics</h2>
+
+        <p>Financial insights based on your transactions</p>
+
+    </div>
+
+    <select id="chartPeriod">
+
+        <option value="1m" {% if selected_period == '1m' %}selected{% endif %}>Last Month</option>
+
+        <option value="3m" {% if selected_period == '3m' %}selected{% endif %}>Last 3 Months</option>
+
+        <option value="6m" {% if selected_period == '6m' %}selected{% endif %}>Last 6 Months</option>
+
+        <option value="1y" {% if selected_period == '1y' %}selected{% endif %}>Last Year</option>
+
+        <option value="all" {% if selected_period == 'all' %}selected{% endif %}>All Time</option>
+
+    </select>
+
+</div>
+
+<div class="analytics-grid">
+
+    <!-- Expense Trend -->
+
+    <div class="chart-card">
+
+        <div class="chart-header">
+
+            <div>
+
+                <h3>Expense Trend</h3>
+
+                <p>Last 6 Months</p>
+
+            </div>
+
+            <i class="fa-solid fa-chart-line"></i>
+
+        </div>
+
+        <canvas id="expenseChart"></canvas>
+
+    </div>
+
+    <!-- Category Breakdown -->
+
+    <div class="chart-card">
+
+        <div class="chart-header">
+
+            <div>
+
+                <h3>Categories</h3>
+
+                <p>Expense Distribution</p>
+
+            </div>
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+        </div>
+
+        <canvas id="categoryChart"></canvas>
+
+    </div>
+
+    <!-- Cash Flow -->
+
+    <div class="chart-card">
+
+        <div class="chart-header">
+
+            <div>
+
+                <h3>Cash Flow</h3>
+
+                <p>Income vs Expenses</p>
+
+            </div>
+
+            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+        </div>
+
+        <canvas id="cashFlowChart"></canvas>
+
+    </div>
+
+    <!-- Budget -->
+
+    <div class="chart-card budget-card">
+
+        <div class="chart-header">
+
+            <div>
+                <h3>Budget Progress</h3>
+                <p>This Month</p>
+            </div>
+
+            <i class="fa-solid fa-bullseye"></i>
+
+        </div>
+
+        <div class="budget-chart-wrapper">
+
+            <canvas id="budgetChart"></canvas>
+
+            <div class="budget-center">
+
+                <h2>{{ budget_percentage }}%</h2>
+
+                <span>Used</span>
+
+                <p>
+
+                    ₹{{ budget_used|floatformat:0 }}
+
+                    /
+
+                    ₹{{ total_budget|floatformat:0 }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="budget-status">
+
+        <div class="budget-bar">
+
+            <div class="budget-fill"
+                 style="--budget-width: {{ budget_percentage }}%;">
+            </div>
+
+        </div>
+
+        <div class="budget-info">
+
+            <span>
+
+                ₹{{ budget_remaining|floatformat:0 }}
+
+                Remaining
+
+            </span>
+
+            <span>
+
+                {{ budget_percentage }}% Used
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>

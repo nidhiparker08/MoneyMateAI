@@ -1,0 +1,173 @@
+/* ==========================================================
+   LARGE TABLETS (1200px)
+========================================================== */
+
+@media (max-width:1200px) {
+
+    .dashboard-content {
+        padding: 18px 20px 24px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box {
+        width: 280px;
+    }
+}
+
+
+/* ==========================================================
+   TABLETS (992px)
+========================================================== */
+
+@media (max-width:992px) {
+
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-main {
+        width: 100%;
+    }
+
+    .navbar {
+        margin: 16px;
+        padding: 0 20px;
+        top: 16px;
+    }
+
+    .dashboard-content {
+        padding: 16px;
+    }
+
+    .dashboard-hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-right {
+        width: 100%;
+    }
+
+    .hero-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+}
+
+
+/* ==========================================================
+   MOBILE (768px)
+========================================================== */
+
+@media (max-width:768px) {
+
+    .navbar {
+        margin: 12px;
+        padding: 16px;
+        height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .navbar-left {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .navbar-right {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .search-box {
+        flex: 1;
+        width: auto;
+    }
+
+    .profile {
+        padding: 0;
+    }
+
+    .profile-details {
+        display: none;
+    }
+
+    .profile i {
+        display: none;
+    }
+
+    .icon-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .dashboard-content {
+        padding: 14px;
+    }
+}
+
+
+/* ==========================================================
+   SMALL PHONES (576px)
+========================================================== */
+
+@media (max-width:576px) {
+
+    .dashboard-content {
+        padding: 12px;
+        gap: 18px;
+    }
+
+    .dashboard-hero {
+        padding: 20px;
+        gap: 22px;
+    }
+
+    .hero-left {
+        padding: 0;
+    }
+
+    .hero-right {
+        padding: 0;
+        width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 26px;
+    }
+
+    .hero-text p {
+        font-size: 14px;
+    }
+
+    .hero-summary {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+        .hero-summary .dot {
+            display: none;
+        }
+
+    .hero-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,131 @@
+/* ==========================================================
+   MONEYMATE · EMAIL OTP VERIFICATION
+   Reuses the auth split-screen (mm-auth) + design tokens.
+   ========================================================== */
+
+.mm-hidden { display: none !important; }
+
+/* Success variant of the auth alert */
+.mm-auth-alert-success {
+    background: var(--success-soft) !important;
+    color: var(--success) !important;
+    border-color: var(--success-soft) !important;
+}
+.mm-auth-alert-success i { color: var(--success); }
+
+.mm-otp-email { color: var(--text-primary); }
+
+/* ---------- Six-digit code inputs ---------- */
+.mm-otp-inputs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-top: 4px;
+}
+.mm-otp-input {
+    width: 100%;
+    height: 56px;
+    padding: 0;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: var(--font-sans);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    caret-color: var(--primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+.mm-otp-input::placeholder { color: var(--text-muted); }
+.mm-otp-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+}
+.mm-otp-input.filled {
+    border-color: var(--primary);
+    background: var(--primary-softer);
+}
+
+/* Error feedback */
+.mm-otp-inputs.shake {
+    animation: mm-otp-shake .4s cubic-bezier(.36, .07, .19, .97);
+}
+@keyframes mm-otp-shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+}
+
+/* ---------- Buttons / resend row ---------- */
+#otpSubmit.is-loading { opacity: .75; pointer-events: none; }
+.mm-otp-resend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+.mm-otp-resend-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+}
+.mm-otp-resend-btn:hover:not(:disabled) { color: var(--primary-hover); }
+.mm-otp-resend-btn:disabled {
+    color: var(--text-muted);
+    cursor: not-allowed;
+    font-weight: 400;
+}
+.mm-otp-countdown { color: var(--text-muted); font-size: 13.5px; }
+
+/* ---------- Dev-mode banner (DEBUG only) ---------- */
+.mm-otp-dev {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--violet-soft);
+    border: 1px solid var(--violet-soft);
+    color: var(--accent-violet);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin: 16px 0 0;
+    font-size: 13.5px;
+}
+.mm-otp-dev i { margin-top: 2px; }
+.mm-otp-dev strong { display: block; font-size: 13px; }
+.mm-otp-dev code {
+    font-weight: 800;
+    letter-spacing: .14em;
+    color: var(--accent-violet);
+    font-family: var(--font-sans);
+}
+
+/* ---------- Static helper tip ---------- */
+.mm-otp-tip {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin: 10px 0 0;
+}
+.mm-otp-tip i { margin-right: 6px; }
+
+/* ---------- Success state ---------- */
+#otpSubmit.is-success { background: var(--success); box-shadow: 0 6px 18px rgba(18, 161, 80, .28); }
+#otpStatusChip.is-done { color: var(--success); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 420px) {
+    .mm-otp-inputs { gap: 7px; }
+    .mm-otp-input { height: 48px; font-size: 19px; }
+}

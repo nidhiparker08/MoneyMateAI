@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Memory Entries | FinSync AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/financial_memory/memory.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+        <div id="sidebar-overlay"></div>
+    </aside>
+
+    <main class="dashboard-main">
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content memory-page">
+
+            <div class="memory-header">
+                <div>
+                    <h1 class="memory-title"><i class="fa-solid fa-database"></i> Memory Entries</h1>
+                    <p class="memory-subtitle">Every mapping the engine has learned about your finances.</p>
+                </div>
+                <a href="{% url 'financial_memory:dashboard' %}" class="btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </a>
+            </div>
+
+            <form class="memory-filters" method="get">
+                <input type="text" name="q" placeholder="Search by signal key…" value="{{ search_query }}" class="form-control">
+                <select name="entity_type" class="form-select">
+                    <option value="">All entity types</option>
+                    {% for value, label in entity_types %}
+                        <option value="{{ value }}" {% if value == selected_entity_type %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn-primary" type="submit"><i class="fa-solid fa-filter"></i> Filter</button>
+            </form>
+
+            <section class="memory-panel wide">
+                {% if entries %}
+                <table class="memory-table">
+                    <thead>
+                        <tr>
+                            <th>Signal</th>
+                            <th>Type</th>
+                            <th>Learned Value</th>
+                            <th>Confidence</th>
+                            <th>Hits</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for e in entries %}
+                        <tr id="entry-{{ e.id }}" data-entry-id="{{ e.id }}" class="{% if not e.is_active %}entry-paused{% endif %}">
+                            <td>
+                                <div class="cell-primary">{{ e.raw_signal|default:e.signal_key|truncatechars:60 }}</div>
+                                <div class="cell-secondary">key: <code>{{ e.signal_key }}</code> · {{ e.get_signal_type_display }}</div>
+                            </td>
+                            <td><span class="entity-chip">{{ e.get_entity_type_display }}</span></td>
+                            <td>
+                                {% if e.linked_category %}{{ e.linked_category.name }}
+                                {% elif e.linked_goal %}🎯 {{ e.linked_goal.title }}
+                                {% elif e.linked_holding %}📊 {{ e.linked_holding.name }}
+                                {% else %}{{ e.entity_value|default:"—" }}{% endif %}
+                                {% if e.subcategory %}<div class="cell-secondary">{{ e.subcategory }}</div>{% endif %}
+                            </td>
+                            <td>{{ e.confidence }}%</td>
+                            <td>{{ e.hit_count }}</td>
+                            <td>
+                                {% if e.is_active %}<span class="status-chip on">Active</span>{% else %}<span class="status-chip off">Paused</span>{% endif %}
+                            </td>
+                            <td class="row-actions">
+                                <button class="btn-icon" data-action="toggle" data-id="{{ e.id }}">
+                                    {% if e.is_active %}<i class="fa-solid fa-pause"></i>{% else %}<i class="fa-solid fa-play"></i>{% endif %}
+                                </button>
+                                <button class="btn-icon danger" data-action="delete" data-id="{{ e.id }}"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% if page_obj.has_other_pages %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a class="page-link" href="?entity_type={{ selected_entity_type }}&q={{ search_query }}&page={{ page_obj.previous_page_number }}">← Prev</a>
+                    {% endif %}
+                    <span class="page-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                        <a class="page-link" href="?entity_type={{ selected_entity_type }}&q={{ search_query }}&page={{ page_obj.next_page_number }}">Next →</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div class="empty-panel">
+                    <i class="fa-solid fa-database"></i>
+                    <p>No memory entries match your filter.</p>
+                </div>
+                {% endif %}
+            </section>
+
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/financial_memory/memory.js' %}"></script>
+{% endblock %}

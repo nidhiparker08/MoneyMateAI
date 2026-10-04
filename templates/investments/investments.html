@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Investments | MoneyMate{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/investments/investments.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    <aside class="sidebar-wrapper">{% include "dashboard/sidebar.html" %}</aside>
+
+    <main class="dashboard-main">
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content inv-content">
+
+            <!-- Header -->
+            <header class="inv-header">
+                <div class="inv-heading">
+                    <div class="inv-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div>
+                        <h1 data-testid="inv-page-title">Investments</h1>
+                        <p>
+                            Track your Indian portfolio & get AI-powered suggestions.
+                            {% if prices_last_updated %}
+                            <span class="live-badge" data-testid="prices-updated-at">
+                                <i class="fa-solid fa-signal"></i>
+                                Prices updated {{ prices_last_updated|timesince }} ago
+                            </span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <button type="button" class="btn-primary" id="add-holding-btn" data-testid="add-holding-btn">
+                    <i class="fa-solid fa-plus"></i> Add Holding
+                </button>
+                <button type="button" class="btn-ghost" id="refresh-prices-btn" data-testid="refresh-prices-btn">
+                    <i class="fa-solid fa-rotate"></i> Refresh Prices
+                </button>
+            </header>
+
+            <!-- Summary cards -->
+            <section class="inv-summary-grid">
+                <div class="inv-stat-card">
+                    <span class="stat-label">Total Invested</span>
+                    <strong data-testid="stat-invested">₹{{ summary.invested|floatformat:0 }}</strong>
+                </div>
+                <div class="inv-stat-card">
+                    <span class="stat-label">Current Value</span>
+                    <strong data-testid="stat-current">₹{{ summary.current|floatformat:0 }}</strong>
+                </div>
+                <div class="inv-stat-card {% if summary.pnl >= 0 %}pos{% else %}neg{% endif %}">
+                    <span class="stat-label">Unrealised P&L</span>
+                    <strong data-testid="stat-pnl">
+                        {% if summary.pnl >= 0 %}+{% endif %}₹{{ summary.pnl|floatformat:0 }}
+                        <em>({{ summary.pnl_percent }}%)</em>
+                    </strong>
+                </div>
+                <div class="inv-stat-card">
+                    <span class="stat-label">Holdings</span>
+                    <strong data-testid="stat-count">{{ summary.holding_count }}</strong>
+                </div>
+            </section>
+
+            <!-- AI Suggestions -->
+            <section class="inv-ai-panel">
+                <div class="inv-ai-head">
+                    <div>
+                        <h3><i class="fa-solid fa-wand-magic-sparkles"></i> AI Suggestions — Indian Market</h3>
+                        <span>Pick a risk profile and monthly amount, and let AI craft a diversified plan.</span>
+                    </div>
+                </div>
+
+                <form id="ai-suggest-form" class="inv-ai-form">
+                    {% csrf_token %}
+                    <div class="ai-field">
+                        <label>Risk profile</label>
+                        <select name="risk" data-testid="risk-select">
+                            <option value="low">Conservative</option>
+                            <option value="medium" selected>Balanced</option>
+                            <option value="high">Aggressive</option>
+                        </select>
+                    </div>
+                    <div class="ai-field">
+                        <label>Amount (₹)</label>
+                        <input type="number" name="amount" min="1000" step="500" value="50000" data-testid="amount-input">
+                    </div>
+                    <div class="ai-field">
+                        <label>Horizon</label>
+                        <select name="horizon" data-testid="horizon-select">
+                            <option value="Under 1 year">Under 1 year</option>
+                            <option value="1-3 years">1-3 years</option>
+                            <option value="3-5 years" selected>3-5 years</option>
+                            <option value="5+ years">5+ years</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary" data-testid="generate-suggestions-btn">
+                        <i class="fa-solid fa-sparkles"></i> Generate
+                    </button>
+                </form>
+
+                <div id="suggestions-grid" class="inv-suggestions-grid" data-testid="suggestions-grid">
+                    {% for s in suggestions %}
+                    <article class="suggest-card">
+                        <div class="suggest-top">
+                            <div>
+                                <strong>{{ s.symbol }}</strong>
+                                <span class="tag">{{ s.sector }}</span>
+                            </div>
+                            <span class="action-badge action-{{ s.action|lower }}">{{ s.action|title }}</span>
+                        </div>
+                        <h4>{{ s.name }}</h4>
+                        <p class="suggest-rationale">{{ s.rationale }}</p>
+                        <div class="suggest-meta">
+                            <span><i class="fa-solid fa-shield"></i> {{ s.risk_level|title }} risk</span>
+                            <span><i class="fa-solid fa-clock"></i> {{ s.time_horizon }}</span>
+                            <span><i class="fa-solid fa-percent"></i> {{ s.target_allocation_pct }}%</span>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <div class="inv-empty">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <p>No suggestions yet — click <strong>Generate</strong> to see a plan crafted by AI.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Holdings -->
+            <section class="inv-holdings">
+                <div class="inv-section-head">
+                    <h3><i class="fa-solid fa-briefcase"></i> Your Holdings</h3>
+                </div>
+
+                <div class="inv-table-wrap">
+                    <table class="inv-table">
+                        <thead>
+                            <tr>
+                                <th>Symbol / Name</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                                <th>Buy ₹</th>
+                                <th>Now ₹</th>
+                                <th>Invested</th>
+                                <th>Value</th>
+                                <th>P&L</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-testid="holdings-tbody">
+                            {% for h in holdings %}
+                            <tr data-testid="holding-row-{{ h.id }}">
+                                <td>
+                                    <strong>{{ h.symbol }}</strong>
+                                    <span class="row-sub">{{ h.name }}</span>
+                                </td>
+                                <td>{{ h.get_asset_type_display }}</td>
+                                <td>{{ h.quantity|floatformat:"-4" }}</td>
+                                <td>₹{{ h.buy_price|floatformat:2 }}</td>
+                                <td>₹{{ h.current_price|floatformat:2 }}</td>
+                                <td>₹{{ h.invested_amount|floatformat:0 }}</td>
+                                <td>₹{{ h.current_value|floatformat:0 }}</td>
+                                <td class="{% if h.pnl >= 0 %}text-pos{% else %}text-neg{% endif %}">
+                                    {% if h.pnl >= 0 %}+{% endif %}₹{{ h.pnl|floatformat:0 }}
+                                    <em>({{ h.pnl_percent|floatformat:1 }}%)</em>
+                                </td>
+                                <td>
+                                    <button type="button"
+                                            class="row-delete"
+                                            data-holding-id="{{ h.id }}"
+                                            data-testid="delete-holding-{{ h.id }}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr class="empty-row">
+                                <td colspan="9">
+                                    No holdings yet. Add your first stock or fund to begin tracking.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </section>
+    </main>
+</div>
+
+<!-- Add Holding Modal -->
+<div class="inv-modal-overlay" id="holding-modal" data-testid="holding-modal">
+    <div class="inv-modal">
+        <div class="inv-modal-head">
+            <div>
+                <span class="modal-badge"><i class="fa-solid fa-chart-line"></i> MoneyMate</span>
+                <h2>Add Holding</h2>
+                <p>Track a stock, mutual fund, ETF, gold or crypto position.</p>
+            </div>
+            <button type="button" class="inv-modal-close" data-testid="close-holding-modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="holding-form" method="post" data-testid="holding-form">
+            {% csrf_token %}
+            <div class="inv-modal-grid">
+                <div class="ai-field">
+                    <label>Symbol</label>
+                    <input list="stock-list" name="symbol" required data-testid="input-symbol" placeholder="RELIANCE">
+                    <datalist id="stock-list">
+                        {% for s in stock_universe %}
+                        <option value="{{ s.symbol }}" label="{{ s.name }}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+                <div class="ai-field">
+                    <label>Name</label>
+                    <input type="text" name="name" required data-testid="input-name" placeholder="Reliance Industries">
+                </div>
+                <div class="ai-field">
+                    <label>Asset type</label>
+                    <select name="asset_type" data-testid="input-asset-type">
+                        <option value="stock">Stock</option>
+                        <option value="mutual_fund">Mutual Fund</option>
+                        <option value="etf">ETF</option>
+                        <option value="gold">Gold</option>
+                        <option value="crypto">Crypto</option>
+                        <option value="bond">Bond</option>
+                        <option value="fd">Fixed Deposit</option>
+                    </select>
+                </div>
+                <div class="ai-field">
+                    <label>Sector</label>
+                    <input type="text" name="sector" placeholder="e.g. IT / Banking" data-testid="input-sector">
+                </div>
+                <div class="ai-field">
+                    <label>Quantity</label>
+                    <input type="number" name="quantity" step="0.0001" min="0" required data-testid="input-qty">
+                </div>
+                <div class="ai-field">
+                    <label>Buy price (₹)</label>
+                    <input type="number" name="buy_price" step="0.01" min="0" required data-testid="input-buy-price">
+                </div>
+                <div class="ai-field">
+                    <label>Current price (₹) <span class="live-hint">— leave blank for live fetch <i class="fa-solid fa-bolt"></i></span></label>
+                    <input type="number" name="current_price" step="0.01" min="0" data-testid="input-current-price" placeholder="Auto-fetched from NSE">
+                </div>
+                <div class="ai-field">
+                    <label>Risk level</label>
+                    <select name="risk_level" data-testid="input-risk">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+            </div>
+            <div class="ai-field">
+                <label>Notes</label>
+                <textarea name="notes" rows="2" placeholder="Optional notes..."></textarea>
+            </div>
+            <div class="inv-modal-actions">
+                <button type="button" class="btn-ghost inv-modal-close">Cancel</button>
+                <button type="submit" class="btn-primary" data-testid="submit-holding-btn">
+                    <i class="fa-solid fa-floppy-disk"></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/investments/investments.js' %}"></script>
+{% endblock %}

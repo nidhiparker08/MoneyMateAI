@@ -1,0 +1,104 @@
+{% load static %}
+<!--
+  MoneyMate navbar
+  - Search input navigates to /transactions/ with ?q=…
+  - Quick Add jumps to the transactions page to log a new entry
+  - Notification bell opens a dropdown wired to /notifications/api/*
+  - Theme toggle cycles dark → light → system
+  - Profile chevron opens a full dropdown menu (Profile, Settings, Logout)
+-->
+<div class="navbar">
+
+    <!-- LEFT -->
+    <div class="navbar-left">
+        <button class="icon-btn" id="sidebar-toggle" data-testid="sidebar-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <form class="search-box" role="search" method="get" action="{% url 'transactions:index' %}" data-testid="navbar-search-form">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="q"
+                   placeholder="Search transactions, budgets, investments…"
+                   data-testid="navbar-search-input" />
+        </form>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="navbar-right">
+
+        <!-- Quick add transaction -->
+        <a href="{% url 'transactions:index' %}?add=1" class="quick-add-btn" data-testid="quick-add-btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Transaction</span>
+        </a>
+
+        <!-- Notifications -->
+        <div class="notif-dropdown-anchor" style="position: relative;">
+            <button class="icon-btn notification-btn"
+                    type="button"
+                    data-testid="notification-btn"
+                    aria-label="Notifications">
+                <i class="fa-regular fa-bell"></i>
+                <span class="notification-badge"></span>
+            </button>
+
+            <div class="notif-dropdown" data-testid="notif-dropdown">
+                <div class="notif-dd-head">
+                    <strong>Notifications</strong>
+                    <a href="#" data-testid="dd-mark-all-read">Mark all read</a>
+                </div>
+                <div class="notif-dd-list">
+                    <div class="notif-dd-empty">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Loading…</p>
+                    </div>
+                </div>
+                <div class="notif-dd-foot">
+                    <a href="{% url 'notifications:index' %}">View all notifications</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme toggle -->
+        <button class="icon-btn theme-toggle-btn"
+                type="button"
+                data-testid="theme-toggle-btn"
+                aria-label="Toggle theme">
+            <i class="fa-regular fa-moon"></i>
+        </button>
+
+        <!-- Profile with dropdown -->
+        <div class="profile-wrap" style="position: relative;">
+            <div class="profile" data-testid="profile-menu-trigger" role="button">
+                <div class="avatar">
+                    {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">
+                    {% else %}
+                        {{ user.username|first|upper }}
+                    {% endif %}
+                </div>
+                <div class="profile-details">
+                    <span class="profile-name">{{ user.first_name|default:user.username }}</span>
+                    <span class="profile-role">MoneyMate</span>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="profile-dropdown" data-testid="profile-dropdown">
+                <a href="{% url 'accounts:profile' %}" data-testid="menu-profile">
+                    <i class="fa-solid fa-circle-user"></i> My Profile
+                </a>
+                <a href="{% url 'accounts:settings' %}" data-testid="menu-settings">
+                    <i class="fa-solid fa-sliders"></i> Settings
+                </a>
+                <a href="{% url 'notifications:index' %}" data-testid="menu-notifications">
+                    <i class="fa-regular fa-bell"></i> Notifications
+                </a>
+                <hr>
+                <a href="{% url 'accounts:logout' %}" data-testid="menu-logout" class="danger">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign out
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

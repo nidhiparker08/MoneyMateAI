@@ -1,0 +1,124 @@
+/* ==========================================================
+   Dashboard Cards
+========================================================== */
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 24px;
+}
+
+.dashboard-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 24px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+    .dashboard-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 135deg, rgba(139,92,246,.12), transparent 60% );
+        opacity: 0;
+        transition: var(--transition);
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--primary);
+    }
+
+        .dashboard-card:hover::before {
+            opacity: 1;
+        }
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: white;
+}
+
+.balance {
+    background: linear-gradient(135deg,#8B5CF6,#A855F7);
+}
+
+.income {
+    background: linear-gradient(135deg,#22C55E,#4ADE80);
+}
+
+.expense {
+    background: linear-gradient(135deg,#EF4444,#F87171);
+}
+
+.invest {
+    background: linear-gradient(135deg,#3B82F6,#60A5FA);
+}
+
+.card-change {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.positive {
+    background: rgba(34,197,94,.12);
+    color: #22C55E;
+}
+
+.negative {
+    background: rgba(239,68,68,.12);
+    color: #EF4444;
+}
+
+.card-title {
+    display: block;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.card-value {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.card-subtitle {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+@media(max-width:576px) {
+
+    .dashboard-card {
+        padding: 20px;
+    }
+
+    .card-value {
+        font-size: 26px;
+    }
+
+    .card-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,394 @@
+/* ===================================================
+   PREVIEW PAGE
+=================================================== */
+
+.preview-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 35px;
+}
+
+.preview-container {
+    max-width: 1500px;
+    margin: auto;
+}
+
+
+/* ===================================================
+   HEADER
+=================================================== */
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 40px;
+}
+
+    .preview-header h1 {
+        color: #ffffff;
+        font-size: 42px;
+        font-weight: 700;
+        margin: 15px 0 10px;
+    }
+
+    .preview-header p {
+        color: #b8b8c7;
+        font-size: 17px;
+        margin: 0;
+    }
+
+
+/* ===================================================
+   BADGE
+=================================================== */
+
+.preview-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(124,77,255,.18);
+    border: 1px solid rgba(124,77,255,.45);
+    color: #b388ff;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .5px;
+}
+
+
+/* ===================================================
+   IMPORT BUTTON
+=================================================== */
+
+.import-btn {
+    border: none;
+    padding: 16px 30px;
+    border-radius: 14px;
+    background: linear-gradient( 135deg, #7c4dff, #5e35b1 );
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .30s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(124,77,255,.35);
+}
+
+    .import-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 40px rgba(124,77,255,.45);
+    }
+
+
+/* ===================================================
+   SUMMARY GRID
+=================================================== */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+
+/* ===================================================
+   SUMMARY CARD
+=================================================== */
+
+.summary-card {
+    background: rgba(18,18,30,.82);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(124,77,255,.22);
+    border-radius: 22px;
+    padding: 28px;
+    transition: .35s;
+    position: relative;
+    overflow: hidden;
+}
+
+    .summary-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 135deg, rgba(124,77,255,.08), transparent );
+        pointer-events: none;
+    }
+
+    .summary-card:hover {
+        transform: translateY(-5px);
+        border-color: #7c4dff;
+        box-shadow: 0 18px 40px rgba(124,77,255,.20);
+    }
+
+    .summary-card h2 {
+        color: white;
+        font-size: 34px;
+        margin: 0 0 8px;
+        font-weight: 700;
+    }
+
+    .summary-card span {
+        color: #bdbdd6;
+        font-size: 15px;
+    }
+
+
+/* ===================================================
+   TABLE CARD
+=================================================== */
+
+.table-card {
+    background: rgba(18,18,30,.82);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(124,77,255,.22);
+    border-radius: 22px;
+    padding: 25px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+}
+
+
+/* ===================================================
+   RESPONSIVE
+=================================================== */
+
+@media(max-width:1200px) {
+
+    .summary-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:768px) {
+
+    .preview-page {
+        padding: 20px;
+    }
+
+    .preview-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .import-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ===================================================
+   TABLE
+=================================================== */
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+    .table-header h3 {
+        color: #ffffff;
+        font-size: 26px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .table-header span {
+        color: #9e9eb3;
+        font-size: 15px;
+    }
+
+.preview-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .preview-table thead {
+        background: #1f1f35;
+    }
+
+        .preview-table thead th {
+            color: #d7d7f5;
+            padding: 18px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            border: none;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+    .preview-table tbody tr {
+        transition: .25s;
+        border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+        .preview-table tbody tr:hover {
+            background: rgba(124,77,255,.08);
+        }
+
+    .preview-table td {
+        padding: 18px;
+        color: #ececff;
+        vertical-align: middle;
+    }
+
+/* ======================================
+   DESCRIPTION
+====================================== */
+
+.description-cell {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #d9d9ea;
+}
+
+/* ======================================
+   MERCHANT
+====================================== */
+
+.merchant-name {
+    color: white;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* ======================================
+   CATEGORY
+====================================== */
+
+.category-pill {
+    background: rgba(124,77,255,.18);
+    color: #b388ff;
+    border: 1px solid rgba(124,77,255,.35);
+    padding: 7px 15px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ======================================
+   TYPE
+====================================== */
+
+.type {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+    .type.income {
+        color: #41d67b;
+    }
+
+    .type.expense {
+        color: #ff6b6b;
+    }
+
+/* ======================================
+   AMOUNT
+====================================== */
+
+.amount {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+    .amount.income {
+        color: #49e17d;
+    }
+
+    .amount.expense {
+        color: #ff6b6b;
+    }
+
+/* ======================================
+   CONFIDENCE
+====================================== */
+
+.confidence {
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+    .confidence.high {
+        background: #1d5b39;
+        color: #65ff9a;
+    }
+
+    .confidence.medium {
+        background: #6c5c12;
+        color: #ffd54f;
+    }
+
+    .confidence.low {
+        background: #632828;
+        color: #ff8f8f;
+    }
+
+/* ======================================
+   STATUS
+====================================== */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+    .status.new {
+        background: #174b34;
+        color: #59ff95;
+    }
+
+    .status.duplicate {
+        background: #5b4612;
+        color: #ffd45f;
+    }
+
+/* ======================================
+   DUPLICATE ROW
+====================================== */
+
+.duplicate-row {
+    opacity: .75;
+}
+
+/* ======================================
+   SCROLLBAR
+====================================== */
+
+.table-responsive::-webkit-scrollbar {
+    height: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #7c4dff;
+    border-radius: 20px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #171727;
+}

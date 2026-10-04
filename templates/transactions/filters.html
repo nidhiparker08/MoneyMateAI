@@ -1,0 +1,84 @@
+<section class="transactions-filters">
+
+    <form method="GET"
+          class="filter-form"
+          id="filterForm">
+
+        <!-- Search -->
+
+        <div class="search-wrapper">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input type="text"
+                   id="searchInput"
+                   name="q"
+                   value="{{ search_query }}"
+                   placeholder="Search by title, merchant or category...">
+
+        </div>
+
+        <!-- Transaction Type -->
+
+        <select name="type">
+
+            <option value="">All Types</option>
+
+            <option value="income">Income</option>
+
+            <option value="expense">Expense</option>
+
+        </select>
+
+        <!-- Category -->
+
+        <select name="category">
+
+            <option value="">All Categories</option>
+
+            {% for category in categories %}
+
+            <option value="{{ category.id }}">
+
+                {{ category.name }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+        <!-- Sort -->
+
+        <select name="sort">
+
+            <option value="-transaction_date">
+                Newest First
+            </option>
+
+            <option value="transaction_date">
+                Oldest First
+            </option>
+
+            <option value="-amount">
+                Highest Amount
+            </option>
+
+            <option value="amount">
+                Lowest Amount
+            </option>
+
+        </select>
+
+        <button type="submit"
+                class="btn-primary">
+
+            <i class="fa-solid fa-filter"></i>
+
+            Apply
+
+        </button>
+
+    </form>
+
+</section>

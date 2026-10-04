@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Profile | MoneyMate{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+    </aside>
+
+    <main class="dashboard-main">
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content profile-content">
+
+            <header class="page-header">
+                <div>
+                    <h1 data-testid="profile-title">
+                        <i class="fa-solid fa-circle-user"></i>
+                        My Profile
+                    </h1>
+                    <p>Manage your public info, connected banks and account details.</p>
+                </div>
+            </header>
+
+            <div class="profile-grid">
+
+                <!-- LEFT: Identity Card -->
+                <section class="profile-card" data-testid="profile-identity-card">
+                    <div class="profile-avatar-wrap">
+                        {% if profile.avatar %}
+                            <img src="{{ profile.avatar.url }}" alt="Avatar" class="profile-avatar-img" id="profile-avatar-preview">
+                        {% else %}
+                            <div class="profile-avatar-fallback">
+                                {{ user.username|first|upper }}
+                            </div>
+                        {% endif %}
+                        <button type="button"
+                                class="profile-avatar-edit"
+                                data-testid="profile-avatar-edit-btn"
+                                onclick="document.getElementById('avatar-input').click()">
+                            <i class="fa-solid fa-camera"></i>
+                        </button>
+                    </div>
+
+                    <h2 class="profile-name">
+                        {{ profile.full_name }}
+                    </h2>
+                    <p class="profile-username">@{{ user.username }}</p>
+                    <p class="profile-email">
+                        <i class="fa-regular fa-envelope"></i>
+                        {{ user.email|default:"No email set" }}
+                    </p>
+
+                    <div class="profile-stats">
+                        <div>
+                            <strong>{{ tx_count }}</strong>
+                            <span>Transactions</span>
+                        </div>
+                        <div>
+                            <strong>{{ joined_days }}</strong>
+                            <span>Days on MoneyMate</span>
+                        </div>
+                        <div>
+                            <strong>{{ connected_accounts|length }}</strong>
+                            <span>Linked accounts</span>
+                        </div>
+                    </div>
+
+                    <p class="profile-joined">
+                        <i class="fa-regular fa-calendar"></i>
+                        Joined {{ user.date_joined|date:"M j, Y" }}
+                    </p>
+                </section>
+
+                <!-- RIGHT: Edit Form -->
+                <section class="profile-edit-card" data-testid="profile-edit-card">
+                    <div class="section-head">
+                        <h3>Edit Profile</h3>
+                        <p>Update your personal information</p>
+                    </div>
+
+                    <form id="profile-form"
+                          data-testid="profile-form"
+                          method="post"
+                          enctype="multipart/form-data"
+                          action="{% url 'accounts:profile_update' %}">
+                        {% csrf_token %}
+
+                        <input type="file"
+                               id="avatar-input"
+                               name="avatar"
+                               accept="image/*"
+                               data-testid="avatar-input"
+                               style="display: none;">
+
+                        <div class="form-row">
+                            <label>
+                                <span>First name</span>
+                                <input type="text" name="first_name"
+                                       value="{{ user.first_name }}"
+                                       data-testid="input-first-name">
+                            </label>
+                            <label>
+                                <span>Last name</span>
+                                <input type="text" name="last_name"
+                                       value="{{ user.last_name }}"
+                                       data-testid="input-last-name">
+                            </label>
+                        </div>
+
+                        <label class="form-full">
+                            <span>Display name</span>
+                            <input type="text" name="display_name"
+                                   value="{{ profile.display_name }}"
+                                   placeholder="How you want to appear across MoneyMate"
+                                   data-testid="input-display-name">
+                        </label>
+
+                        <div class="form-row">
+                            <label>
+                                <span>Email</span>
+                                <input type="email" name="email"
+                                       value="{{ user.email }}"
+                                       data-testid="input-email">
+                            </label>
+                            <label>
+                                <span>Phone</span>
+                                <input type="tel" name="phone"
+                                       value="{{ profile.phone }}"
+                                       placeholder="+91 …"
+                                       data-testid="input-phone">
+                            </label>
+                        </div>
+
+                        <label class="form-full">
+                            <span>Bio</span>
+                            <textarea name="bio" rows="3"
+                                      placeholder="A short line about yourself"
+                                      data-testid="input-bio">{{ profile.bio }}</textarea>
+                        </label>
+
+                        <div class="form-actions">
+                            <button type="submit"
+                                    class="btn-primary"
+                                    data-testid="save-profile-btn">
+                                <i class="fa-solid fa-check"></i>
+                                Save changes
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Connected accounts -->
+                <section class="profile-linked-card" data-testid="profile-linked-card">
+                    <div class="section-head">
+                        <h3>Connected accounts</h3>
+                        <p>Signed-in providers</p>
+                    </div>
+                    {% if connected_accounts %}
+                        <ul class="linked-list">
+                            {% for a in connected_accounts %}
+                            <li>
+                                <i class="fa-brands fa-google"></i>
+                                <div>
+                                    <strong>{{ a.provider }}</strong>
+                                    <span>Connected {{ a.date_joined|date:"M j, Y" }}</span>
+                                </div>
+                                <span class="pill pill-success">Active</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-note">
+                            <i class="fa-regular fa-circle-question"></i>
+                            <p>No third-party accounts connected yet.</p>
+                        </div>
+                    {% endif %}
+                </section>
+
+                <!-- Danger zone -->
+                <section class="profile-security-card" data-testid="profile-security-card">
+                    <div class="section-head">
+                        <h3>Security</h3>
+                        <p>Session & account controls</p>
+                    </div>
+                    <ul class="security-list">
+                        <li>
+                            <div>
+                                <strong>Password</strong>
+                                <span>Change or reset your password</span>
+                            </div>
+                            <a href="{% url 'account_change_password' %}" class="btn-ghost">Change</a>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>Sign out</strong>
+                                <span>End your session on this device</span>
+                            </div>
+                            <a href="{% url 'accounts:logout' %}" class="btn-danger">Sign out</a>
+                        </li>
+                    </ul>
+                </section>
+
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/accounts/profile.js' %}"></script>
+{% endblock %}

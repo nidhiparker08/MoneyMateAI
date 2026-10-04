@@ -1,0 +1,115 @@
+<section class="transaction-card">
+
+    <div class="section-header">
+
+        <h2>Recent Transactions</h2>
+
+        <a href="{% url 'transactions:index' %}">
+
+            View All
+
+        </a>
+
+    </div>
+
+    {% if recent_transactions %}
+
+    {% for transaction in recent_transactions %}
+
+    <div class="transaction-item">
+
+        <div class="transaction-left">
+
+            <div class="transaction-icon">
+
+                {% if transaction.transaction_type == "income" %}
+
+                <i class="fa-solid fa-sack-dollar"></i>
+
+                {% elif transaction.category %}
+
+                <i class="{{ transaction.category.icon }}"></i>
+
+                {% else %}
+
+                <i class="fa-solid fa-wallet"></i>
+
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                <h4>
+
+                    {{ transaction.title }}
+
+                </h4>
+
+                <p>
+
+                    {% if transaction.category %}
+
+                    {{ transaction.category.name }}
+
+                    {% else %}
+
+                    Uncategorized
+
+                    {% endif %}
+
+                    •
+
+                    {{ transaction.transaction_date|date:"d M Y" }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {% if transaction.transaction_type == "income" %}
+
+        <span class="income">
+
+            + ₹{{ transaction.amount }}
+
+        </span>
+
+        {% else %}
+
+        <span class="expense">
+
+            - ₹{{ transaction.amount }}
+
+        </span>
+
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+    {% else %}
+
+    <div class="empty-dashboard-transactions">
+
+        <i class="fa-solid fa-wallet"></i>
+
+        <h3>
+
+            No Transactions Yet
+
+        </h3>
+
+        <p>
+
+            Add your first transaction to start tracking your finances.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>

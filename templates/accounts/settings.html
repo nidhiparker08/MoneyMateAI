@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Settings | MoneyMate{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts/settings.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+    </aside>
+
+    <main class="dashboard-main">
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content settings-content">
+
+            <header class="page-header">
+                <div>
+                    <h1 data-testid="settings-title">
+                        <i class="fa-solid fa-sliders"></i>
+                        Settings
+                    </h1>
+                    <p>Customise MoneyMate to how you work with money.</p>
+                </div>
+            </header>
+
+            <!-- Tab bar -->
+            <nav class="settings-tabs" data-testid="settings-tabs">
+                <button type="button" class="settings-tab active" data-tab="general" data-testid="tab-general">
+                    <i class="fa-solid fa-globe"></i> General
+                </button>
+                <button type="button" class="settings-tab" data-tab="appearance" data-testid="tab-appearance">
+                    <i class="fa-solid fa-palette"></i> Appearance
+                </button>
+                <button type="button" class="settings-tab" data-tab="notifications" data-testid="tab-notifications">
+                    <i class="fa-regular fa-bell"></i> Notifications
+                </button>
+                <button type="button" class="settings-tab" data-tab="security" data-testid="tab-security">
+                    <i class="fa-solid fa-shield-halved"></i> Security
+                </button>
+                <button type="button" class="settings-tab" data-tab="data" data-testid="tab-data">
+                    <i class="fa-solid fa-database"></i> Data
+                </button>
+            </nav>
+
+            <!-- ============ GENERAL ============ -->
+            <section class="settings-panel active" data-panel="general" id="panel-general">
+
+                <div class="settings-card" data-testid="card-general">
+                    <div class="settings-card-head">
+                        <div>
+                            <h3><i class="fa-solid fa-language"></i> Language</h3>
+                            <p>Interface language</p>
+                        </div>
+                    </div>
+                    <select class="settings-select"
+                            data-setting="language"
+                            data-testid="select-language">
+                        {% for value, label in language_choices %}
+                            <option value="{{ value }}" {% if profile.language == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="settings-card" data-testid="card-currency">
+                    <div class="settings-card-head">
+                        <div>
+                            <h3><i class="fa-solid fa-indian-rupee-sign"></i> Currency</h3>
+                            <p>Displayed for balances, budgets & transactions</p>
+                        </div>
+                    </div>
+                    <select class="settings-select"
+                            data-setting="currency"
+                            data-testid="select-currency">
+                        {% for value, label in currency_choices %}
+                            <option value="{{ value }}" {% if profile.currency == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="settings-card" data-testid="card-timezone">
+                    <div class="settings-card-head">
+                        <div>
+                            <h3><i class="fa-regular fa-clock"></i> Timezone</h3>
+                            <p>Used for time-of-day formatting</p>
+                        </div>
+                    </div>
+                    <input type="text" class="settings-select"
+                           data-setting="timezone"
+                           value="{{ profile.timezone }}"
+                           data-testid="input-timezone">
+                </div>
+            </section>
+
+            <!-- ============ APPEARANCE ============ -->
+            <section class="settings-panel" data-panel="appearance" id="panel-appearance">
+
+                <div class="settings-card" data-testid="card-theme">
+                    <div class="settings-card-head">
+                        <div>
+                            <h3><i class="fa-solid fa-palette"></i> Theme</h3>
+                            <p>Match your mood. System follows your device.</p>
+                        </div>
+                    </div>
+                    <div class="theme-picker" data-testid="theme-picker">
+                        {% for value, label in theme_choices %}
+                        <button type="button"
+                                class="theme-option {% if profile.theme == value %}active{% endif %}"
+                                data-theme-value="{{ value }}"
+                                data-testid="theme-{{ value }}-btn">
+                            <div class="theme-swatch theme-swatch-{{ value }}"></div>
+                            <span>{{ label }}</span>
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ NOTIFICATIONS ============ -->
+            <section class="settings-panel" data-panel="notifications" id="panel-notifications">
+
+                {% include "accounts/partials/toggle.html" with key="notify_spending_alerts" title="Spending Alerts" desc="Get notified about unusually large transactions." checked=profile.notify_spending_alerts %}
+                {% include "accounts/partials/toggle.html" with key="notify_budget_alerts" title="Budget Alerts" desc="Warn me when a budget approaches or exceeds its limit." checked=profile.notify_budget_alerts %}
+                {% include "accounts/partials/toggle.html" with key="notify_ai_insights" title="AI Insights" desc="Weekly financial insights & savings tips." checked=profile.notify_ai_insights %}
+                {% include "accounts/partials/toggle.html" with key="notify_monthly_reports" title="Monthly Reports" desc="Auto-generate a summary PDF at month-end." checked=profile.notify_monthly_reports %}
+                {% include "accounts/partials/toggle.html" with key="notify_bank_sync" title="Bank Sync Notifications" desc="Notify me when a bank sync completes or fails." checked=profile.notify_bank_sync %}
+            </section>
+
+            <!-- ============ SECURITY ============ -->
+            <section class="settings-panel" data-panel="security" id="panel-security">
+                <div class="settings-card" data-testid="card-security-accounts">
+                    <div class="settings-card-head">
+                        <div>
+                            <h3><i class="fa-brands fa-google"></i> Connected Accounts</h3>
+                            <p>Sign-in providers linked to your account</p>
+                        </div>
+                    </div>
+                    {% if connected_accounts %}
+                        <ul class="settings-linked-list">
+                            {% for a in connected_accounts %}
+                            <li>
+                                <div>
+                                    <strong>{{ a.provider }}</strong>
+                                    <span>{{ a.uid }}</span>
+                                </div>
+                                <span class="pill pill-success">Active</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-note">
+                            <i class="fa-regular fa-circle-question"></i>
+                            <p>You haven't linked a Google account yet.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="settings-card" data-testid="card-security-password">
+                    <div class="settings-card-head">
+                        <div>
+                            <h3><i class="fa-solid fa-key"></i> Password</h3>
+                            <p>Update your password regularly.</p>
+                        </div>
+                        <a href="{% url 'account_change_password' %}" class="btn-primary btn-sm" data-testid="change-password-btn">
+                            Change password
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ DATA ============ -->
+            <section class="settings-panel" data-panel="data" id="panel-data">
+                <div class="settings-card" data-testid="card-export">
+                    <div class="settings-card-head">
+                        <div>
+                            <h3><i class="fa-solid fa-download"></i> Export Data</h3>
+                            <p>Download all your transactions, goals, budgets and holdings as JSON.</p>
+                        </div>
+                        <a href="{% url 'accounts:data_export' %}" class="btn-primary btn-sm" data-testid="export-data-btn">
+                            Download JSON
+                        </a>
+                    </div>
+                </div>
+
+                <div class="settings-card" data-testid="card-import-history">
+                    <div class="settings-card-head">
+                        <div>
+                            <h3><i class="fa-solid fa-file-import"></i> Import History</h3>
+                            <p>Sources that have contributed transactions</p>
+                        </div>
+                    </div>
+                    {% if imports %}
+                        <ul class="settings-linked-list">
+                            {% for imp in imports %}
+                            <li>
+                                <div>
+                                    <strong>{{ imp.import_source|upper }}</strong>
+                                    <span>Statement imported</span>
+                                </div>
+                                <span class="pill pill-neutral">Imported</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-note">
+                            <i class="fa-regular fa-folder-open"></i>
+                            <p>Only manual transactions so far — enable Gmail statement sync to auto-import your bank transactions.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/accounts/settings.js' %}"></script>
+{% endblock %}

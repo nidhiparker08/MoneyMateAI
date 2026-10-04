@@ -1,0 +1,111 @@
+<div id="connectBankModal" class="source-modal-overlay" data-testid="connect-bank-modal">
+
+    <div class="source-modal">
+
+        <!-- ============================
+             HEADER
+        ============================= -->
+        <div class="source-modal-header">
+
+            <div>
+                <span class="source-badge">
+                    <i class="fa-solid fa-building-columns"></i>
+                    MoneyMate BankHub
+                </span>
+
+                <h2>Connect Your Bank</h2>
+
+                <p>Choose your bank to securely import your accounts, transactions and investments.</p>
+            </div>
+
+            <button type="button"
+                    class="source-close"
+                    id="closeBankModal"
+                    aria-label="Close"
+                    data-testid="close-bank-modal-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <!-- ============================
+             BANK GRID
+        ============================= -->
+        <div class="bank-grid" data-testid="bank-grid">
+
+            <button type="button" class="bank-option" data-bank="SBI" data-bank-name="State Bank of India" data-testid="bank-option-SBI">
+                <strong>SBI</strong>
+                <span>State Bank of India</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="HDFC" data-bank-name="HDFC Bank" data-testid="bank-option-HDFC">
+                <strong>HDFC</strong>
+                <span>HDFC Bank</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="ICICI" data-bank-name="ICICI Bank" data-testid="bank-option-ICICI">
+                <strong>ICICI</strong>
+                <span>ICICI Bank</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="AXIS" data-bank-name="Axis Bank" data-testid="bank-option-AXIS">
+                <strong>Axis</strong>
+                <span>Axis Bank</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="KOTAK" data-bank-name="Kotak Mahindra Bank" data-testid="bank-option-KOTAK">
+                <strong>Kotak</strong>
+                <span>Kotak Mahindra Bank</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="BOB" data-bank-name="Bank of Baroda" data-testid="bank-option-BOB">
+                <strong>BoB</strong>
+                <span>Bank of Baroda</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="PNB" data-bank-name="Punjab National Bank" data-testid="bank-option-PNB">
+                <strong>PNB</strong>
+                <span>Punjab National Bank</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="CANARA" data-bank-name="Canara Bank" data-testid="bank-option-CANARA">
+                <strong>Canara</strong>
+                <span>Canara Bank</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="UNION" data-bank-name="Union Bank of India" data-testid="bank-option-UNION">
+                <strong>Union</strong>
+                <span>Union Bank of India</span>
+            </button>
+
+            <button type="button" class="bank-option" data-bank="IDFC" data-bank-name="IDFC FIRST Bank" data-testid="bank-option-IDFC">
+                <strong>IDFC FIRST</strong>
+                <span>IDFC FIRST Bank</span>
+            </button>
+
+        </div>
+
+        <!-- ============================
+             FOOTER
+        ============================= -->
+        <div class="bank-modal-footer">
+
+            <span class="bank-secure-note">
+                <i class="fa-solid fa-shield-halved"></i>
+                Bank-grade encryption. Read-only access.
+            </span>
+
+            <button id="bankContinueBtn"
+                    class="btn-primary"
+                    type="button"
+                    data-testid="bank-continue-btn"
+                    disabled>
+                Continue
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

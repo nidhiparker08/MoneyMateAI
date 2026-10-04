@@ -1,0 +1,56 @@
+{% load static %}
+{% comment %}
+Financial Memory tile shown on the main dashboard.
+Consumes `memory_stats` from dashboard.services.get_dashboard_summary().
+{% endcomment %}
+<section class="memory-teaser-card">
+
+    <div class="memory-teaser-header">
+        <div class="memory-teaser-avatar">
+            <i class="fa-solid fa-brain"></i>
+        </div>
+        <div>
+            <h2>Financial Memory</h2>
+            <p>
+                {% if memory_stats.total_memories %}
+                    MoneyMate has learned <strong>{{ memory_stats.total_memories }}</strong>
+                    thing{{ memory_stats.total_memories|pluralize }} about how you manage money.
+                {% else %}
+                    Correct a few transactions and MoneyMate will start remembering forever.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div class="memory-teaser-stats">
+        <div class="mem-stat">
+            <span class="mem-val">{{ memory_stats.total_memories|default:0 }}</span>
+            <span class="mem-label">Memories</span>
+        </div>
+        <div class="mem-stat">
+            <span class="mem-val">{{ memory_stats.recurring|default:0 }}</span>
+            <span class="mem-label">Recurring</span>
+        </div>
+        <div class="mem-stat">
+            <span class="mem-val">{{ memory_stats.pending_reviews|default:0 }}</span>
+            <span class="mem-label">To Review</span>
+        </div>
+        <div class="mem-stat">
+            <span class="mem-val">{{ memory_stats.total_hits|default:0 }}</span>
+            <span class="mem-label">Auto-Sorted</span>
+        </div>
+    </div>
+
+    <div class="memory-teaser-actions">
+        <a href="{% url 'financial_memory:dashboard' %}" class="memory-teaser-btn primary">
+            <i class="fa-solid fa-brain"></i> Open Memory
+        </a>
+        {% if memory_stats.pending_reviews %}
+            <a href="{% url 'financial_memory:review_queue' %}" class="memory-teaser-btn ghost">
+                <i class="fa-solid fa-inbox"></i>
+                {{ memory_stats.pending_reviews }} pending review{{ memory_stats.pending_reviews|pluralize }}
+            </a>
+        {% endif %}
+    </div>
+
+</section>

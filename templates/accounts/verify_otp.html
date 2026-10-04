@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Verify your email — MoneyMate{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/accounts/verify_otp.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mm-auth" data-testid="otp-page">
+
+    <!-- LEFT · form -->
+    <div class="mm-auth-form-col">
+        <div class="mm-auth-form-inner">
+
+            <a href="{% url 'core:index' %}" class="mm-auth-brand" data-testid="auth-logo">
+                <span class="mm-logo-mark">M</span>
+                <span class="mm-logo-word">MoneyMate</span>
+            </a>
+
+            <div class="mm-auth-head">
+                <span class="mm-auth-eyebrow">Security check</span>
+                <h1>Verify your email</h1>
+                <p>We sent a 6-digit code to
+                    <strong class="mm-otp-email" data-testid="otp-masked-email">{{ masked_email }}</strong>.
+                    Enter it below to activate your workspace.
+                </p>
+            </div>
+
+            {% if dev_code %}
+            <div class="mm-otp-dev" data-testid="otp-dev-banner">
+                <i class="fa-solid fa-flask"></i>
+                <div>
+                    <strong>Development mode</strong>
+                    <span>Your verification code is <code>{{ dev_code }}</code> — visible only while DEBUG=True.</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <div id="otpAlert"
+                 class="mm-auth-alert {% if not error_message and not info_message %}mm-hidden{% endif %} {% if info_message and not error_message %}mm-auth-alert-success{% endif %}"
+                 data-testid="otp-alert" role="alert">
+                <i class="fa-solid {% if info_message and not error_message %}fa-circle-check{% else %}fa-circle-exclamation{% endif %}"></i>
+                <div><span id="otpAlertText">{% if error_message %}{{ error_message }}{% else %}{{ info_message }}{% endif %}</span></div>
+            </div>
+
+            <form method="POST" action="{% url 'accounts:verify_otp' %}"
+                  class="mm-form mm-otp-form" id="otpForm" data-testid="otp-form"
+                  data-resend-in="{{ resend_in }}"
+                  data-resend-url="{% url 'accounts:resend_otp' %}"
+                  data-redirect="{% url 'dashboard:index' %}">
+                {% csrf_token %}
+
+                <div class="mm-otp-inputs" data-testid="otp-inputs">
+                    {% for i in "123456"|make_list %}
+                    <input class="mm-otp-input" type="text" name="otp" inputmode="numeric"
+                           autocomplete="one-time-code" maxlength="1"
+                           aria-label="Digit {{ forloop.counter }}"
+                           {% if forloop.first %}autofocus{% endif %}>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="mm-btn mm-btn-primary mm-btn-block"
+                        id="otpSubmit" data-testid="otp-submit">
+                    <span class="mm-otp-btn-label">Verify &amp; continue</span>
+                </button>
+
+                <p class="mm-otp-resend">
+                    <span>Didn't get the code?</span>
+                    <button type="button" id="otpResend" class="mm-link-pink mm-otp-resend-btn"
+                            data-testid="otp-resend" {% if resend_in > 0 %}disabled{% endif %}>
+                        Resend code
+                    </button>
+                    <span id="otpCountdown" class="mm-otp-countdown"
+                          data-testid="otp-countdown">{% if resend_in > 0 %}in {{ resend_in }}s{% endif %}</span>
+                </p>
+
+                <p class="mm-otp-tip">
+                    <i class="fa-solid fa-folder-open"></i>
+                    Can't find it? Check your Spam / Promotions folder.
+                </p>
+            </form>
+
+            <p class="mm-auth-foot">
+                Wrong email or account?
+                <a href="{% url 'accounts:logout' %}" class="mm-link-pink" data-testid="otp-use-different">
+                    Use a different one
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT · showcase -->
+    <div class="mm-auth-aside" data-testid="auth-aside">
+        <div class="mm-auth-aside-inner">
+            <span class="mm-auth-eyebrow">Why verify?</span>
+            <h2 class="mm-auth-display">One quick check,<br>then it's all yours.</h2>
+            <p class="mm-auth-lead">Verifying your email keeps your money workspace secure. You'll only be asked for this once — after that, MoneyMate remembers you.</p>
+
+            <ul class="mm-auth-features">
+                <li><span class="mm-ico-tile pink"><i class="fa-solid fa-shield-halved"></i></span> Protects your account from intruders</li>
+                <li><span class="mm-ico-tile violet"><i class="fa-solid fa-envelope-open-text"></i></span> Monthly statements &amp; alerts reach you</li>
+                <li><span class="mm-ico-tile pink"><i class="fa-solid fa-clock"></i></span> Takes less than a minute</li>
+                <li><span class="mm-ico-tile violet"><i class="fa-solid fa-lock"></i></span> Verified once — never again</li>
+            </ul>
+
+            <div class="mm-auth-mini-card">
+                <div class="mm-amc-row">
+                    <span>Verification status</span>
+                    <strong class="mm-pos" id="otpStatusChip"><i class="fa-solid fa-hourglass-half"></i> Awaiting code</strong>
+                </div>
+                <div class="mm-progress"><span style="width:50%" id="otpStatusProgress"></span></div>
+                <div class="mm-amc-row">
+                    <span>Time left for setup</span>
+                    <strong>~1 min</strong>
+                </div>
+            </div>
+        </div>
+        <div class="mm-auth-grain" aria-hidden="true"></div>
+    </div>
+</div>
+
+<script src="{% static 'js/accounts/verify_otp.js' %}"></script>
+{% endblock %}

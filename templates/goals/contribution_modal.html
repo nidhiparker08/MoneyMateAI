@@ -1,0 +1,188 @@
+<!-- ==========================================================
+GOAL CONTRIBUTION MODAL
+========================================================== -->
+
+<div class="goal-modal-overlay"
+     id="contribution-modal">
+
+    <div class="goal-modal">
+
+        <!-- Header -->
+
+        <div class="goal-modal-header">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-piggy-bank"></i>
+
+                    Add Contribution
+
+                </h2>
+
+                <p id="contribution-goal-name">
+
+                    Goal Name
+
+                </p>
+
+            </div>
+
+            <button type="button"
+                    class="goal-close-btn"
+                    id="contribution-close">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <!-- Summary -->
+
+        <div class="goal-contribution-summary">
+
+            <div class="summary-card">
+
+                <small>Current Saved</small>
+
+                <h3 id="current-saved">
+
+                    ₹0
+
+                </h3>
+
+            </div>
+
+            <div class="summary-card">
+
+                <small>Target</small>
+
+                <h3 id="target-amount">
+
+                    ₹0
+
+                </h3>
+
+            </div>
+
+            <div class="summary-card">
+
+                <small>Remaining</small>
+
+                <h3 id="remaining-amount">
+
+                    ₹0
+
+                </h3>
+
+            </div>
+
+        </div>
+
+        <!-- Form -->
+
+        <form id="contribution-form"
+              method="POST">
+
+            {% csrf_token %}
+
+            <input type="hidden"
+                   id="goal-id"
+                   name="goal_id">
+
+            <div class="goal-form-group">
+
+                <label>
+
+                    Contribution Amount
+
+                </label>
+
+                {{ contribution_form.amount }}
+
+            </div>
+
+            <div class="goal-form-grid">
+
+                <div class="goal-form-group">
+
+                    <label>
+
+                        Category
+
+                    </label>
+
+                    {{ contribution_form.category }}
+
+                </div>
+
+                <div class="goal-form-group">
+
+                    <label>
+
+                        Payment Method
+
+                    </label>
+
+                    {{ contribution_form.payment_method }}
+
+                </div>
+
+            </div>
+
+            <div class="goal-form-grid">
+
+                <div class="goal-form-group">
+
+                    <label>
+
+                        Date
+
+                    </label>
+
+                    {{ contribution_form.transaction_date }}
+
+                </div>
+
+                <div class="goal-form-group">
+
+                    <label>
+
+                        Notes
+
+                    </label>
+
+                    {{ contribution_form.notes }}
+
+                </div>
+
+            </div>
+
+            <div class="goal-modal-footer">
+
+                <button type="button"
+                        class="goal-cancel-btn"
+                        id="contribution-cancel">
+
+                    Cancel
+
+                </button>
+
+                <button type="submit"
+                        class="goal-save-btn">
+
+                    <i class="fa-solid fa-piggy-bank"></i>
+
+                    Contribute
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

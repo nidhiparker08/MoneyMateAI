@@ -1,0 +1,12 @@
+<div class="settings-card settings-toggle-card" data-testid="toggle-{{ key }}">
+    <div>
+        <h3>{{ title }}</h3>
+        <p>{{ desc }}</p>
+    </div>
+    <label class="switch" data-testid="switch-{{ key }}">
+        <input type="checkbox"
+               data-setting="{{ key }}"
+               {% if checked %}checked{% endif %}>
+        <span class="switch-slider"></span>
+    </label>
+</div>

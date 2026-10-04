@@ -1,0 +1,77 @@
+<section class="budget-filters">
+
+    <form method="GET"
+          class="filter-form"
+          id="budgetFilterForm">
+
+        <!-- Search -->
+
+        <div class="search-filter">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input type="text"
+                   name="q"
+                   placeholder="Search budget category..."
+                   value="{{ request.GET.q }}">
+
+        </div>
+
+        <!-- Month -->
+
+        <div class="select-wrapper">
+
+            <select name="month"
+                    class="filter-select">
+
+                <option value="">All Months</option>
+
+                {% for value,name in month_choices %}
+
+                <option value="{{ value }}">
+
+                    {{ name }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <!-- Year -->
+
+        <div class="select-wrapper">
+
+            <select name="year"
+                    class="filter-select">
+
+                <option value="">All Years</option>
+
+                {% for year in years %}
+
+                <option value="{{ year }}">
+
+                    {{ year }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <button type="submit"
+                class="apply-btn">
+
+            <i class="fa-solid fa-filter"></i>
+
+            Apply Filters
+
+        </button>
+
+    </form>
+
+</section>

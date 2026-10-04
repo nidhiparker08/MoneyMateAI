@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}MoneyMate — Every rupee, tracked. Every decision, informed.{% endblock %}
+
+{% block content %}
+<div class="mm-landing">
+
+<!-- ===================== NAV ===================== -->
+<header class="mm-nav" data-testid="landing-nav">
+    <div class="mm-container mm-nav-inner">
+        <a href="{% url 'core:index' %}" class="mm-nav-brand">
+            <span class="mm-logo-mark">M</span>
+            <span class="mm-logo-word">MoneyMate</span>
+        </a>
+
+        <nav class="mm-nav-links">
+            <a href="#features">Features</a>
+            <a href="#workflow">How it works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+
+        <div class="mm-nav-actions">
+            <button class="mm-icon-btn" data-mm-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+            <a href="{% url 'accounts:login' %}" class="mm-btn mm-btn-ghost mm-btn-sm" data-testid="nav-signin">Sign in</a>
+            <a href="{% url 'accounts:signup' %}" class="mm-btn mm-btn-primary mm-btn-sm" data-testid="nav-getstarted">Get started</a>
+            <button class="mm-icon-btn mm-nav-burger" data-mm-nav-toggle aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="mm-hero">
+    <div class="mm-hero-bg" aria-hidden="true"></div>
+    <div class="mm-container mm-hero-grid">
+        <div class="mm-hero-copy">
+            <span class="mm-badge"><span class="mm-dot"></span> A calmer way to manage money</span>
+            <h1 class="mm-hero-title">Every rupee, tracked.<br>Every decision, informed.</h1>
+            <p class="mm-hero-lead">MoneyMate is a premium personal finance workspace. Track expenses, analyse spending, plan budgets, and get AI-powered insights — from a single, professional dashboard.</p>
+            <div class="mm-hero-cta">
+                <a href="{% url 'accounts:signup' %}" class="mm-btn mm-btn-primary" data-testid="hero-start"><i class="fa-solid fa-arrow-right"></i> Start free</a>
+                <a href="#workflow" class="mm-btn mm-btn-ghost"><i class="fa-solid fa-circle-play"></i> See how it works</a>
+            </div>
+            <div class="mm-hero-stats">
+                <div><strong>256-bit</strong><span>Bank-grade encryption</span></div>
+                <div><strong><span data-count="25" data-suffix="k+">0</span></strong><span>Transactions parsed / day</span></div>
+                <div><strong><span data-count="99.7" data-suffix="%">0</span></strong><span>Category accuracy</span></div>
+            </div>
+        </div>
+
+        <!-- Interactive dashboard mockup -->
+        <div class="mm-hero-mock reveal" data-testid="hero-mock">
+            <div class="mm-mock-bar">
+                <span class="mm-mock-dots"><i></i><i></i><i></i></span>
+                <span class="mm-mock-title">MoneyMate — Dashboard</span>
+            </div>
+            <div class="mm-mock-body">
+                <div class="mm-mock-stats">
+                    <div class="mm-mock-stat"><span>BALANCE</span><strong>₹4,82,340</strong></div>
+                    <div class="mm-mock-stat"><span>SAVED THIS MONTH</span><strong class="mm-pos">+₹32,120</strong></div>
+                    <div class="mm-mock-stat"><span>BUDGET USED</span><strong>68%</strong></div>
+                </div>
+                <div class="mm-mock-chart">
+                    <svg viewBox="0 0 520 150" preserveAspectRatio="none" width="100%" height="150">
+                        <defs>
+                            <linearGradient id="mmArea" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.22"/>
+                                <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,120 L40,110 L90,118 L140,92 L190,100 L240,72 L290,80 L340,55 L390,64 L440,40 L490,30 L520,26 L520,150 L0,150 Z" fill="url(#mmArea)"/>
+                        <path data-mm-chart-line d="M0,120 L40,110 L90,118 L140,92 L190,100 L240,72 L290,80 L340,55 L390,64 L440,40 L490,30 L520,26" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="mm-mock-list">
+                    <div class="mm-mock-tx"><span class="mm-tx-name">Zomato</span><span class="mm-tag pink">Food</span><span class="mm-tx-amt mm-neg">−₹482</span></div>
+                    <div class="mm-mock-tx"><span class="mm-tx-name">Salary — Acme Co</span><span class="mm-tag green">Income</span><span class="mm-tx-amt mm-pos">+₹1,25,000</span></div>
+                    <div class="mm-mock-tx"><span class="mm-tx-name">Amazon</span><span class="mm-tag violet">Shopping</span><span class="mm-tx-amt mm-neg">−₹2,199</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== FEATURES ===================== -->
+<section class="mm-section" id="features">
+    <div class="mm-container">
+        <div class="mm-section-head reveal">
+            <span class="mm-badge"><span class="mm-dot"></span> Everything you need</span>
+            <h2>Built for the way you actually manage money</h2>
+            <p>A polished, opinionated toolkit that replaces spreadsheets, sticky notes and half a dozen apps.</p>
+        </div>
+
+        <div class="mm-bento">
+            <article class="mm-feature reveal mm-feature-lg">
+                <span class="mm-ico-tile pink"><i class="fa-solid fa-envelope-open-text"></i></span>
+                <h3>Gmail auto-sync</h3>
+                <p>MoneyMate reads only your bank statement emails and turns them into clean, categorized transactions — no manual entry, no CSV wrangling.</p>
+                <div class="mm-feature-vis">
+                    <div class="mm-mock-tx"><span class="mm-tx-name">HDFC Statement</span><span class="mm-tag green">Parsed</span></div>
+                    <div class="mm-mock-tx"><span class="mm-tx-name">ICICI Alert</span><span class="mm-tag green">Parsed</span></div>
+                </div>
+            </article>
+
+            <article class="mm-feature reveal">
+                <span class="mm-ico-tile violet"><i class="fa-solid fa-scale-balanced"></i></span>
+                <h3>Precise budgets</h3>
+                <p>Set category budgets that track themselves and warn you before you overspend.</p>
+            </article>
+
+            <article class="mm-feature reveal">
+                <span class="mm-ico-tile pink"><i class="fa-solid fa-arrow-trend-up"></i></span>
+                <h3>Investment tracking</h3>
+                <p>Holdings, returns and net worth updated with live prices in one place.</p>
+            </article>
+
+            <article class="mm-feature reveal">
+                <span class="mm-ico-tile violet"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                <h3>AI insights</h3>
+                <p>A financial coach that explains where your money went and what to do next.</p>
+            </article>
+
+            <article class="mm-feature reveal">
+                <span class="mm-ico-tile pink"><i class="fa-solid fa-file-lines"></i></span>
+                <h3>Reports &amp; analytics</h3>
+                <p>Beautiful, exportable reports across any period — cash flow, categories, trends.</p>
+            </article>
+
+            <article class="mm-feature reveal">
+                <span class="mm-ico-tile violet"><i class="fa-solid fa-bullseye"></i></span>
+                <h3>Goals that stick</h3>
+                <p>Plan and fund goals with contributions and progress you can actually see.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== SECURITY ===================== -->
+<section class="mm-section mm-security" id="security">
+    <div class="mm-container mm-security-grid">
+        <div class="mm-security-copy reveal">
+            <span class="mm-badge"><span class="mm-dot"></span> Security first</span>
+            <h2>Your money data, treated like it matters</h2>
+            <p>Read-only access, encryption in transit and at rest, and no selling of your data — ever. You stay in control, always.</p>
+            <ul class="mm-check-list">
+                <li><i class="fa-solid fa-check"></i> 256-bit encryption on every request</li>
+                <li><i class="fa-solid fa-check"></i> Read-only Gmail scope for statements</li>
+                <li><i class="fa-solid fa-check"></i> Revoke access anytime, one click</li>
+            </ul>
+        </div>
+        <div class="mm-security-card reveal">
+            <div class="mm-shield"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="mm-security-rows">
+                <div><span>Encryption</span><strong>AES-256</strong></div>
+                <div><span>Data access</span><strong>Read-only</strong></div>
+                <div><span>Data selling</span><strong class="mm-pos">Never</strong></div>
+                <div><span>Uptime</span><strong>99.98%</strong></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== BANKS ===================== -->
+<section class="mm-section mm-banks">
+    <div class="mm-container">
+        <p class="mm-banks-title reveal">Works with statements from 40+ Indian banks</p>
+        <div class="mm-banks-row reveal">
+            <span>HDFC Bank</span><span>ICICI Bank</span><span>State Bank of India</span>
+            <span>Axis Bank</span><span>Kotak</span><span>Yes Bank</span><span>IDFC First</span>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== WORKFLOW ===================== -->
+<section class="mm-section" id="workflow">
+    <div class="mm-container">
+        <div class="mm-section-head reveal">
+            <span class="mm-badge"><span class="mm-dot"></span> How it works</span>
+            <h2>From inbox to insight in four steps</h2>
+        </div>
+        <div class="mm-steps">
+            <div class="mm-step reveal"><span class="mm-step-no">01</span><i class="fa-solid fa-right-to-bracket"></i><h4>Sign in securely</h4><p>Create your workspace with email or Google OAuth.</p></div>
+            <div class="mm-step reveal"><span class="mm-step-no">02</span><i class="fa-solid fa-envelope-open-text"></i><h4>Connect Gmail</h4><p>Grant read-only access to bank statement emails.</p></div>
+            <div class="mm-step reveal"><span class="mm-step-no">03</span><i class="fa-solid fa-wand-magic-sparkles"></i><h4>AI organizes it</h4><p>Transactions get categorized and analysed automatically.</p></div>
+            <div class="mm-step reveal"><span class="mm-step-no">04</span><i class="fa-solid fa-chart-column"></i><h4>Act with clarity</h4><p>Budgets, insights and investment tracking in one view.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="mm-section">
+    <div class="mm-container">
+        <div class="mm-section-head reveal">
+            <span class="mm-badge"><span class="mm-dot"></span> Loved by careful spenders</span>
+            <h2>The finance app people actually keep open</h2>
+        </div>
+        <div class="mm-testi-grid">
+            <figure class="mm-testi reveal"><blockquote>“I stopped keeping a spreadsheet. MoneyMate categorizes everything and the insights are genuinely useful.”</blockquote><figcaption><span class="mm-avatar">A</span><div><strong>Ananya R.</strong><span>Product designer</span></div></figcaption></figure>
+            <figure class="mm-testi reveal"><blockquote>“The Gmail parsing is magic. My statements just show up as clean transactions the moment they land.”</blockquote><figcaption><span class="mm-avatar">V</span><div><strong>Vikram S.</strong><span>Founder</span></div></figcaption></figure>
+            <figure class="mm-testi reveal"><blockquote>“Budgets that track themselves and investments in the same place. Finally, one calm dashboard.”</blockquote><figcaption><span class="mm-avatar">M</span><div><strong>Meera K.</strong><span>Consultant</span></div></figcaption></figure>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section class="mm-section" id="pricing">
+    <div class="mm-container">
+        <div class="mm-section-head reveal">
+            <span class="mm-badge"><span class="mm-dot"></span> Pricing</span>
+            <h2>Start free. Upgrade when it pays off.</h2>
+        </div>
+        <div class="mm-price-grid">
+            <div class="mm-price reveal">
+                <h3>Free</h3><div class="mm-price-amt">₹0<span>/mo</span></div>
+                <ul><li><i class="fa-solid fa-check"></i> Unlimited transactions</li><li><i class="fa-solid fa-check"></i> Budgets &amp; goals</li><li><i class="fa-solid fa-check"></i> Basic reports</li></ul>
+                <a href="{% url 'accounts:signup' %}" class="mm-btn mm-btn-ghost mm-btn-block">Get started</a>
+            </div>
+            <div class="mm-price mm-price-hi reveal">
+                <span class="mm-tag pink">Most popular</span>
+                <h3>Pro</h3><div class="mm-price-amt">₹299<span>/mo</span></div>
+                <ul><li><i class="fa-solid fa-check"></i> Gmail auto-sync</li><li><i class="fa-solid fa-check"></i> AI coach &amp; insights</li><li><i class="fa-solid fa-check"></i> Investment tracking</li><li><i class="fa-solid fa-check"></i> Advanced analytics</li></ul>
+                <a href="{% url 'accounts:signup' %}" class="mm-btn mm-btn-primary mm-btn-block">Start free trial</a>
+            </div>
+            <div class="mm-price reveal">
+                <h3>Family</h3><div class="mm-price-amt">₹499<span>/mo</span></div>
+                <ul><li><i class="fa-solid fa-check"></i> Everything in Pro</li><li><i class="fa-solid fa-check"></i> Up to 5 members</li><li><i class="fa-solid fa-check"></i> Shared budgets</li></ul>
+                <a href="{% url 'accounts:signup' %}" class="mm-btn mm-btn-ghost mm-btn-block">Get started</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="mm-section" id="faq">
+    <div class="mm-container mm-faq-wrap">
+        <div class="mm-section-head mm-section-head-left reveal">
+            <span class="mm-badge"><span class="mm-dot"></span> FAQ</span>
+            <h2>Questions, answered</h2>
+        </div>
+        <div class="mm-faq reveal">
+            <div class="mm-faq-item open"><button class="mm-faq-q">Is my banking data safe? <i class="fa-solid fa-plus"></i></button><div class="mm-faq-a"><p>Yes. MoneyMate uses read-only access and 256-bit encryption. We never sell your data and you can revoke access at any time.</p></div></div>
+            <div class="mm-faq-item"><button class="mm-faq-q">How does Gmail parsing work? <i class="fa-solid fa-plus"></i></button><div class="mm-faq-a"><p>We scan only bank statement emails, extract the transactions, and categorize them automatically using AI.</p></div></div>
+            <div class="mm-faq-item"><button class="mm-faq-q">Can I auto-import my bank statements? <i class="fa-solid fa-plus"></i></button><div class="mm-faq-a"><p>Yes. Connect your bank for instant syncing or enable Gmail auto-sync — MoneyMate parses, previews and imports everything in seconds.</p></div></div>
+            <div class="mm-faq-item"><button class="mm-faq-q">Is there a free plan? <i class="fa-solid fa-plus"></i></button><div class="mm-faq-a"><p>Yes — the Free plan covers unlimited transactions, budgets and goals. Upgrade to Pro for AI and auto-sync.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="mm-section">
+    <div class="mm-container">
+        <div class="mm-cta reveal">
+            <h2>Take control of your money today</h2>
+            <p>Join thousands who replaced spreadsheets with one calm, intelligent dashboard.</p>
+            <a href="{% url 'accounts:signup' %}" class="mm-btn mm-btn-primary mm-btn-lg"><i class="fa-solid fa-arrow-right"></i> Start free</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="mm-footer">
+    <div class="mm-container mm-footer-grid">
+        <div class="mm-footer-brand">
+            <a href="{% url 'core:index' %}" class="mm-nav-brand"><span class="mm-logo-mark">M</span><span class="mm-logo-word">MoneyMate</span></a>
+            <p>A premium personal finance workspace. Track, budget, invest and understand your money — beautifully.</p>
+            <div class="mm-social"><a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a><a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a><a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a></div>
+        </div>
+        <div class="mm-footer-cols">
+            <div><h4>Product</h4><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#security">Security</a></div>
+            <div><h4>Company</h4><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a></div>
+            <div><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
+        </div>
+    </div>
+    <div class="mm-container mm-footer-bottom">
+        <span>© 2026 MoneyMate. All rights reserved.</span>
+        <button class="mm-sound-btn" data-mm-sound-toggle aria-label="Toggle UI sounds"><i class="fa-solid fa-volume-xmark"></i> Sounds</button>
+    </div>
+</footer>
+
+</div>
+{% endblock %}

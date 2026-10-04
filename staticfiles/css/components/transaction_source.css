@@ -1,0 +1,228 @@
+/* ==========================================================
+   TRANSACTION SOURCE MODAL
+========================================================== */
+
+.source-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .25s ease;
+    z-index: 10000;
+}
+
+    .source-modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+.source-modal {
+    width: min(720px,100%);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    padding: 34px;
+    box-shadow: 0 35px 80px rgba(0,0,0,.45);
+    transform: translateY(35px) scale(.96);
+    transition: .25s ease;
+}
+
+.source-modal-overlay.active .source-modal {
+    transform: translateY(0) scale(1);
+}
+
+.source-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(139,92,246,.15);
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.source-modal-header h2 {
+    font-size: 34px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.source-modal-header p {
+    color: var(--text-secondary);
+}
+
+.source-close {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    background: rgba(255,255,255,.05);
+    color: var(--text-primary);
+    transition: .25s;
+}
+
+    .source-close:hover {
+        background: var(--primary);
+        color: #fff;
+    }
+
+
+/* ==========================================================
+   OPTION CARD
+========================================================== */
+
+.source-option {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 22px;
+    margin-bottom: 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: .25s;
+    position: relative;
+}
+
+    .source-option:hover {
+        transform: translateY(-3px);
+        border-color: var(--primary);
+        background: rgba(139,92,246,.05);
+        box-shadow: 0 16px 40px rgba(139,92,246,.15);
+    }
+
+.source-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+    .source-icon.purple {
+        background: rgba(139,92,246,.15);
+        color: #8B5CF6;
+    }
+
+    .source-icon.blue {
+        background: rgba(59,130,246,.15);
+        color: #3B82F6;
+    }
+
+    .source-icon.red {
+        background: rgba(239,68,68,.15);
+        color: #EF4444;
+    }
+
+.source-content {
+    flex: 1;
+    text-align: left;
+}
+
+    .source-content h3 {
+        color: var(--text-primary);
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .source-content p {
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+.source-arrow {
+    font-size: 18px;
+    color: var(--text-secondary);
+    transition: .25s;
+}
+
+.source-option:hover .source-arrow {
+    transform: translateX(6px);
+    color: var(--primary);
+}
+
+/* ==========================================================
+   GMAIL STATUS
+========================================================== */
+
+.gmail-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 18px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+    .status-dot.online {
+        background: #22C55E;
+        box-shadow: 0 0 12px #22C55E;
+    }
+
+    .status-dot.offline {
+        background: #EF4444;
+        box-shadow: 0 0 12px #EF4444;
+    }
+
+.status-text {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media(max-width:768px) {
+
+    .source-modal {
+        padding: 24px;
+    }
+
+    .source-modal-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .source-close {
+        align-self: flex-end;
+    }
+
+    .source-option {
+        flex-wrap: wrap;
+    }
+
+    .gmail-status {
+        width: 100%;
+        margin-left: 86px;
+        margin-top: 10px;
+    }
+}

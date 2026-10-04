@@ -1,0 +1,198 @@
+/* =========================================================
+   FinSync AI - Mobile-First Responsive Overrides
+   Loaded AFTER all page CSS so it wins the cascade.
+   ========================================================= */
+
+/* Base: prevent horizontal scroll & make buttons touch-friendly */
+html, body { max-width: 100%; overflow-x: hidden; }
+button, .btn, .menu-item, a { -webkit-tap-highlight-color: transparent; }
+
+/* Bottom nav (mobile only) */
+.mobile-bottom-nav { display: none; }
+
+@media (max-width: 992px) {
+
+    /* Sidebar becomes an off-canvas drawer that slides in */
+    .sidebar-wrapper { position: relative; }
+    .sidebar {
+        position: fixed !important;
+        top: 0; left: 0; height: 100vh;
+        width: 260px; max-width: 82vw;
+        transform: translateX(-105%);
+        transition: transform .28s ease;
+        z-index: 1300;
+        overflow-y: auto;
+        box-shadow: 0 24px 60px rgba(0,0,0,.5);
+    }
+    .sidebar.show { transform: translateX(0); }
+
+    #sidebar-overlay {
+        display: none;
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,.55);
+        backdrop-filter: blur(2px);
+        z-index: 1200;
+    }
+    #sidebar-overlay.show { display: block; }
+
+    /* Main content full width */
+    .dashboard-layout,
+    .dashboard-main {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Navbar tightens */
+    .navbar {
+        padding: 10px 14px !important;
+        gap: 8px;
+    }
+    .navbar .search-box { display: none; }
+    .navbar .profile-details { display: none; }
+    .navbar-right { gap: 6px; }
+    .icon-btn { min-width: 40px; min-height: 40px; }
+
+    .dashboard-content, .ai-content, .inv-content {
+        padding: 16px 14px 100px !important;
+    }
+
+    /* Show bottom nav */
+    .mobile-bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: rgba(20, 15, 45, 0.92);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-top: 1px solid rgba(139, 92, 246, 0.25);
+        z-index: 900;
+        padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+        box-shadow: 0 -10px 30px rgba(0,0,0,.4);
+    }
+    .mbn-item {
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 3px;
+        padding: 6px 4px;
+        color: #8b7fbf;
+        text-decoration: none;
+        font-size: 10px;
+        border-radius: 10px;
+        transition: color .15s, background .15s;
+        min-height: 48px;
+    }
+    .mbn-item i { font-size: 17px; }
+    .mbn-item.active { color: #fff; background: rgba(139,92,246,.18); }
+    .mbn-item.active i { color: #A78BFA; }
+    .mbn-item-ai i { color: #FBBF24; }
+    .mbn-item-ai.active { background: rgba(251,191,36,.15); }
+    .mbn-item-ai.active i { color: #FBBF24; }
+
+    /* Card grids collapse */
+    .dashboard-cards,
+    .stats-grid,
+    .metrics-row,
+    .month-cards,
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+
+    /* Charts and rows */
+    .dashboard-charts,
+    .charts-row,
+    .row-two,
+    .row-3 {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    /* Tables become horizontally scrollable */
+    table { min-width: 640px; }
+
+    /* Modals fit mobile */
+    .transaction-modal, .goal-modal, .contribution-modal, .inv-modal {
+        max-width: 100% !important;
+        max-height: 92vh !important;
+        border-radius: 16px !important;
+    }
+    .transaction-grid,
+    .goal-form-grid,
+    .contribution-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    /* Larger tap targets */
+    input, select, textarea, button, .menu-item, .btn {
+        min-height: 42px;
+        font-size: 15px !important;
+    }
+
+    /* Typography */
+    h1 { font-size: 22px !important; }
+    h2 { font-size: 18px !important; }
+
+    /* Hide desktop-only helpers */
+    .desktop-only { display: none !important; }
+}
+
+@media (max-width: 640px) {
+    .dashboard-cards,
+    .stats-grid,
+    .metrics-row,
+    .month-cards,
+    .card-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .mbn-item span { font-size: 9px; }
+    .navbar-left .icon-btn { margin-right: 4px; }
+    .transaction-list-row,
+    .txn-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+    }
+}
+
+/* Tablet-only fine-tuning */
+@media (min-width: 641px) and (max-width: 992px) {
+    .dashboard-cards,
+    .stats-grid,
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* Larger tablet / small laptop: keep sidebar collapsed by default */
+@media (min-width: 993px) and (max-width: 1200px) {
+    .sidebar-wrapper .sidebar { width: 220px; }
+    .dashboard-main { margin-left: 220px; }
+}
+
+/* Focus-visible for accessibility */
+:where(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid #8B5CF6;
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* ==== Login / Signup pages mobile ==== */
+@media (max-width: 900px) {
+    .login-container { flex-direction: column !important; width: 96vw !important; max-height: none !important; }
+    .login-left, .login-right { width: 100% !important; padding: 24px !important; }
+    .login-right { border-left: none !important; border-top: 1px solid rgba(255,255,255,.06); }
+}
+@media (max-width: 576px) {
+    .login-page { height: auto !important; min-height: 100vh; padding: 12px !important; }
+    .login-container { border-radius: 18px !important; }
+}
+
+/* ==== Landing page nav mobile toggle helpers ==== */
+@media (max-width: 768px) {
+    .home-navbar .nav-links { display: none !important; }
+    .home-navbar { padding: 12px 14px !important; }
+    .hero { padding: 40px 16px !important; }
+    .hero-title { font-size: 32px !important; }
+}

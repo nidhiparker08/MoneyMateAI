@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Review Queue | FinSync AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/financial_memory/memory.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+        <div id="sidebar-overlay"></div>
+    </aside>
+
+    <main class="dashboard-main">
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content memory-page">
+
+            <div class="memory-header">
+                <div>
+                    <h1 class="memory-title">
+                        <i class="fa-solid fa-inbox"></i>
+                        Review Queue
+                        {% if pending_count %}<span class="badge-count">{{ pending_count }}</span>{% endif %}
+                    </h1>
+                    <p class="memory-subtitle">
+                        Classify these once and FinSync remembers forever — you'll never be asked again.
+                    </p>
+                </div>
+                <div class="memory-header-actions">
+                    <a href="{% url 'financial_memory:dashboard' %}" class="btn-secondary">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+
+            <div class="review-status-tabs">
+                <a href="?status=pending" class="tab {% if status == 'pending' %}active{% endif %}">Pending</a>
+                <a href="?status=reviewed" class="tab {% if status == 'reviewed' %}active{% endif %}">Reviewed</a>
+                <a href="?status=dismissed" class="tab {% if status == 'dismissed' %}active{% endif %}">Dismissed</a>
+            </div>
+
+            {% if items %}
+                <div class="review-list">
+                    {% for item in items %}
+                    <div class="review-card" id="item-{{ item.id }}" data-item-id="{{ item.id }}">
+                        <div class="review-card-header">
+                            <div>
+                                <h3>{{ item.original_description|truncatechars:120 }}</h3>
+                                <div class="review-meta">
+                                    <span><i class="fa-solid fa-indian-rupee-sign"></i> {{ item.amount|floatformat:2 }}</span>
+                                    {% if item.transaction_date %}<span><i class="fa-solid fa-calendar"></i> {{ item.transaction_date|date:"d M Y" }}</span>{% endif %}
+                                    <span class="tag tag-{{ item.transaction_type }}">{{ item.get_transaction_type_display }}</span>
+                                    <span class="tag">{{ item.get_source_display }}</span>
+                                    {% if item.merchant_guess %}<span><i class="fa-solid fa-store"></i> {{ item.merchant_guess }}</span>{% endif %}
+                                    <span class="confidence-chip conf-{% if item.confidence < 40 %}low{% elif item.confidence < 70 %}mid{% else %}high{% endif %}">{{ item.confidence }}% confidence</span>
+                                </div>
+                            </div>
+                            <div class="review-status status-{{ item.status }}">{{ item.get_status_display }}</div>
+                        </div>
+
+                        {% if item.status == 'pending' %}
+                        <form class="review-form" data-item-id="{{ item.id }}">
+                            <div class="form-row">
+                                <label>Category
+                                    <select name="category" class="form-select">
+                                        <option value="">— Choose —</option>
+                                        {% for cat in categories %}
+                                            <option value="{{ cat.id }}" {% if item.suggested_category|lower == cat.name|lower %}selected{% endif %}>{{ cat.name }} ({{ cat.get_category_type_display }})</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                                <label>Goal (optional)
+                                    <select name="goal" class="form-select">
+                                        <option value="">— None —</option>
+                                        {% for goal in goals %}
+                                            <option value="{{ goal.id }}">🎯 {{ goal.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                                <label>Learn as
+                                    <select name="entity_type" class="form-select">
+                                        <option value="category">Category (default)</option>
+                                        {% for value, label in entity_types %}
+                                            {% if value != 'category' %}<option value="{{ value }}">{{ label }}</option>{% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                                <label>Value (optional)
+                                    <input type="text" name="entity_value" class="form-control" placeholder="e.g. Groww, Rahul, Bike Savings" value="{{ item.merchant_guess }}">
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> Learn &amp; Apply</button>
+                                <button type="button" class="btn-secondary danger" data-dismiss="{{ item.id }}"><i class="fa-solid fa-xmark"></i> Dismiss</button>
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a class="page-link" href="?status={{ status }}&page={{ page_obj.previous_page_number }}">← Prev</a>
+                    {% endif %}
+                    <span class="page-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                        <a class="page-link" href="?status={{ status }}&page={{ page_obj.next_page_number }}">Next →</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+            {% else %}
+                <div class="empty-panel large">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <h3>All caught up!</h3>
+                    <p>Nothing waiting for your review. When bank imports produce a low-confidence row, it will land here.</p>
+                </div>
+            {% endif %}
+
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/financial_memory/review.js' %}"></script>
+{% endblock %}

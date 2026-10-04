@@ -1,0 +1,110 @@
+/* ==========================================================
+   FINSYNC AI — THEME TOKENS
+   Dark is default. [data-theme='light'] applies the light palette.
+   Both palettes share the same purple accent so the branding is
+   preserved across modes.
+========================================================== */
+:root,
+[data-theme='dark'] {
+    /* ========= SURFACES ========= */
+    --bg-primary:      #07070B;
+    --bg-secondary:    #0F0F14;
+    --card-bg:         #14141B;
+    --card-hover:      #181820;
+    --border:          #262633;
+    --border-light:    rgba(255, 255, 255, .05);
+
+    /* ========= BRAND ========= */
+    --primary:         #8B5CF6;
+    --primary-dark:    #7C3AED;
+    --primary-light:   #A855F7;
+
+    /* ========= SEMANTIC ========= */
+    --success:         #22C55E;
+    --danger:          #EF4444;
+    --warning:         #FACC15;
+    --info:            #3B82F6;
+
+    /* ========= TEXT ========= */
+    --text-primary:    #FFFFFF;
+    --text-secondary:  #A1A1AA;
+    --text-muted:      #71717A;
+
+    /* ========= RADIUS ========= */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+
+    /* ========= SHADOWS ========= */
+    --shadow-purple:  0 0 20px rgba(139, 92, 246, .15);
+    --shadow-hover:   0 0 35px rgba(139, 92, 246, .25);
+    --shadow-card:    0 4px 24px rgba(0, 0, 0, .35);
+
+    /* ========= TRANSITIONS ========= */
+    --transition-fast: .2s ease;
+    --transition:      .3s ease;
+
+    /* ========= SPACING ========= */
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 20px;
+    --space-lg: 30px;
+    --space-xl: 40px;
+
+    /* ========= LAYOUT ========= */
+    --sidebar-width: 250px;
+    color-scheme: dark;
+}
+
+/* -----------------------  LIGHT  ----------------------- */
+[data-theme='light'] {
+    --bg-primary:      #F7F5FF;
+    --bg-secondary:    #FFFFFF;
+    --card-bg:         #FFFFFF;
+    --card-hover:      #F3EEFF;
+    --border:          #E5E1F0;
+    --border-light:    rgba(139, 92, 246, .10);
+
+    --primary:         #7C3AED;
+    --primary-dark:    #6D28D9;
+    --primary-light:   #8B5CF6;
+
+    --success:         #16A34A;
+    --danger:          #DC2626;
+    --warning:         #CA8A04;
+    --info:            #2563EB;
+
+    --text-primary:    #0F0F19;
+    --text-secondary:  #4B4B5A;
+    --text-muted:      #6B6B7B;
+
+    --shadow-purple:  0 0 20px rgba(139, 92, 246, .18);
+    --shadow-hover:   0 6px 28px rgba(139, 92, 246, .18);
+    --shadow-card:    0 4px 16px rgba(15, 15, 25, .06);
+    color-scheme: light;
+}
+
+/* Base body colour rides on the token so the whole app follows theme */
+body {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary);
+}
+
+/* Kill the dark hero background image in light mode (defined in style.css) */
+[data-theme='light'] body {
+    background-image: none !important;
+}
+
+/* Custom scrollbar picks up theme */
+[data-theme='light'] ::-webkit-scrollbar-track { background: #EDE9FE; }
+[data-theme='light'] ::-webkit-scrollbar-thumb { background: #8b5cf6; }
+
+/* Selection */
+[data-theme='light'] ::selection { background: #a855f7; color: #fff; }
+
+/* Utility: consistent focus ring for interactive elements */
+*:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}

@@ -1,0 +1,243 @@
+/* ==========================================================
+   FINSYNC AI — SHARED UI PATCHES
+   Small, non-invasive tweaks so newer widgets (navbar dropdowns,
+   settings tabs, notification list) inherit the existing look.
+========================================================== */
+
+/* NAVBAR NOTIFICATION DROPDOWN
+   (kept in shared CSS so it renders correctly on every page). */
+.notif-dropdown {
+    position: absolute;
+    top: calc(100% + 12px); right: 0;
+    width: 380px; max-height: 460px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(139,92,246,.15);
+    z-index: 1200;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+.notif-dropdown.open { display: flex; animation: notifIn .2s ease; }
+.notif-dd-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+}
+.notif-dd-head strong { color: var(--text-primary); font-size: 15px; }
+.notif-dd-head a { color: var(--primary-light); font-size: 12px; text-decoration: none; }
+.notif-dd-head a:hover { text-decoration: underline; }
+.notif-dd-list { flex: 1; overflow-y: auto; padding: 6px; max-height: 320px; }
+.notif-dd-empty { padding: 40px 20px; text-align: center; color: var(--text-secondary); }
+.notif-dd-empty i { display: block; font-size: 26px; margin-bottom: 8px; color: var(--text-muted); }
+.notif-dd-item {
+    display: flex; gap: 12px;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+}
+.notif-dd-item:hover { background: var(--bg-secondary); }
+.notif-dd-item.unread::before {
+    content: ""; position: absolute; top: 18px; left: 4px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--primary);
+}
+.notif-dd-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(139,92,246,.12); color: var(--primary-light);
+    flex-shrink: 0;
+}
+.notif-dd-body { flex: 1; min-width: 0; }
+.notif-dd-body strong { display: block; color: var(--text-primary); font-size: 13px; }
+.notif-dd-body p {
+    color: var(--text-secondary); font-size: 12px; margin-top: 2px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.notif-dd-body span.time { color: var(--text-muted); font-size: 11px; }
+.notif-dd-foot {
+    padding: 10px 14px; border-top: 1px solid var(--border); text-align: center;
+}
+.notif-dd-foot a { color: var(--primary-light); font-size: 13px; text-decoration: none; }
+.notification-badge {
+    display: none; position: absolute;
+    top: 4px; right: 4px;
+    background: var(--danger); color: #fff;
+    min-width: 18px; height: 18px;
+    border-radius: 12px;
+    font-size: 10px; font-weight: 700;
+    padding: 0 5px;
+    align-items: center; justify-content: center;
+    border: 2px solid var(--card-bg);
+}
+.notification-badge.show { display: flex; }
+.notification-btn { position: relative; }
+@media (max-width: 640px) {
+    .notif-dropdown { width: calc(100vw - 32px); right: -8px; }
+}
+@keyframes notifIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* NAVBAR PROFILE DROPDOWN */
+.profile { cursor: pointer; user-select: none; }
+.profile-wrap { position: relative; }
+
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    min-width: 220px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(139,92,246,.15);
+    padding: 8px;
+    display: none;
+    flex-direction: column;
+    z-index: 1200;
+}
+.profile-dropdown.open { display: flex; animation: notifIn .2s ease; }
+.profile-dropdown a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--transition-fast);
+}
+.profile-dropdown a:hover { background: var(--bg-secondary); color: var(--primary-light); }
+.profile-dropdown a.danger { color: var(--danger); }
+.profile-dropdown a.danger:hover { background: rgba(239,68,68,.10); color: var(--danger); }
+.profile-dropdown a i { width: 18px; text-align: center; color: var(--text-secondary); }
+.profile-dropdown a:hover i { color: inherit; }
+.profile-dropdown hr {
+    border: none; border-top: 1px solid var(--border); margin: 6px 4px;
+}
+
+/* Navbar search: make it a form */
+.search-box { display: flex; align-items: center; gap: 10px; }
+.search-box i { color: var(--text-muted); }
+.search-box input { background: transparent; border: none; color: inherit; outline: none; flex: 1; font-family: inherit; }
+.search-box input::placeholder { color: var(--text-muted); }
+
+/* Cursor glow off on light theme */
+[data-theme='light'] .cursor-glow { display: none; }
+
+/* Card/Section base for new pages */
+.dashboard-content { animation: fadeUp .35s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ==== EMPTY STATE (shared) ==== */
+.finsync-empty {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 20px; text-align: center;
+    background: var(--card-bg); border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+}
+.finsync-empty i { font-size: 34px; color: var(--primary-light); margin-bottom: 12px; }
+.finsync-empty h3 { color: var(--text-primary); font-size: 18px; margin-bottom: 6px; }
+.finsync-empty p { color: var(--text-secondary); font-size: 14px; max-width: 380px; }
+
+/* Insight card refresh — used by dashboard/goals AI panels */
+.finsync-insight {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+}
+.finsync-insight:hover { border-color: rgba(139,92,246,.4); transform: translateY(-2px); }
+.finsync-insight .finsync-insight-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    background: rgba(139,92,246,.12); color: var(--primary-light);
+    border: 1px solid rgba(139,92,246,.24);
+    flex-shrink: 0;
+}
+.finsync-insight-body strong { display: block; color: var(--text-primary); font-size: 14px; }
+.finsync-insight-body p { color: var(--text-secondary); font-size: 13px; margin-top: 3px; line-height: 1.5; }
+
+.tone-positive .finsync-insight-icon { color: var(--success); background: rgba(34,197,94,.12); border-color: rgba(34,197,94,.28); }
+.tone-warn     .finsync-insight-icon { color: var(--warning); background: rgba(250,204,21,.12); border-color: rgba(250,204,21,.28); }
+.tone-danger   .finsync-insight-icon { color: var(--danger); background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.28); }
+.tone-info     .finsync-insight-icon { color: var(--info); background: rgba(59,130,246,.12); border-color: rgba(59,130,246,.28); }
+
+/* Light theme adjustments for pre-existing dark boxes */
+[data-theme='light'] .navbar { background: rgba(255,255,255,.72); border-color: var(--border); }
+[data-theme='light'] .nav-links a { color: var(--text-primary); }
+[data-theme='light'] .nav-links a:hover { color: var(--primary); }
+[data-theme='light'] .footer { background: rgba(255,255,255,.9); }
+[data-theme='light'] .feature-card,
+[data-theme='light'] .about-box,
+[data-theme='light'] .step,
+[data-theme='light'] .dashboard-card { background: var(--card-bg); border-color: var(--border); }
+[data-theme='light'] .hero-left p,
+[data-theme='light'] .feature-card p,
+[data-theme='light'] .step p,
+[data-theme='light'] .about-content p,
+[data-theme='light'] .preview-left p,
+[data-theme='light'] .footer-brand p,
+[data-theme='light'] .footer-links a { color: var(--text-secondary); }
+[data-theme='light'] .login-btn { color: var(--text-primary); }
+
+/* --- Light-mode tuning for dashboard hero + cards --- */
+[data-theme='light'] .dashboard-hero,
+[data-theme='light'] .hero-summary strong,
+[data-theme='light'] .hero-text h1,
+[data-theme='light'] .hero-text p,
+[data-theme='light'] .card-value,
+[data-theme='light'] .card-title,
+[data-theme='light'] .card-subtitle,
+[data-theme='light'] .month-card h3,
+[data-theme='light'] .transaction-title,
+[data-theme='light'] .transaction-amount,
+[data-theme='light'] .transactions-header h2,
+[data-theme='light'] .chart-card h3,
+[data-theme='light'] .ai-header h2,
+[data-theme='light'] .ai-header p,
+[data-theme='light'] .memory-teaser-header h2,
+[data-theme='light'] .memory-teaser-header p,
+[data-theme='light'] .goal-ai-title h2,
+[data-theme='light'] .goal-ai-title p,
+[data-theme='light'] .goal-ai-card h4,
+[data-theme='light'] .goal-ai-card p,
+[data-theme='light'] .goal-ai-summary h3,
+[data-theme='light'] .goal-ai-summary p { color: var(--text-primary); }
+
+[data-theme='light'] .dashboard-hero,
+[data-theme='light'] .dashboard-card,
+[data-theme='light'] .month-card,
+[data-theme='light'] .chart-card,
+[data-theme='light'] .ai-card,
+[data-theme='light'] .memory-teaser-card,
+[data-theme='light'] .goal-ai-section,
+[data-theme='light'] .goal-ai-card,
+[data-theme='light'] .goal-ai-summary,
+[data-theme='light'] .stat-card,
+[data-theme='light'] .goal-card {
+    background: var(--card-bg) !important;
+    border-color: var(--border);
+    color: var(--text-primary);
+}
+
+[data-theme='light'] .sidebar {
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+}
+[data-theme='light'] .sidebar .menu-item { color: var(--text-secondary); }
+[data-theme='light'] .sidebar .menu-item:hover { color: var(--primary); background: var(--card-hover); }
+[data-theme='light'] .sidebar .menu-item.active { background: var(--primary); color: #fff; }
+[data-theme='light'] .sidebar .logo-text h2,
+[data-theme='light'] .sidebar .menu-title { color: var(--text-primary); }
+[data-theme='light'] .navbar { background: var(--card-bg); }
+[data-theme='light'] .search-box input { color: var(--text-primary); }
+[data-theme='light'] .profile-name,
+[data-theme='light'] .profile-role,
+[data-theme='light'] .navbar .icon-btn { color: var(--text-primary); }
+
+/* Ensure the mouse cursor glow effect never fights the light theme */
+[data-theme='light'] body { background-attachment: initial !important; }

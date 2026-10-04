@@ -1,0 +1,106 @@
+{% load static %}
+
+<aside class="sidebar" id="sidebar">
+
+    <!-- ================= LOGO ================= -->
+    <div class="sidebar-header">
+        <a href="{% url 'dashboard:index' %}" class="logo" data-testid="sidebar-logo">
+            <img src="{% static 'images/favicon.png' %}" alt="MoneyMate">
+            <div class="logo-text">
+                <h2>MoneyMate</h2>
+                <p>Personal Finance</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- ================= MENU ================= -->
+    <div class="sidebar-content">
+        <nav class="sidebar-menu">
+            <p class="menu-title">OVERVIEW</p>
+
+            <a href="{% url 'dashboard:index' %}"
+               class="menu-item {% if active_page == 'dashboard' %}active{% endif %}"
+               data-testid="sidebar-dashboard">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{% url 'transactions:index' %}"
+               class="menu-item {% if active_page == 'transactions' %}active{% endif %}"
+               data-testid="sidebar-transactions">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <span>Transactions</span>
+            </a>
+
+            <a href="{% url 'goals:goal_list' %}"
+               class="menu-item {% if request.resolver_match.app_name == 'goals' %}active{% endif %}"
+               data-testid="sidebar-goals">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Goals</span>
+            </a>
+
+            <p class="menu-title">FINANCE</p>
+
+            <a href="{% url 'budgets:budgets' %}"
+               class="menu-item {% if active_page == 'budgets' %}active{% endif %}"
+               data-testid="sidebar-budgets">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Budgets</span>
+            </a>
+
+            <a href="{% url 'reports:reports' %}"
+               class="menu-item {% if active_page == 'reports' %}active{% endif %}"
+               data-testid="sidebar-reports">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="{% url 'investments:investments' %}"
+               class="menu-item {% if active_page == 'investments' %}active{% endif %}"
+               data-testid="sidebar-investments">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Investments</span>
+            </a>
+
+            <p class="menu-title">INSIGHTS</p>
+
+            <a href="{% url 'ai:ai' %}"
+               class="menu-item {% if active_page == 'ai' %}active{% endif %}"
+               data-testid="sidebar-ai">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>AI Insights</span>
+            </a>
+
+            <a href="{% url 'notifications:index' %}"
+               class="menu-item {% if active_page == 'notifications' %}active{% endif %}"
+               data-testid="sidebar-notifications">
+                <i class="fa-regular fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <div class="sidebar-footer">
+        <a href="{% url 'accounts:profile' %}"
+           class="menu-item {% if active_page == 'profile' %}active{% endif %}"
+           data-testid="sidebar-profile">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>Profile</span>
+        </a>
+
+        <a href="{% url 'accounts:settings' %}"
+           class="menu-item {% if active_page == 'settings' %}active{% endif %}"
+           data-testid="sidebar-settings">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+        </a>
+
+        <a href="{% url 'accounts:logout' %}"
+           class="menu-item logout"
+           data-testid="sidebar-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</aside>

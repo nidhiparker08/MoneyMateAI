@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Notifications | MoneyMate{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/notifications/notifications.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+    </aside>
+
+    <main class="dashboard-main">
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content notif-content">
+            <header class="page-header">
+                <div>
+                    <h1 data-testid="notifications-title">
+                        <i class="fa-regular fa-bell"></i>
+                        Notifications
+                    </h1>
+                    <p>{{ total_count }} total · {{ unread_count }} unread</p>
+                </div>
+                <div class="page-header-actions">
+                    <button type="button" class="btn-ghost" id="mark-all-read-btn" data-testid="mark-all-read-btn">
+                        <i class="fa-solid fa-check-double"></i> Mark all read
+                    </button>
+                    <button type="button" class="btn-ghost btn-ghost-danger" id="clear-all-btn" data-testid="clear-all-btn">
+                        <i class="fa-solid fa-trash-can"></i> Clear all
+                    </button>
+                </div>
+            </header>
+
+            <nav class="notif-filters" data-testid="notif-filters">
+                <button type="button" class="notif-filter active" data-filter="all">All</button>
+                <button type="button" class="notif-filter" data-filter="unread">Unread</button>
+                <button type="button" class="notif-filter" data-filter="bank">Bank</button>
+                <button type="button" class="notif-filter" data-filter="transaction">Transactions</button>
+                <button type="button" class="notif-filter" data-filter="budget">Budgets</button>
+                <button type="button" class="notif-filter" data-filter="ai">AI</button>
+                <button type="button" class="notif-filter" data-filter="investment">Investments</button>
+                <button type="button" class="notif-filter" data-filter="system">System</button>
+            </nav>
+
+            <div class="notif-list" data-testid="notif-list">
+                {% for n in notifications %}
+                <article class="notif-row {% if not n.is_read %}notif-unread{% endif %} notif-priority-{{ n.priority }}"
+                         data-notif-id="{{ n.id }}"
+                         data-category="{{ n.category }}"
+                         data-read="{{ n.is_read|yesno:'1,0' }}"
+                         data-testid="notif-row-{{ n.id }}">
+                    <div class="notif-icon notif-icon-{{ n.category }}">
+                        <i class="fa-solid {{ n.icon }}"></i>
+                    </div>
+                    <div class="notif-body">
+                        <div class="notif-top">
+                            <strong>{{ n.title }}</strong>
+                            <span class="notif-time">{{ n.created_at|timesince }} ago</span>
+                        </div>
+                        {% if n.description %}
+                        <p>{{ n.description }}</p>
+                        {% endif %}
+                        <div class="notif-meta">
+                            <span class="notif-cat-pill">{{ n.get_category_display }}</span>
+                            {% if n.action_url and n.action_label and not n.is_resolved %}
+                                <a href="{{ n.action_url }}"
+                                   class="notif-action-btn"
+                                   data-testid="notif-action-{{ n.id }}">
+                                    {{ n.action_label }} <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="notif-row-actions">
+                        {% if not n.is_read %}
+                        <button type="button" class="notif-mini-btn notif-mark-read" data-testid="mark-read-{{ n.id }}" title="Mark as read">
+                            <i class="fa-regular fa-circle"></i>
+                        </button>
+                        {% endif %}
+                        <button type="button" class="notif-mini-btn notif-dismiss" data-testid="dismiss-{{ n.id }}" title="Dismiss">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </article>
+                {% empty %}
+                <div class="notif-empty" data-testid="notif-empty">
+                    <div class="empty-icon"><i class="fa-regular fa-bell-slash"></i></div>
+                    <h3>You're all caught up</h3>
+                    <p>No notifications yet — we'll ping you when something interesting happens with your money.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/notifications/notifications.js' %}"></script>
+{% endblock %}

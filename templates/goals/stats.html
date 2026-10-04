@@ -1,0 +1,143 @@
+<!-- ==========================================================
+GOALS STATISTICS
+========================================================== -->
+
+<section class="goals-stats">
+
+    <!-- Active Goals -->
+
+    <div class="goal-stat-card">
+
+        <div class="goal-stat-icon purple">
+
+            <i class="fa-solid fa-bullseye"></i>
+
+        </div>
+
+        <div class="goal-stat-content">
+
+            <span class="goal-stat-label">
+
+                Active Goals
+
+            </span>
+
+            <h2>
+
+                {{ goal_count }}
+
+            </h2>
+
+            <small>
+
+                Currently Being Tracked
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Total Target -->
+
+    <div class="goal-stat-card">
+
+        <div class="goal-stat-icon blue">
+
+            <i class="fa-solid fa-wallet"></i>
+
+        </div>
+
+        <div class="goal-stat-content">
+
+            <span class="goal-stat-label">
+
+                Total Target
+
+            </span>
+
+            <h2>
+
+                ₹{{ total_target|floatformat:0 }}
+
+            </h2>
+
+            <small>
+
+                Combined Goal Value
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Total Saved -->
+
+    <div class="goal-stat-card">
+
+        <div class="goal-stat-icon green">
+
+            <i class="fa-solid fa-piggy-bank"></i>
+
+        </div>
+
+        <div class="goal-stat-content">
+
+            <span class="goal-stat-label">
+
+                Total Saved
+
+            </span>
+
+            <h2>
+
+                ₹{{ total_saved|floatformat:0 }}
+
+            </h2>
+
+            <small>
+
+                Saved Across Goals
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Completed Goals -->
+
+    <div class="goal-stat-card">
+
+        <div class="goal-stat-icon orange">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+        <div class="goal-stat-content">
+
+            <span class="goal-stat-label">
+
+                Completed Goals
+
+            </span>
+
+            <h2>
+
+                {{ completed }}
+
+            </h2>
+
+            <small>
+
+                Successfully Achieved
+
+            </small>
+
+        </div>
+
+    </div>
+
+</section>

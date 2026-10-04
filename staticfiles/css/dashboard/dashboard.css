@@ -1,0 +1,86 @@
+/* ==========================================================
+   Dashboard Layout
+========================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: "Inter",sans-serif;
+    overflow-x: hidden;
+}
+
+
+/* ==========================================================
+   Main Grid
+========================================================== */
+
+.dashboard-layout {
+    --sidebar-width: 250px;
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    min-height: 100vh;
+    transition: grid-template-columns .3s ease;
+}
+
+
+/* ==========================================================
+   Sidebar Area
+========================================================== */
+
+.sidebar-wrapper {
+    position: relative;
+}
+
+
+/* ==========================================================
+   Main Area
+========================================================== */
+
+.dashboard-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 100vh;
+    transition: .3s ease;
+}
+
+
+/* ==========================================================
+   Dashboard Content
+========================================================== */
+
+.dashboard-content {
+    padding: 18px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+
+    /* ==========================================================
+   Section Animation
+========================================================== */
+
+    .dashboard-content > * {
+        animation: fadeUp .45s ease;
+    }
+
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

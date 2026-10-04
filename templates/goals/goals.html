@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Goals | MoneyMate{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/cards.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/goals/goals.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+    </aside>
+
+    <main class="dashboard-main">
+
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content">
+
+            {% include "goals/header.html" %}
+
+            {% include "goals/stats.html" %}
+
+            {% include "goals/filters.html" %}
+
+            {% include "goals/ai_panel.html" %}
+
+            {% include "goals/goal_cards.html" %}
+
+            {% include "goals/modal.html" %}
+
+            {% include "goals/contribution_modal.html" %}
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/goals/goals.js' %}"></script>
+
+{% endblock %}

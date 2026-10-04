@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Transactions | MoneyMate
+{% endblock %}
+
+{% block extra_css %}
+
+<!-- Dashboard Layout -->
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/transaction_source.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/transaction_modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/connect_bank.css' %}">
+
+<!-- Transactions Page -->
+<link rel="stylesheet" href="{% static 'css/transactions/transactions.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+        <div id="sidebar-overlay"></div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content">
+
+            {% include "transactions/header.html" %}
+
+            {% include "transactions/stats.html" %}
+
+            {% include "transactions/filters.html" %}
+
+            {% include "transactions/transaction_list.html" %}
+
+            {% include "transactions/pagination.html" %}
+
+            {% include "transactions/insights.html" %}
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+
+<script src="{% static 'js/transactions.js' %}"></script>
+
+<script src="{% static 'js/components/transaction_source.js' %}"></script>
+
+<script src="{% static 'js/components/connect_bank.js' %}"></script>
+
+<script src="{% static 'js/transaction_modal.js' %}"></script>
+
+{% include "components/transaction_source_modal.html" %}
+
+{% include "components/connect_bank_modal.html" %}
+
+{% include "components/bank_auth_modal.html" %}
+
+{% include "components/transaction_modal.html" %}
+
+{% endblock %}

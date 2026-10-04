@@ -1,0 +1,51 @@
+<section class="budgets-header">
+
+    <div class="header-left">
+
+        <div class="page-icon">
+
+            <i class="fa-solid fa-wallet"></i>
+
+        </div>
+
+        <div>
+
+            <h1>Budget Management</h1>
+
+            <p>
+
+                Create monthly budgets, monitor your spending and stay
+                in control of your finances.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="header-right">
+
+        <div class="current-month">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+            <span id="currentMonth">
+
+                {% now "F Y" %}
+
+            </span>
+
+        </div>
+
+        <button class="apply-btn"
+                id="addBudgetBtn">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Budget
+
+        </button>
+
+    </div>
+
+</section>

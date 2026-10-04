@@ -1,0 +1,227 @@
+<!-- ==========================================================
+GOAL MODAL
+========================================================== -->
+
+<div class="goal-modal-overlay" id="goal-modal">
+
+    <div class="goal-modal">
+
+        <!-- Header -->
+
+        <div class="goal-modal-header">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-bullseye"></i>
+
+                    Create Financial Goal
+
+                </h2>
+
+                <p>
+
+                    Set a savings target and let MoneyMate help you achieve it.
+
+                </p>
+
+            </div>
+
+            <button type="button"
+                    class="goal-close-btn"
+                    id="goal-modal-close">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <!-- Form -->
+
+        <form id="goal-form"
+              method="POST"
+              action="{% url 'goals:add_goal' %}"
+              class="goal-form">
+
+            {% csrf_token %}
+
+            <!-- Goal Name & Type -->
+
+            <div class="goal-form-grid">
+
+                <div class="goal-form-group">
+
+                    <label for="goal-title">
+
+                        Goal Name
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    {{ form.title }}
+
+                    {{ form.title.errors }}
+
+                </div>
+
+                <div class="goal-form-group">
+
+                    <label for="goal-type">
+
+                        Goal Type
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    {{ form.goal_type }}
+
+                    {{ form.goal_type.errors }}
+
+                </div>
+
+            </div>
+
+            <!-- Amounts -->
+
+            <div class="goal-form-grid">
+
+                <div class="goal-form-group">
+
+                    <label for="goal-target">
+
+                        Target Amount
+
+                    </label>
+
+                    {{ form.target_amount }}
+
+                    {{ form.target_amount.errors }}
+
+                </div>
+
+                <div class="goal-form-group">
+
+                    <label for="goal-current">
+
+                        Current Savings
+
+                    </label>
+
+                    {{ form.current_amount }}
+
+                    {{ form.current_amount.errors }}
+
+                </div>
+
+            </div>
+
+            <!-- Monthly + Deadline -->
+
+            <div class="goal-form-grid">
+
+                <div class="goal-form-group">
+
+                    <label for="goal-monthly">
+
+                        Monthly Saving Target
+
+                    </label>
+
+                    {{ form.monthly_target }}
+
+                    {{ form.monthly_target.errors }}
+
+                </div>
+
+                <div class="goal-form-group">
+
+                    <label for="goal-deadline">
+
+                        Deadline
+
+                    </label>
+
+                    {{ form.deadline }}
+
+                    {{ form.deadline.errors }}
+
+                </div>
+
+            </div>
+
+            <!-- Priority + Status -->
+
+            <div class="goal-form-grid">
+
+                <div class="goal-form-group">
+
+                    <label for="goal-priority">
+
+                        Priority
+
+                    </label>
+
+                    {{ form.priority }}
+
+                </div>
+
+                <div class="goal-form-group">
+
+                    <label for="goal-status">
+
+                        Status
+
+                    </label>
+
+                    {{ form.status }}
+
+                </div>
+
+            </div>
+
+            <!-- Notes -->
+
+            <div class="goal-form-group">
+
+                <label for="goal-notes">
+
+                    Notes
+
+                </label>
+
+                {{ form.notes }}
+
+            </div>
+
+            <!-- Footer -->
+
+            <div class="goal-modal-footer">
+
+                <button type="button"
+                        class="goal-cancel-btn"
+                        id="goal-cancel-btn">
+
+                    Cancel
+
+                </button>
+
+                <button type="submit"
+                        class="goal-save-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Goal
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

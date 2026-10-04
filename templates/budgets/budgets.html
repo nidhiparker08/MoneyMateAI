@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Budgets | MoneyMate
+{% endblock %}
+
+{% block extra_css %}
+
+<!-- Dashboard Layout -->
+
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+
+<!-- Budget -->
+
+<link rel="stylesheet" href="{% static 'css/budgets/budgets.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar-wrapper">
+
+        {% include "dashboard/sidebar.html" %}
+
+    </aside>
+
+    <!-- Main -->
+
+    <main class="dashboard-main">
+
+        {% include "dashboard/navbar.html" %}
+
+        <section class="dashboard-content">
+
+            {% include "budgets/header.html" %}
+
+            {% include "budgets/stats.html" %}
+
+            {% include "budgets/filters.html" %}
+
+            <section class="budget-list">
+
+                {% if budget_summaries %}
+
+                {% for summary in budget_summaries %}
+
+                {% include "budgets/budget_card.html" with summary=summary %}
+
+                {% endfor %}
+
+                {% else %}
+
+                <div class="budget-empty">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-solid fa-wallet"></i>
+
+                    </div>
+
+                    <h2>No Budgets Yet</h2>
+
+                    <p>
+
+                        Create your first monthly budget and
+                        start tracking your spending with AI.
+
+                    </p>
+
+                    <button class="apply-btn"
+                            id="createBudgetBtn">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Create Budget
+
+                    </button>
+
+                </div>
+
+                {% endif %}
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% include "budgets/budget_modal.html" %}
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+
+<script src="{% static 'js/budgets/budgets.js' %}"></script>
+
+{% endblock %}

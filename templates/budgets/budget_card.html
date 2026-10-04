@@ -1,0 +1,152 @@
+<div class="budget-card">
+
+    <div class="budget-card-header">
+
+        <div class="budget-category">
+
+            <div class="budget-icon">
+
+                <i class="{{ summary.budget.category.icon }}"></i>
+
+            </div>
+
+            <div>
+
+                <h3>{{ summary.budget.category.name }}</h3>
+
+                <span>
+
+                    {{ summary.budget.month }}/{{ summary.budget.year }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="budget-actions">
+
+            <button class="budget-action edit-budget"
+                    data-id="{{ summary.budget.id }}"
+                    data-category="{{ summary.budget.category.id }}"
+                    data-amount="{{ summary.budget.amount }}"
+                    data-month="{{ summary.budget.month }}"
+                    data-year="{{ summary.budget.year }}"
+                    title="Edit Budget">
+
+                <i class="fa-solid fa-pen-to-square"></i>
+
+            </button>
+
+            <button class="budget-action delete-budget"
+                    data-id="{{ summary.budget.id }}"
+                    title="Delete Budget">
+
+                <i class="fa-solid fa-trash-can"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="budget-amounts">
+
+        <div>
+
+            <small>Budget</small>
+
+            <h4>
+
+                ₹{{ summary.budget.amount }}
+
+            </h4>
+
+        </div>
+
+        <div>
+
+            <small>Spent</small>
+
+            <h4>
+
+                ₹{{ summary.spent }}
+
+            </h4>
+
+        </div>
+
+        <div>
+
+            <small>Remaining</small>
+
+            <h4>
+
+                ₹{{ summary.remaining }}
+
+            </h4>
+
+        </div>
+
+    </div>
+
+    <div class="budget-progress">
+
+        <div class="progress-track">
+
+            <div class="progress-fill
+                 {% if summary.percentage <= 60 %}
+
+                    progress-green
+
+                {% elif summary.percentage <= 80 %}
+
+                    progress-yellow
+
+                {% elif summary.percentage <= 100 %}
+
+                    progress-orange
+
+                {% else %}
+
+                    progress-red
+
+                {% endif %}"
+
+                style="width: {{ summary.percentage }}%;">
+
+            </div>
+
+        </div>
+
+        <div class="progress-footer">
+
+            <span>
+
+                {{ summary.percentage }}%
+
+            </span>
+
+            {% if summary.is_exceeded %}
+
+            <span class="status exceeded">
+
+                Budget Exceeded
+
+            </span>
+
+            {% else %}
+
+            <span class="status healthy">
+
+                Healthy
+
+            </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>

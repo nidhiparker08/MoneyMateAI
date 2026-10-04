@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}AI Coach | MoneyMate{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/ai/ai.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+    </aside>
+
+    <main class="dashboard-main">
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content ai-content">
+
+            <header class="ai-page-header">
+                <div class="ai-heading">
+                    <div class="ai-icon-wrap">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h1 data-testid="ai-page-title">AI Financial Coach</h1>
+                        <p>Personalised insights & a chat coach powered by AI.</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Health score + insights -->
+            <div class="ai-top-grid">
+
+                <div class="ai-health-card" data-testid="ai-health-card">
+                    <div class="ai-health-score-ring" style="--score: {{ health.score }}">
+                        <div class="ring-inner">
+                            <span class="score-value" data-testid="ai-health-score">{{ health.score }}</span>
+                            <span class="score-max">/100</span>
+                        </div>
+                    </div>
+                    <div class="ai-health-meta">
+                        <span class="health-rating rating-{{ health.rating|lower|slice:':4' }}">{{ health.rating }}</span>
+                        <h3>Financial Health Score</h3>
+                        <div class="health-breakdown">
+                            <div>
+                                <span>Savings</span>
+                                <strong>{{ health.breakdown.savings }} / 50</strong>
+                            </div>
+                            <div>
+                                <span>Goals</span>
+                                <strong>{{ health.breakdown.goals }} / 25</strong>
+                            </div>
+                            <div>
+                                <span>Consistency</span>
+                                <strong>{{ health.breakdown.consistency }} / 25</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-insights-card" data-testid="ai-insights-card">
+                    <div class="ai-insights-head">
+                        <h3><i class="fa-solid fa-lightbulb"></i> Smart Insights</h3>
+                        <button class="ai-refresh-btn" data-testid="refresh-insights-btn" type="button">
+                            <i class="fa-solid fa-rotate"></i> Refresh
+                        </button>
+                    </div>
+                    <ul class="ai-insights-list" id="ai-insights-list">
+                        {% for i in insights %}
+                        <li class="insight-item tone-{{ i.tone }}">
+                            <i class="fa-solid {{ i.icon }}"></i>
+                            <div>
+                                <strong>{{ i.title }}</strong>
+                                <span>{{ i.body }}</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Chat -->
+            <section class="ai-chat-wrap">
+
+                <div class="ai-chat-head">
+                    <div>
+                        <h3><i class="fa-solid fa-comments"></i> Chat with Coach</h3>
+                        <span class="ai-chat-sub">Ask about your spending, goals, savings or investments.</span>
+                    </div>
+                    <button type="button" class="ai-clear-btn" data-testid="ai-clear-btn">
+                        <i class="fa-solid fa-broom"></i> Clear
+                    </button>
+                </div>
+
+                <div class="ai-chat-scroll" id="ai-chat-scroll" data-testid="ai-chat-scroll">
+                    {% if not history %}
+                    <div class="ai-welcome">
+                        <i class="fa-solid fa-sparkles"></i>
+                        <h4>Hi {{ user.first_name|default:user.username }}!</h4>
+                        <p>Try asking one of these:</p>
+                        <div class="ai-suggestions">
+                            <button type="button" class="ai-suggest-chip" data-testid="ai-suggest-1">
+                                How can I save more each month?
+                            </button>
+                            <button type="button" class="ai-suggest-chip" data-testid="ai-suggest-2">
+                                Where should I invest ₹10,000/month?
+                            </button>
+                            <button type="button" class="ai-suggest-chip" data-testid="ai-suggest-3">
+                                Analyse my top expense categories.
+                            </button>
+                            <button type="button" class="ai-suggest-chip" data-testid="ai-suggest-4">
+                                Am I on track for my goals?
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% for m in history %}
+                    <div class="chat-bubble bubble-{{ m.role }}">
+                        <div class="bubble-avatar">
+                            {% if m.role == 'user' %}
+                                {{ user.username|first|upper }}
+                            {% else %}
+                                <i class="fa-solid fa-robot"></i>
+                            {% endif %}
+                        </div>
+                        <div class="bubble-body">{{ m.content|linebreaksbr }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <form class="ai-chat-input" id="ai-chat-form" data-testid="ai-chat-form">
+                    {% csrf_token %}
+                    <textarea id="ai-chat-text"
+                              data-testid="ai-chat-text"
+                              rows="1"
+                              placeholder="Ask MoneyMate anything about your money…"
+                              required></textarea>
+                    <button type="submit" class="ai-send-btn" data-testid="ai-send-btn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+
+                <div class="ai-footnote">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Educational information only. Not financial advice.
+                </div>
+            </section>
+
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/ai/ai.js' %}"></script>
+{% endblock %}

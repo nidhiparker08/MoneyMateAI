@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% load static %}
+
+{% block title %}Sign in — MoneyMate{% endblock %}
+
+{% block content %}
+<div class="mm-auth" data-testid="login-page">
+
+    <!-- LEFT · form -->
+    <div class="mm-auth-form-col">
+        <div class="mm-auth-form-inner">
+
+            <a href="{% url 'core:index' %}" class="mm-auth-brand" data-testid="auth-logo">
+                <span class="mm-logo-mark">M</span>
+                <span class="mm-logo-word">MoneyMate</span>
+            </a>
+
+            <div class="mm-auth-head">
+                <span class="mm-auth-eyebrow">Welcome back</span>
+                <h1>Sign in to your workspace</h1>
+                <p>Continue managing your money with MoneyMate.</p>
+            </div>
+
+            {% if messages %}
+            <div class="mm-auth-alert" data-testid="login-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <div>
+                    {% for message in messages %}<span>{{ message }}</span>{% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <form method="POST" class="mm-form" data-testid="login-form">
+                {% csrf_token %}
+
+                <div class="mm-field">
+                    <label for="id_username">Username</label>
+                    <input type="text" id="id_username" name="username" placeholder="Enter your username" required data-testid="login-username">
+                </div>
+
+                <div class="mm-field">
+                    <label for="id_password">Password</label>
+                    <div class="mm-input-wrap">
+                        <input type="password" id="id_password" name="password" placeholder="Enter your password" required data-testid="login-password">
+                        <i class="fa-solid fa-eye mm-eye" data-mm-eye role="button" aria-label="Show password"></i>
+                    </div>
+                </div>
+
+                <div class="mm-form-row">
+                    <label class="mm-check">
+                        <input type="checkbox" name="remember" data-testid="login-remember">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="mm-link-pink">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="mm-btn mm-btn-primary mm-btn-block" data-testid="login-submit">
+                    Sign in
+                </button>
+            </form>
+
+            <div class="mm-or"><span>OR</span></div>
+
+            <a href="{% provider_login_url 'google' %}" class="mm-btn mm-btn-ghost mm-btn-block" data-testid="login-google">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="" width="18" height="18">
+                Continue with Google
+            </a>
+
+            <p class="mm-auth-foot">
+                Don't have an account?
+                <a href="{% url 'accounts:signup' %}" class="mm-link-pink" data-testid="login-to-signup">Create one</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT · showcase -->
+    <div class="mm-auth-aside" data-testid="auth-aside">
+        <div class="mm-auth-aside-inner">
+            <span class="mm-auth-eyebrow">Personal finance workspace</span>
+            <h2 class="mm-auth-display">Every rupee, tracked.<br>Every decision, informed.</h2>
+            <p class="mm-auth-lead">A calm, professional dashboard that replaces spreadsheets and half a dozen apps — with an AI coach that actually knows your money.</p>
+
+            <ul class="mm-auth-features">
+                <li><span class="mm-ico-tile pink"><i class="fa-solid fa-shield-halved"></i></span> Bank-grade security &amp; encryption</li>
+                <li><span class="mm-ico-tile violet"><i class="fa-solid fa-envelope-open-text"></i></span> Automatic Gmail statement parsing</li>
+                <li><span class="mm-ico-tile pink"><i class="fa-solid fa-comment-dots"></i></span> Contextual AI assistant</li>
+                <li><span class="mm-ico-tile violet"><i class="fa-solid fa-arrow-trend-up"></i></span> Investment &amp; goal tracking</li>
+            </ul>
+
+            <div class="mm-auth-mini-card">
+                <div class="mm-amc-row">
+                    <span>Monthly savings</span>
+                    <strong class="mm-pos">+ ₹32,120</strong>
+                </div>
+                <div class="mm-progress"><span style="width:68%"></span></div>
+                <div class="mm-amc-row">
+                    <span>Budget used</span>
+                    <strong>68%</strong>
+                </div>
+            </div>
+        </div>
+        <div class="mm-auth-grain" aria-hidden="true"></div>
+    </div>
+</div>
+{% endblock %}

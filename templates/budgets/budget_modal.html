@@ -1,0 +1,181 @@
+<div class="modal-overlay" id="budgetModal">
+
+    <div class="modal-container">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="modal-badge">
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                    MoneyMate
+
+                </span>
+
+                <h2 id="budgetModalTitle">
+
+                    Add Budget
+
+                </h2>
+
+                <p>
+
+                    Create or update your monthly spending budget.
+
+                </p>
+
+            </div>
+
+            <button id="closeBudgetModal"
+                    class="close-modal">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <form id="budgetForm"
+              method="post">
+
+            {% csrf_token %}
+            {% now "n" as cur_m %}{% now "Y" as cur_y %}
+
+            <input type="hidden"
+                   id="budgetId"
+                   name="budget_id">
+
+            <div class="form-grid">
+
+                <!-- Category -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Category
+
+                    </label>
+
+                    <select id="budgetCategory"
+                            name="category"
+                            required>
+
+                        {% for category in categories %}
+
+                        <option value="{{ category.id }}">
+
+                            {{ category.name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- Amount -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Budget Amount
+
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           id="budgetAmount"
+                           name="amount"
+                           placeholder="10000"
+                           required>
+
+                </div>
+
+                <!-- Month -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Month
+
+                    </label>
+
+                    <select id="budgetMonth"
+                            name="month">
+
+                        {% for value,name in month_choices %}
+
+                        <option value="{{ value }}" {% if value|stringformat:"s" == cur_m %}selected{% endif %}>
+
+                            {{ name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- Year -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Year
+
+                    </label>
+
+                    <select id="budgetYear"
+                            name="year">
+
+                        {% for year in years %}
+
+                        <option value="{{ year }}" {% if year|stringformat:"s" == cur_y %}selected{% endif %}>
+
+                            {{ year }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+
+                <button type="button"
+                        class="btn-secondary"
+                        id="cancelBudget">
+
+                    Cancel
+
+                </button>
+
+                <button type="submit"
+                        class="apply-btn"
+                        id="saveBudget">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Budget
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

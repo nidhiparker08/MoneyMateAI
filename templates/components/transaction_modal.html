@@ -1,0 +1,211 @@
+<div id="transactionModal" class="transaction-modal-overlay">
+
+    <div class="transaction-modal">
+
+        <div class="transaction-modal-header">
+
+            <div>
+
+                <span class="modal-badge">
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                    MoneyMate
+
+                </span>
+
+                <h2>Add Transaction</h2>
+
+                <p>Add a new income or expense to your account.</p>
+
+            </div>
+
+            <button type="button"
+                    class="modal-close">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <form id="transactionForm"
+              method="post">
+
+            {% csrf_token %}
+
+            <div class="transaction-grid">
+
+                <div class="form-group">
+
+                    <label>Transaction Type</label>
+
+                    <select name="transaction_type"
+                            required>
+
+                        <option value="expense">Expense</option>
+
+                        <option value="income">Income</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Category</label>
+
+                    <select name="category"
+                            required>
+
+                        Categories count: {{ categories|length }}
+
+                        {% for category in categories %}
+
+                        <option value="{{ category.id }}">
+
+                            {{ category.name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Title</label>
+
+                    <input type="text"
+                           name="title"
+                           placeholder="Netflix Subscription"
+                           required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Merchant</label>
+
+                    <input type="text"
+                           name="merchant"
+                           placeholder="Netflix">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Amount</label>
+
+                    <input type="number"
+                           step="0.01"
+                           name="amount"
+                           placeholder="0.00"
+                           required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Payment Method</label>
+
+                    <select name="payment_method">
+
+                        <option value="upi">UPI</option>
+
+                        <option value="cash">Cash</option>
+
+                        <option value="credit_card">Credit Card</option>
+
+                        <option value="debit_card">Debit Card</option>
+
+                        <option value="net_banking">Net Banking</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Date</label>
+
+                    <input type="date"
+                           name="transaction_date"
+                           required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Time</label>
+
+                    <input type="time"
+                           name="transaction_time">
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Contribute to Goal <span style="opacity:.6;font-weight:400">(optional)</span>
+                    </label>
+
+                    <select name="goal" id="tx-goal-select" data-testid="tx-goal-select">
+
+                        <option value="">— No goal contribution —</option>
+
+                        {% if transaction_form %}
+                            {% for goal in transaction_form.goal.field.queryset %}
+                                <option value="{{ goal.id }}">
+                                    {{ goal.title }} — ₹{{ goal.current_amount|floatformat:0 }} / ₹{{ goal.target_amount|floatformat:0 }}
+                                </option>
+                            {% endfor %}
+                        {% endif %}
+
+                    </select>
+
+                    <small style="color: var(--muted, #8b7fbf); font-size: 12px; margin-top: 6px; display:block;">
+                        Selecting a goal will link this expense as a contribution and update the goal progress automatically.
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Notes</label>
+
+                <textarea rows="4"
+                          name="notes"
+                          placeholder="Optional notes..."></textarea>
+
+            </div>
+
+            <div class="modal-buttons">
+
+                <button type="button"
+                        class="cancel-btn">
+
+                    Cancel
+
+                </button>
+
+                <button type="submit"
+                        class="save-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Transaction
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

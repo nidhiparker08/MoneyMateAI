@@ -1,0 +1,37 @@
+<section class="insights-section" data-testid="tx-insights-section">
+
+    <div class="section-header">
+        <h2>
+            <i class="fa-solid fa-robot"></i>
+            AI Financial Insights
+        </h2>
+    </div>
+
+    {% if insights %}
+        <div class="insights-list">
+            {% for insight in insights %}
+            <div class="finsync-insight tone-{{ insight.tone }}"
+                 data-testid="tx-insight-{{ forloop.counter }}">
+                <div class="finsync-insight-icon">
+                    <i class="fa-solid {{ insight.icon }}"></i>
+                </div>
+                <div class="finsync-insight-body">
+                    <strong>{{ insight.title }}</strong>
+                    <p>{{ insight.body }}</p>
+                    {% if insight.action_url %}
+                    <a class="finsync-insight-link" href="{{ insight.action_url }}">
+                        {{ insight.action_label|default:"Open" }} <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="finsync-empty">
+            <i class="fa-solid fa-robot"></i>
+            <h3>No Insights Yet</h3>
+            <p>Add or import a few transactions and MoneyMate will begin surfacing personalised insights.</p>
+        </div>
+    {% endif %}
+</section>

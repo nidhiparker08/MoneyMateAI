@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Financial Memory | FinSync AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/financial_memory/memory.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+    <aside class="sidebar-wrapper">
+        {% include "dashboard/sidebar.html" %}
+        <div id="sidebar-overlay"></div>
+    </aside>
+
+    <main class="dashboard-main">
+        {% include "dashboard/navbar.html" %}
+        {% include "dashboard/bottom_nav.html" %}
+
+        <section class="dashboard-content memory-page">
+
+            <!-- =========== HEADER =========== -->
+            <div class="memory-header">
+                <div>
+                    <h1 class="memory-title">
+                        <i class="fa-solid fa-brain"></i>
+                        Financial Memory Engine
+                    </h1>
+                    <p class="memory-subtitle">
+                        FinSync remembers every correction you make so it never asks the same question twice.
+                    </p>
+                </div>
+                <div class="memory-header-actions">
+                    <button type="button" class="btn-primary" id="detect-recurring-btn">
+                        <i class="fa-solid fa-wave-square"></i>
+                        Re-scan Recurring
+                    </button>
+                    <a href="{% url 'financial_memory:review_queue' %}" class="btn-secondary">
+                        <i class="fa-solid fa-inbox"></i>
+                        Review Queue
+                        {% if stats.pending_reviews %}
+                            <span class="badge-count">{{ stats.pending_reviews }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+
+            <!-- =========== STATS =========== -->
+            <div class="memory-stats">
+                <div class="stat-card stat-purple">
+                    <div class="stat-icon"><i class="fa-solid fa-brain"></i></div>
+                    <div class="stat-body">
+                        <span class="stat-value">{{ stats.total_memories }}</span>
+                        <span class="stat-label">Total Memories</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
+                    <div class="stat-body">
+                        <span class="stat-value">{{ stats.aliases }}</span>
+                        <span class="stat-label">Merchant Aliases</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-green">
+                    <div class="stat-icon"><i class="fa-solid fa-repeat"></i></div>
+                    <div class="stat-body">
+                        <span class="stat-value">{{ stats.recurring }}</span>
+                        <span class="stat-label">Recurring Patterns</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-orange">
+                    <div class="stat-icon"><i class="fa-solid fa-inbox"></i></div>
+                    <div class="stat-body">
+                        <span class="stat-value">{{ stats.pending_reviews }}</span>
+                        <span class="stat-label">Awaiting Review</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-teal">
+                    <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="stat-body">
+                        <span class="stat-value">{{ stats.total_hits }}</span>
+                        <span class="stat-label">Auto-Classifications</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="memory-grid">
+
+                <!-- =========== RECURRING PATTERNS =========== -->
+                <section class="memory-panel">
+                    <header class="panel-header">
+                        <h2><i class="fa-solid fa-repeat"></i> Recurring Patterns</h2>
+                        <span class="panel-subtitle">Salaries, subscriptions, EMIs, SIPs, utility bills</span>
+                    </header>
+                    {% if recurring_patterns %}
+                        <ul class="recurring-list">
+                            {% for p in recurring_patterns %}
+                            <li class="recurring-item">
+                                <div class="recurring-left">
+                                    <span class="recurring-badge tag-{{ p.pattern_type }}">
+                                        {{ p.get_pattern_type_display }}
+                                    </span>
+                                    <div class="recurring-body">
+                                        <span class="recurring-label">{{ p.label }}</span>
+                                        <span class="recurring-meta">
+                                            {{ p.get_frequency_display }} · avg ₹{{ p.avg_amount|floatformat:0 }} · {{ p.occurrences_count }} occurrences
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="recurring-right">
+                                    <span class="recurring-next">
+                                        {% if p.next_expected %}Next: {{ p.next_expected|date:"d M" }}{% else %}—{% endif %}
+                                    </span>
+                                    <span class="recurring-confidence">{{ p.confidence }}%</span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-panel">
+                            <i class="fa-solid fa-wave-square"></i>
+                            <p>No recurring patterns detected yet. Once you have a few months of transactions, click "Re-scan Recurring" and FinSync will surface subscriptions, salary and EMIs automatically.</p>
+                        </div>
+                    {% endif %}
+                </section>
+
+                <!-- =========== WHAT MEMORY KNOWS =========== -->
+                <section class="memory-panel">
+                    <header class="panel-header">
+                        <h2><i class="fa-solid fa-chart-simple"></i> What Memory Knows</h2>
+                        <span class="panel-subtitle">By entity type</span>
+                    </header>
+                    {% if entity_counts %}
+                        <ul class="entity-count-list">
+                            {% for label, count in entity_counts %}
+                                <li>
+                                    <span class="entity-label">{{ label }}</span>
+                                    <span class="entity-count">{{ count }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-panel small">
+                            <p>Nothing learnt yet. Correct or classify a few transactions and Memory will start filling up.</p>
+                        </div>
+                    {% endif %}
+
+                    <a href="{% url 'financial_memory:entries_list' %}" class="panel-link">
+                        View all memory entries <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </section>
+
+            </div>
+
+            <!-- =========== PENDING REVIEW QUICK LIST =========== -->
+            <section class="memory-panel wide">
+                <header class="panel-header">
+                    <h2><i class="fa-solid fa-inbox"></i> Awaiting Your Review</h2>
+                    <a href="{% url 'financial_memory:review_queue' %}" class="panel-header-link">Open queue <i class="fa-solid fa-arrow-right"></i></a>
+                </header>
+                {% if pending_reviews %}
+                    <table class="memory-table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Suggested</th>
+                                <th>Amount</th>
+                                <th>Confidence</th>
+                                <th>Source</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in pending_reviews %}
+                            <tr>
+                                <td>
+                                    <div class="cell-primary">{{ item.original_description|truncatechars:60 }}</div>
+                                    {% if item.merchant_guess %}<div class="cell-secondary">{{ item.merchant_guess }}</div>{% endif %}
+                                </td>
+                                <td>{{ item.suggested_category|default:"—" }}</td>
+                                <td>₹{{ item.amount|floatformat:2 }}</td>
+                                <td><span class="confidence-chip conf-{% if item.confidence < 40 %}low{% elif item.confidence < 70 %}mid{% else %}high{% endif %}">{{ item.confidence }}%</span></td>
+                                <td>{{ item.get_source_display }}</td>
+                                <td>
+                                    <a href="{% url 'financial_memory:review_queue' %}#item-{{ item.id }}" class="btn-link">Review →</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="empty-panel small">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <p>Nothing needs your attention right now — great job! Low-confidence import rows will appear here.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+            <!-- =========== RECENT MEMORIES =========== -->
+            <section class="memory-panel wide">
+                <header class="panel-header">
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> Recently Learned</h2>
+                    <a href="{% url 'financial_memory:entries_list' %}" class="panel-header-link">All entries <i class="fa-solid fa-arrow-right"></i></a>
+                </header>
+                {% if recent_entries %}
+                    <table class="memory-table">
+                        <thead>
+                            <tr>
+                                <th>Signal</th>
+                                <th>Type</th>
+                                <th>Learned Value</th>
+                                <th>Hits</th>
+                                <th>Last update</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for e in recent_entries %}
+                            <tr id="entry-{{ e.id }}">
+                                <td>
+                                    <div class="cell-primary">{{ e.raw_signal|default:e.signal_key|truncatechars:50 }}</div>
+                                    <div class="cell-secondary">key: <code>{{ e.signal_key }}</code></div>
+                                </td>
+                                <td><span class="entity-chip">{{ e.get_entity_type_display }}</span></td>
+                                <td>
+                                    {% if e.linked_category %}{{ e.linked_category.name }}
+                                    {% elif e.linked_goal %}🎯 {{ e.linked_goal.title }}
+                                    {% elif e.linked_holding %}📊 {{ e.linked_holding.name }}
+                                    {% else %}{{ e.entity_value|default:"—" }}{% endif %}
+                                </td>
+                                <td>{{ e.hit_count }}</td>
+                                <td>{{ e.updated_at|date:"d M, H:i" }}</td>
+                                <td class="row-actions">
+                                    <button class="btn-icon" data-action="toggle" data-id="{{ e.id }}" title="{% if e.is_active %}Pause{% else %}Resume{% endif %}">
+                                        {% if e.is_active %}<i class="fa-solid fa-pause"></i>{% else %}<i class="fa-solid fa-play"></i>{% endif %}
+                                    </button>
+                                    <button class="btn-icon danger" data-action="delete" data-id="{{ e.id }}" title="Forget"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="empty-panel small">
+                        <p>Memory is empty. Create or edit transactions and FinSync will start learning.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+<script src="{% static 'js/financial_memory/memory.js' %}"></script>
+{% endblock %}

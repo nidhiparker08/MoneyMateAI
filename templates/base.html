@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}MoneyMate — Personal Finance, refined{% endblock %}</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MoneyMate is a premium personal finance workspace — track expenses, plan budgets, follow investments and get AI-powered insights from one clean dashboard.">
+    <meta name="theme-color" content="#FCF7F2">
+
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+    <!-- Apply theme before paint to avoid FOUC -->
+    <script>
+      (function () {
+          try {
+              var mode = localStorage.getItem('moneymate-theme') || 'light';
+              var media = window.matchMedia('(prefers-color-scheme: dark)');
+              var effective = mode === 'system' ? (media.matches ? 'dark' : 'light') : mode;
+              document.documentElement.setAttribute('data-theme', effective);
+              document.documentElement.setAttribute('data-theme-mode', mode);
+          } catch (e) {
+              document.documentElement.setAttribute('data-theme', 'light');
+          }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/toast.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/finsync-shared.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    {% block extra_css %}{% endblock %}
+
+    <!-- MoneyMate design layer — loads LAST to win the cascade -->
+    <link rel="stylesheet" href="{% static 'css/moneymate.css' %}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</head>
+
+<body>
+
+    <!-- Loader -->
+    <div id="loader" data-testid="app-loader">
+        <div class="loader-content">
+            <span class="mm-loader-mark">M</span>
+            <div class="mm-loader-bar"><span></span></div>
+        </div>
+    </div>
+
+    <!-- Custom cursor -->
+    <div class="mm-cursor" aria-hidden="true"></div>
+    <div class="mm-cursor-dot" aria-hidden="true"></div>
+
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div id="sidebar-overlay"></div>
+
+    {% block content %}{% endblock %}
+
+    {% include "components/toast.html" %}
+
+    {% block extra_js %}{% endblock %}
+
+    {% if user.is_authenticated %}
+    <script src="{% static 'js/dashboard/navbar.js' %}"></script>
+    <script src="{% static 'js/components/finsync-toast.js' %}"></script>
+    {% endif %}
+
+    <script src="{% static 'js/moneymate.js' %}"></script>
+</body>
+</html>

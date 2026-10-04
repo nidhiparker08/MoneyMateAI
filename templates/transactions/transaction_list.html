@@ -1,0 +1,230 @@
+<section class="transactions-list-section">
+
+    <div class="section-header">
+
+        <h2>All Transactions</h2>
+
+        <span>
+            {{ transaction_count }} Transaction{{ transaction_count|pluralize }}
+        </span>
+
+    </div>
+
+    {% if transactions %}
+
+    <div class="transactions-list">
+
+        {% for transaction in page_obj %}
+
+        <div class="transaction-card" data-id="{{ transaction.id }}">
+
+            <div class="transaction-left">
+
+                <div class="transaction-icon">
+
+                    {% if transaction.transaction_type == "income" %}
+
+                    <i class="fa-solid fa-sack-dollar"></i>
+
+                    {% elif transaction.category %}
+
+                    <i class="{{ transaction.category.icon }}"></i>
+
+                    {% else %}
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="transaction-details">
+
+                    <h3>{{ transaction.title }}</h3>
+
+                    <p class="transaction-meta">
+
+                        {% if transaction.transaction_type == "income" %}
+
+                        <span class="type-pill income-pill">
+
+                            Income
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="type-pill expense-pill">
+
+                            Expense
+
+                        </span>
+
+                        {% endif %}
+
+                        {% if transaction.category %}
+
+                        {{ transaction.category.name }}
+
+                        {% else %}
+
+                        Uncategorized
+
+                        {% endif %}
+
+                        •
+
+                        {{ transaction.transaction_date|date:"d M Y" }}
+
+                        {% if transaction.transaction_time %}
+
+                        • {{ transaction.transaction_time|time:"H:i" }}
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="transaction-right">
+
+                {% if transaction.transaction_type == "income" %}
+
+                <span class="transaction-amount income">
+
+                    + ₹{{ transaction.amount }}
+
+                </span>
+
+                {% else %}
+
+                <span class="transaction-amount expense">
+
+                    - ₹{{ transaction.amount }}
+
+                </span>
+
+                {% endif %}
+
+                <div class="transaction-actions">
+
+                    <button class="transaction-action edit-btn"
+                            data-id="{{ transaction.id }}"
+                            title="Edit">
+
+                        <i class="fa-solid fa-pen-to-square"></i>
+
+                    </button>
+
+                    <button class="transaction-action delete-btn"
+                            data-id="{{ transaction.id }}"
+                            title="Delete">
+
+                        <i class="fa-solid fa-trash-can"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- ===========================
+            PAGINATION
+    ============================ -->
+    {% if page_obj.paginator.num_pages > 1 %}
+
+    <div class="pagination-section">
+
+        <div class="pagination">
+
+            {% if page_obj.has_previous %}
+
+            <a class="page-btn"
+               href="?page={{ page_obj.previous_page_number }}">
+
+                <i class="fa-solid fa-chevron-left"></i>
+
+            </a>
+
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+
+            {% if num == page_obj.number %}
+
+            <div class="page-btn active">
+
+                {{ num }}
+
+            </div>
+
+            {% elif num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+
+            <a class="page-btn"
+               href="?page={{ num }}">
+
+                {{ num }}
+
+            </a>
+
+            {% endif %}
+
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+
+            <a class="page-btn"
+               href="?page={{ page_obj.next_page_number }}">
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    {% else %}
+
+    <div class="empty-transactions">
+
+        <div class="empty-icon">
+
+            <i class="fa-solid fa-receipt"></i>
+
+        </div>
+
+        <h3>No Transactions Yet</h3>
+
+        <p>
+
+            Start tracking your finances by adding your first transaction.
+
+        </p>
+
+        <button type="button"
+                class="btn-primary open-transaction-modal">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Transaction
+
+        </button>
+
+    </div>
+
+    {% endif %}
+
+</section>

@@ -1,0 +1,809 @@
+/* ==========================================================
+   CONNECT BANK — Premium UI (BankHub Flow)
+   Design language: FinSync AI black + purple
+========================================================== */
+
+/* -----------------------------------------------------------
+   Local vars scoped to bank modals
+----------------------------------------------------------- */
+#connectBankModal .source-modal,
+#bankAuthModal .source-modal {
+    max-width: 760px;
+    background:
+        radial-gradient(120% 90% at 0% 0%, rgba(139,92,246,.10), transparent 55%),
+        radial-gradient(120% 90% at 100% 100%, rgba(168,85,247,.08), transparent 55%),
+        var(--card-bg);
+    border: 1px solid rgba(139,92,246,.18);
+    box-shadow:
+        0 40px 90px rgba(0,0,0,.55),
+        0 0 0 1px rgba(139,92,246,.06) inset;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+#bankAuthModal .source-modal {
+    max-width: 560px;
+}
+
+/* subtle top hairline glow */
+#connectBankModal .source-modal::before,
+#bankAuthModal .source-modal::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139,92,246,.55), transparent);
+    pointer-events: none;
+}
+
+#connectBankModal .source-modal,
+#bankAuthModal .source-modal {
+    position: relative;
+}
+
+/* -----------------------------------------------------------
+   Header refinements (works with existing .source-modal-header)
+----------------------------------------------------------- */
+#connectBankModal .source-modal-header,
+#bankAuthModal .source-modal-header {
+    margin-bottom: 26px;
+}
+
+#connectBankModal .source-modal-header h2,
+#bankAuthModal .source-modal-header h2 {
+    font-size: 28px;
+    letter-spacing: -.02em;
+}
+
+#connectBankModal .source-badge,
+#bankAuthModal .source-badge {
+    background: rgba(139,92,246,.14);
+    border: 1px solid rgba(139,92,246,.22);
+    box-shadow: 0 0 22px rgba(139,92,246,.10);
+}
+
+/* -----------------------------------------------------------
+   BANK SELECTION GRID
+----------------------------------------------------------- */
+.bank-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    max-height: 58vh;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.bank-grid::-webkit-scrollbar { width: 6px; }
+.bank-grid::-webkit-scrollbar-thumb {
+    background: rgba(139,92,246,.35);
+    border-radius: 4px;
+}
+
+.bank-option {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 18px 18px 16px;
+    background: linear-gradient(160deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: left;
+    overflow: hidden;
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+.bank-option::before {
+    /* monogram bubble */
+    content: attr(data-bank);
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: #E9D5FF;
+    background: rgba(139,92,246,.14);
+    border: 1px solid rgba(139,92,246,.28);
+    border-radius: 12px;
+    transition: .25s ease;
+}
+
+.bank-option strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -.01em;
+    padding-right: 56px;
+}
+
+.bank-option span {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    padding-right: 56px;
+}
+
+.bank-option:hover {
+    transform: translateY(-3px);
+    border-color: rgba(139,92,246,.55);
+    background: linear-gradient(160deg, rgba(139,92,246,.10), rgba(139,92,246,.02));
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.35),
+        0 0 0 1px rgba(139,92,246,.25) inset;
+}
+
+.bank-option:hover::before {
+    background: rgba(139,92,246,.28);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.bank-option.selected {
+    border-color: transparent;
+    background:
+        linear-gradient(160deg, rgba(139,92,246,.22), rgba(168,85,247,.10)),
+        var(--card-bg);
+    box-shadow:
+        0 0 0 1.5px var(--primary) inset,
+        0 20px 45px rgba(139,92,246,.30),
+        0 0 40px rgba(139,92,246,.18);
+    animation: bank-select-pop .35s ease;
+}
+
+.bank-option.selected::before {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 6px 18px rgba(139,92,246,.45);
+}
+
+.bank-option.selected::after {
+    /* small check indicator in bottom-right */
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    box-shadow: 0 0 14px rgba(139,92,246,.55);
+    animation: bank-check-in .3s ease;
+}
+
+@keyframes bank-select-pop {
+    0%   { transform: translateY(-3px) scale(.98); }
+    60%  { transform: translateY(-4px) scale(1.02); }
+    100% { transform: translateY(-3px) scale(1); }
+}
+
+@keyframes bank-check-in {
+    0%   { transform: scale(0) rotate(-45deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0);      opacity: 1; }
+}
+
+/* -----------------------------------------------------------
+   BANK SELECTION FOOTER
+----------------------------------------------------------- */
+.bank-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-light);
+}
+
+.bank-secure-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.bank-secure-note i {
+    color: var(--primary);
+    font-size: 13px;
+}
+
+.bank-modal-footer .btn-primary {
+    height: 46px;
+    padding: 0 26px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: .01em;
+    box-shadow: 0 10px 30px rgba(139,92,246,.28);
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease, opacity .2s ease;
+}
+
+.bank-modal-footer .btn-primary:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    filter: grayscale(.35);
+    box-shadow: none;
+    transform: none;
+}
+
+.bank-modal-footer .btn-primary:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(139,92,246,.40);
+}
+
+/* -----------------------------------------------------------
+   AUTH FORM (fields with icons)
+----------------------------------------------------------- */
+#bankAuthForm {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bank-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.bank-field > i {
+    position: absolute;
+    left: 16px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    pointer-events: none;
+    transition: color .2s ease;
+}
+
+.bank-field input {
+    width: 100%;
+    height: 52px;
+    padding: 0 16px 0 44px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--text-primary);
+    font-size: 14.5px;
+    font-family: inherit;
+    outline: none;
+    transition: .2s ease;
+}
+
+.bank-field input::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.bank-field input:hover {
+    border-color: rgba(139,92,246,.35);
+}
+
+.bank-field input:focus {
+    border-color: var(--primary);
+    background: rgba(139,92,246,.06);
+    box-shadow: 0 0 0 4px rgba(139,92,246,.14);
+}
+
+.bank-field:focus-within > i {
+    color: var(--primary);
+}
+
+/* form footer / submit row */
+.bank-auth-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.bank-auth-footer .btn-primary {
+    height: 50px;
+    padding: 0 30px;
+    border: none;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    border-radius: 14px;
+    font-size: 14.5px;
+    box-shadow: 0 12px 34px rgba(139,92,246,.32);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease, opacity .2s ease;
+}
+
+.bank-auth-footer .btn-primary:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 44px rgba(139,92,246,.42);
+}
+
+.bank-auth-footer .btn-primary:disabled {
+    opacity: .55;
+    cursor: wait;
+}
+
+.bank-auth-legal {
+    margin-top: 18px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: rgba(139,92,246,.06);
+    border: 1px solid rgba(139,92,246,.15);
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.bank-auth-legal i {
+    color: var(--primary);
+    margin-top: 2px;
+}
+
+/* -----------------------------------------------------------
+   LOADING SCREEN
+----------------------------------------------------------- */
+.bank-loading {
+    padding: 30px 10px 10px;
+    text-align: center;
+}
+
+.bank-loading-visual {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 24px;
+}
+
+.spinner-ring,
+.spinner-ring-outer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+}
+
+.spinner-ring {
+    border-top-color: var(--primary);
+    border-right-color: rgba(139,92,246,.55);
+    animation: bank-spin 1s linear infinite;
+    box-shadow: 0 0 24px rgba(139,92,246,.25);
+}
+
+.spinner-ring-outer {
+    inset: -10px;
+    border-top-color: rgba(168,85,247,.25);
+    border-left-color: rgba(139,92,246,.10);
+    animation: bank-spin 2.4s linear infinite reverse;
+}
+
+.spinner-core {
+    position: absolute;
+    inset: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(139,92,246,.22), rgba(168,85,247,.05));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 26px;
+    box-shadow: 0 0 30px rgba(139,92,246,.35) inset;
+    animation: bank-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes bank-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes bank-pulse {
+    0%, 100% { transform: scale(1);   opacity: 1; }
+    50%      { transform: scale(.92); opacity: .8; }
+}
+
+.bank-loading h2 {
+    font-size: 22px;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    letter-spacing: -.01em;
+}
+
+.bank-loading-sub {
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    margin-bottom: 26px;
+}
+
+/* Progress bar */
+.bank-progress {
+    position: relative;
+    height: 6px;
+    width: min(360px, 88%);
+    margin: 0 auto 22px;
+    background: rgba(139,92,246,.10);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.bank-progress-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 999px;
+    box-shadow: 0 0 14px rgba(139,92,246,.55);
+    transition: width .55s cubic-bezier(.4,0,.2,1);
+}
+
+.bank-progress-fill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+    animation: bank-shimmer 1.6s linear infinite;
+}
+
+@keyframes bank-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Sequential step message with fade */
+.bank-loading-message {
+    color: var(--text-primary);
+    font-size: 14.5px;
+    font-weight: 500;
+    min-height: 22px;
+    letter-spacing: .01em;
+    opacity: 1;
+    transition: opacity .22s ease;
+}
+
+.bank-loading-message.fade {
+    opacity: 0;
+}
+
+.bank-loading-message i {
+    color: var(--primary);
+    margin-right: 8px;
+}
+
+/* Step list (checklist) */
+.bank-loading-steps {
+    list-style: none;
+    max-width: 320px;
+    margin: 24px auto 0;
+    padding: 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bank-loading-steps li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: color .3s ease;
+}
+
+.bank-loading-steps li .step-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(139,92,246,.10);
+    border: 1px solid rgba(139,92,246,.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: transparent;
+    transition: .3s ease;
+}
+
+.bank-loading-steps li.active {
+    color: var(--text-primary);
+}
+
+.bank-loading-steps li.active .step-dot {
+    background: rgba(139,92,246,.20);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(139,92,246,.15), 0 0 12px rgba(139,92,246,.45);
+    animation: bank-pulse-dot 1.2s ease-in-out infinite;
+}
+
+.bank-loading-steps li.done {
+    color: var(--text-secondary);
+}
+
+.bank-loading-steps li.done .step-dot {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(139,92,246,.35);
+}
+
+.bank-loading-steps li.done .step-dot::before {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #fff;
+}
+
+@keyframes bank-pulse-dot {
+    0%, 100% { transform: scale(1);    box-shadow: 0 0 0 3px rgba(139,92,246,.15), 0 0 12px rgba(139,92,246,.45); }
+    50%      { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(139,92,246,.05), 0 0 18px rgba(139,92,246,.55); }
+}
+
+/* -----------------------------------------------------------
+   SUCCESS SCREEN
+----------------------------------------------------------- */
+.bank-success {
+    padding: 20px 10px 8px;
+    text-align: center;
+    animation: bank-fade-in .4s ease;
+}
+
+@keyframes bank-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.bank-success-badge {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at 50% 40%, rgba(34,197,94,.25), transparent 65%),
+        rgba(34,197,94,.10);
+    box-shadow:
+        0 0 0 6px rgba(34,197,94,.10),
+        0 0 60px rgba(34,197,94,.35);
+    animation: bank-badge-pop .6s cubic-bezier(.34,1.56,.64,1);
+}
+
+.bank-success-badge i {
+    color: #22C55E;
+    font-size: 54px;
+    animation: bank-check-draw .5s .15s both ease;
+}
+
+@keyframes bank-badge-pop {
+    0%   { transform: scale(0); }
+    70%  { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bank-check-draw {
+    from { transform: scale(.4); opacity: 0; }
+    to   { transform: scale(1);  opacity: 1; }
+}
+
+.bank-success h2 {
+    font-size: 24px;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    letter-spacing: -.01em;
+}
+
+.bank-success-bank {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(139,92,246,.14);
+    border: 1px solid rgba(139,92,246,.25);
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    margin: 6px 0 20px;
+}
+
+.bank-success-summary {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.bank-success-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--text-primary);
+    font-size: 13.5px;
+    font-weight: 500;
+    animation: bank-fade-in .5s ease both;
+}
+
+.bank-success-chip:nth-child(1) { animation-delay: .1s; }
+.bank-success-chip:nth-child(2) { animation-delay: .2s; }
+
+.bank-success-chip i {
+    color: #22C55E;
+    font-size: 14px;
+}
+
+.bank-success-chip .num {
+    font-weight: 700;
+    color: var(--primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.bank-success-refresh {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    margin-top: 6px;
+}
+
+.bank-success-refresh i {
+    animation: bank-spin 1s linear infinite;
+    color: var(--primary);
+}
+
+/* -----------------------------------------------------------
+   BANK CONNECT STATUS (source modal dot pill)
+----------------------------------------------------------- */
+.bank-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    margin-right: 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.bank-status .status-dot.offline {
+    background: #EF4444;
+    box-shadow: 0 0 10px rgba(239,68,68,.6);
+}
+
+.bank-status .status-dot.online {
+    background: #22C55E;
+    box-shadow: 0 0 10px rgba(34,197,94,.6);
+}
+
+/* -----------------------------------------------------------
+   Modal locking during in-flight submission
+----------------------------------------------------------- */
+#bankAuthModal.locked .source-close {
+    opacity: .35;
+    pointer-events: none;
+}
+
+/* -----------------------------------------------------------
+   Responsive
+----------------------------------------------------------- */
+@media (max-width: 720px) {
+
+    #connectBankModal .source-modal,
+    #bankAuthModal .source-modal {
+        padding: 24px 20px;
+        border-radius: 22px;
+    }
+
+    #connectBankModal .source-modal-header h2,
+    #bankAuthModal .source-modal-header h2 {
+        font-size: 22px;
+    }
+
+    .bank-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-height: 62vh;
+    }
+
+    .bank-option {
+        padding: 16px 14px;
+    }
+
+    .bank-option strong,
+    .bank-option span {
+        padding-right: 48px;
+    }
+
+    .bank-modal-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .bank-modal-footer .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .bank-secure-note {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .bank-loading-visual {
+        width: 100px;
+        height: 100px;
+    }
+
+    .bank-loading h2 {
+        font-size: 19px;
+    }
+
+    .bank-success-badge {
+        width: 96px;
+        height: 96px;
+    }
+
+    .bank-success-badge i {
+        font-size: 46px;
+    }
+
+    .bank-auth-footer .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .bank-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bank-field input {
+        font-size: 14px;
+    }
+}

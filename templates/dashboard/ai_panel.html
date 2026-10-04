@@ -1,0 +1,87 @@
+<!-- ==========================================================
+     DASHBOARD AI PANEL  (real data — driven by ai.insight_engine)
+========================================================== -->
+<section class="ai-card" data-testid="dashboard-ai-card">
+
+    <div class="ai-header">
+        <div class="ai-avatar">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div>
+            <h2>AI Financial Coach</h2>
+            <p>
+                {% if ai.has_insights %}
+                    Personalised for your last 30 days
+                {% else %}
+                    Waiting for financial data
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    {% if ai.has_insights %}
+
+        <div class="ai-health">
+            <span>Financial Health</span>
+            <strong>{{ ai.health_score }}%</strong>
+        </div>
+
+        <div class="ai-stats">
+            <div class="mini-card">
+                <p>Saved (last 30d)</p>
+                <h3>₹{{ ai.saved_30d|floatformat:0 }}</h3>
+            </div>
+            <div class="mini-card">
+                <p>Budget Left</p>
+                <h3>₹{{ budget_remaining|floatformat:0 }}</h3>
+            </div>
+        </div>
+
+        <div class="ai-tip" data-testid="dashboard-ai-tip">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>{{ ai.message }}</span>
+        </div>
+
+        <div class="ai-insights-inline" data-testid="dashboard-ai-insights">
+            {% for i in ai.top_insights %}
+            <div class="finsync-insight tone-{{ i.tone }}">
+                <div class="finsync-insight-icon">
+                    <i class="fa-solid {{ i.icon }}"></i>
+                </div>
+                <div class="finsync-insight-body">
+                    <strong>{{ i.title }}</strong>
+                    <p>{{ i.body }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'ai:ai' %}" class="ai-btn" data-testid="dashboard-ai-open-chat">
+            <i class="fa-solid fa-comments"></i>
+            Chat with AI Coach
+        </a>
+
+    {% else %}
+
+        <div class="ai-chat-preview">
+            <div class="chat-avatar">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div class="chat-bubble">
+                <span class="chat-label">MoneyMate</span>
+                <h3>Hello {{ request.user.first_name|default:request.user.username }}</h3>
+                <p>
+                    Add your first transaction and I'll instantly turn your data into
+                    personalised insights, health scores and saving opportunities.
+                </p>
+            </div>
+        </div>
+
+        <a href="{% url 'transactions:index' %}" class="ai-btn" data-testid="dashboard-ai-add-tx">
+            <i class="fa-solid fa-plus"></i>
+            Add first transaction
+        </a>
+
+    {% endif %}
+
+</section>

@@ -1,0 +1,48 @@
+# ---------------------------------------------------------------------------
+# FinSyncAI (MoneyMate) runtime dependencies, curated for Python 3.14.
+#
+# Why this file exists:
+#   The original requirements.txt was exported from a platform running an
+#   older Python. On Python 3.14 it cannot resolve because it pins
+#   grpcio-status==1.71.2 while google-api-core[grpc]==2.33.0 requires
+#   grpcio-status>=1.75.1 (which does not exist for py3.14). That single
+#   conflict aborts the WHOLE install, so nothing gets installed and the
+#   app crashes with: ModuleNotFoundError: No module named 'dotenv'.
+#
+# This file lists only the packages the application actually imports,
+# at the versions pinned in the original requirements.txt.
+# ---------------------------------------------------------------------------
+
+# Core framework + auth
+Django==5.2.16
+django-allauth==65.18.0
+whitenoise==6.12.0
+
+# allauth's Google social provider imports `jwt` (PyJWT) at startup
+PyJWT==2.13.0
+
+# Config / env
+python-dotenv==1.2.2
+
+# Google Gemini AI SDK (provides `from google import genai`)
+google-genai==2.16.0
+
+# HTTP client (investments price service, BankHub client, tests)
+requests==2.34.2
+
+# Report generation
+reportlab==5.0.0
+matplotlib==3.11.1
+
+# Data / statement importers
+pandas==3.0.5
+numpy==2.4.6
+openpyxl==3.1.5
+pdfplumber==0.11.10
+
+# Fuzzy matching for the transaction categorizer + financial memory
+RapidFuzz==3.14.5
+
+# Testing
+pytest==9.1.1
+pytest-xdist==3.8.0

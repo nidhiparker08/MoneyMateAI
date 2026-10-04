@@ -1,0 +1,621 @@
+/* ==========================================================
+                    IMPORT STATEMENT PAGE
+                    FinSync AI
+==========================================================*/
+
+:root {
+    --primary: #8B5CF6;
+    --primary-dark: #6D28D9;
+    --background: #0F0F17;
+    --surface: #171722;
+    --surface-light: #1F1F2E;
+    --border: rgba(255,255,255,.08);
+    --text: #FFFFFF;
+    --text-secondary: #A1A1AA;
+    --success: #22C55E;
+    --danger: #EF4444;
+}
+
+
+/* ==========================================================
+                        PAGE
+==========================================================*/
+
+.statement-page {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, rgba(139,92,246,.15), transparent 45%), var(--background);
+    padding: 60px 30px 100px;
+}
+
+
+.statement-container {
+    width: min(1100px,100%);
+    margin: auto;
+}
+
+
+/* ==========================================================
+                        HERO
+==========================================================*/
+
+.statement-header {
+    text-align: center;
+    margin-bottom: 55px;
+    position: relative;
+}
+
+
+    .statement-header::before {
+        content: "";
+        width: 550px;
+        height: 550px;
+        position: absolute;
+        left: 50%;
+        top: -220px;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background: radial-gradient( rgba(139,92,246,.22), transparent 70% );
+        filter: blur(60px);
+        z-index: -1;
+    }
+
+
+.page-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 50px;
+    border: 1px solid rgba(139,92,246,.25);
+    background: rgba(139,92,246,.08);
+    color: #C4B5FD;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 28px;
+}
+
+
+    .page-badge i {
+        color: #A78BFA;
+    }
+
+
+.statement-header h1 {
+    font-size: 58px;
+    color: var(--text);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 18px;
+}
+
+
+.statement-header p {
+    width: min(760px,100%);
+    margin: auto;
+    color: var(--text-secondary);
+    font-size: 18px;
+    line-height: 1.9;
+}
+
+
+/* ==========================================================
+                    GLASS CARD
+==========================================================*/
+
+.upload-card,
+.privacy-card {
+    background: linear-gradient( 180deg, rgba(28,28,38,.95), rgba(18,18,26,.98) );
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 30px;
+    backdrop-filter: blur(25px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+
+
+/* ==========================================================
+                    ANIMATION
+==========================================================*/
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.statement-header,
+.upload-card,
+.privacy-card {
+    animation: fadeUp .7s ease;
+}
+
+/* ==========================================================
+                    UPLOAD CARD
+==========================================================*/
+
+.upload-card {
+    position: relative;
+    overflow: hidden;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+
+    .upload-card::before {
+        content: "";
+        position: absolute;
+        width: 380px;
+        height: 380px;
+        left: -140px;
+        top: -140px;
+        border-radius: 50%;
+        background: radial-gradient( rgba(139,92,246,.12), transparent 70% );
+    }
+
+
+    .upload-card::after {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        right: -80px;
+        bottom: -80px;
+        border-radius: 50%;
+        background: radial-gradient( rgba(139,92,246,.08), transparent 70% );
+    }
+
+
+/* ==========================================================
+                    ICON
+==========================================================*/
+
+.upload-icon {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: linear-gradient( 135deg, #8B5CF6, #6D28D9 );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+    animation: floatIcon 3s ease-in-out infinite;
+    box-shadow: 0 20px 45px rgba(139,92,246,.45);
+}
+
+
+    .upload-icon i {
+        font-size: 52px;
+        color: white;
+    }
+
+
+@keyframes floatIcon {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+/* ==========================================================
+                    TITLE
+==========================================================*/
+
+.upload-card h2 {
+    color: white;
+    font-size: 40px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+
+.upload-card p {
+    color: #A1A1AA;
+    font-size: 17px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+
+/* ==========================================================
+                    DROP ZONE
+==========================================================*/
+
+.upload-dropzone {
+    width: 100%;
+    min-height: 240px;
+    border: 2px dashed rgba(139,92,246,.35);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: .30s;
+    position: relative;
+    z-index: 2;
+    background: rgba(139,92,246,.03);
+}
+
+
+    .upload-dropzone:hover {
+        border-color: #8B5CF6;
+        background: rgba(139,92,246,.08);
+        transform: scale(1.01);
+    }
+
+
+    .upload-dropzone i {
+        font-size: 55px;
+        color: #8B5CF6;
+    }
+
+
+    .upload-dropzone h3 {
+        color: white;
+        font-size: 26px;
+    }
+
+
+    .upload-dropzone span {
+        color: #A1A1AA;
+        font-size: 15px;
+    }
+
+
+/* ==========================================================
+                    FILE INPUT
+==========================================================*/
+
+#id_statement {
+    display: none;
+}
+
+
+/* ==========================================================
+                SELECTED FILE
+==========================================================*/
+
+.selected-file {
+    margin-top: 30px;
+    color: #C4C4D4;
+    font-size: 16px;
+    min-height: 22px;
+    text-align: center;
+}
+
+
+/* ==========================================================
+                    FOOTER
+==========================================================*/
+
+.upload-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 35px;
+    gap: 25px;
+}
+
+
+    .upload-footer span {
+        color: #8E8E9F;
+        font-size: 14px;
+    }
+
+
+/* ==========================================================
+                    BUTTON
+==========================================================*/
+
+.upload-btn {
+    border: none;
+    padding: 16px 40px;
+    border-radius: 14px;
+    background: linear-gradient( 135deg, #8B5CF6, #6D28D9 );
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .30s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+    .upload-btn:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(139,92,246,.35);
+    }
+
+
+    .upload-btn:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+    }
+
+/* ==========================================================
+                    PRIVACY CARD
+==========================================================*/
+
+.privacy-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 35px 40px;
+    transition: .30s;
+}
+
+    .privacy-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(139,92,246,.25);
+        box-shadow: 0 20px 60px rgba(0,0,0,.35), 0 0 35px rgba(139,92,246,.12);
+    }
+
+.privacy-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 20px;
+    background: linear-gradient( 135deg, #8B5CF6, #6D28D9 );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    box-shadow: 0 12px 30px rgba(139,92,246,.35);
+}
+
+    .privacy-icon i {
+        color: white;
+        font-size: 30px;
+    }
+
+.privacy-content {
+    flex: 1;
+}
+
+    .privacy-content h3 {
+        color: white;
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .privacy-content ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .privacy-content li {
+        color: #C4C4D4;
+        font-size: 16px;
+        line-height: 1.8;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+        .privacy-content li::before {
+            content: "✓";
+            color: #22C55E;
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 2px;
+        }
+
+
+/* ==========================================================
+                    SCROLLBAR
+==========================================================*/
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #101018;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #8B5CF6;
+    border-radius: 20px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #A78BFA;
+    }
+
+
+/* ==========================================================
+                    RESPONSIVE
+==========================================================*/
+
+@media (max-width:992px) {
+
+    .statement-header h1 {
+        font-size: 46px;
+    }
+
+    .upload-card {
+        padding: 45px 30px;
+    }
+
+    .upload-icon {
+        width: 110px;
+        height: 110px;
+    }
+
+        .upload-icon i {
+            font-size: 45px;
+        }
+
+    .upload-card h2 {
+        font-size: 32px;
+    }
+
+    .upload-dropzone {
+        min-height: 200px;
+    }
+
+    .privacy-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+
+@media (max-width:768px) {
+
+    .statement-page {
+        padding: 35px 15px 60px;
+    }
+
+    .statement-header h1 {
+        font-size: 38px;
+    }
+
+    .statement-header p {
+        font-size: 16px;
+    }
+
+    .upload-card {
+        padding: 30px 20px;
+    }
+
+    .upload-dropzone {
+        min-height: 180px;
+        padding: 25px;
+    }
+
+        .upload-dropzone h3 {
+            font-size: 22px;
+        }
+
+        .upload-dropzone i {
+            font-size: 42px;
+        }
+
+    .upload-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .upload-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .privacy-card {
+        padding: 25px;
+    }
+}
+
+
+@media (max-width:480px) {
+
+    .statement-header h1 {
+        font-size: 32px;
+    }
+
+    .page-badge {
+        font-size: 12px;
+        padding: 8px 14px;
+    }
+
+    .upload-icon {
+        width: 90px;
+        height: 90px;
+    }
+
+        .upload-icon i {
+            font-size: 38px;
+        }
+
+    .upload-card h2 {
+        font-size: 26px;
+    }
+}
+
+/* ============================================
+            DROPZONE IMPROVEMENTS
+============================================ */
+
+.dropzone-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    background: rgba(139,92,246,.10);
+}
+
+    .dropzone-icon i {
+        font-size: 42px;
+        color: #8B5CF6;
+    }
+
+.supported-types {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+    .supported-types span {
+        padding: 8px 16px;
+        border-radius: 50px;
+        background: rgba(255,255,255,.05);
+        color: #D4D4D8;
+        font-size: 13px;
+    }
+
+.file-preview {
+    margin-top: 25px;
+    font-size: 15px;
+    color: #A1A1AA;
+    font-weight: 500;
+}
+
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: #252533;
+    border-radius: 20px;
+    margin-top: 25px;
+    overflow: hidden;
+    display: none;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient( 90deg, #8B5CF6, #22C55E );
+    transition: .3s;
+}

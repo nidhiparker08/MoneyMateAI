@@ -1,0 +1,146 @@
+/* ==========================================================
+   MONEYMATE — DESIGN TOKENS
+   Light is the default identity (warm off-white, pink + purple).
+   Dark is designed independently (near-black, GitHub/Linear feel).
+   Every surface reads from these variables, so the whole app
+   re-themes from a single source of truth.
+========================================================== */
+:root,
+[data-theme='light'] {
+    /* ---------- SURFACES ---------- */
+    --bg-primary:      #FCF7F2;   /* warm off-white page */
+    --bg-app:          #F8F4EF;   /* app shell behind cards */
+    --bg-secondary:    #FFFFFF;   /* sidebar */
+    --bg-warm:         #FBEEE2;   /* warm accent panels */
+    --bg-warm-soft:    #FCF3EA;
+    --card-bg:         #FFFFFF;
+    --card-hover:      #FBF6F1;
+    --border:          #ECE5DD;   /* very light warm gray */
+    --border-light:    #F2ECE5;
+    --border-strong:   #E0D7CD;
+
+    /* ---------- BRAND ---------- */
+    --primary:         #FF3D8B;   /* pink */
+    --primary-hover:   #EE2B78;
+    --primary-press:   #D91E68;
+    --primary-dark:    #FF3D8B;
+    --primary-light:   #FF6FA9;
+    --accent-pink:     #FF3D8B;
+    --accent-violet:   #7C5CFF;   /* purple secondary */
+    --accent-violet-2: #6B4CF0;
+    --primary-soft:    rgba(255, 61, 139, .10);
+    --primary-softer:  rgba(255, 61, 139, .06);
+    --violet-soft:     rgba(124, 92, 255, .10);
+
+    /* ---------- SEMANTIC ---------- */
+    --success:         #12A150;
+    --success-soft:    rgba(18, 161, 80, .10);
+    --danger:          #E5484D;
+    --danger-soft:     rgba(229, 72, 77, .10);
+    --warning:         #D98A00;
+    --info:            #3B6FE0;
+
+    /* ---------- TEXT ---------- */
+    --text-primary:    #17140F;   /* warm near-black */
+    --text-secondary:  #524B42;
+    --text-muted:      #7B746B;
+    --text-onprimary:  #FFFFFF;
+
+    /* ---------- RADIUS ---------- */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-pill: 999px;
+
+    /* ---------- SHADOWS (soft, warm, no neon) ---------- */
+    --shadow-xs:    0 1px 2px rgba(60, 40, 25, .05);
+    --shadow-card:  0 1px 3px rgba(60, 40, 25, .06), 0 1px 2px rgba(60, 40, 25, .04);
+    --shadow-hover: 0 10px 30px rgba(60, 40, 25, .10);
+    --shadow-pop:   0 18px 50px rgba(60, 40, 25, .16);
+
+    /* ---------- MOTION ---------- */
+    --transition-fast: .14s cubic-bezier(.4,0,.2,1);
+    --transition:      .22s cubic-bezier(.4,0,.2,1);
+    --transition-slow: .4s cubic-bezier(.4,0,.2,1);
+
+    /* ---------- SPACING ---------- */
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 20px;
+    --space-lg: 32px;
+    --space-xl: 48px;
+
+    /* ---------- TYPOGRAPHY ---------- */
+    --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Inter', system-ui, sans-serif;
+
+    /* ---------- LAYOUT ---------- */
+    --sidebar-width: 260px;
+    --nav-h: 68px;
+
+    /* ---------- DECOR ---------- */
+    --dot: rgba(23, 20, 15, .05);
+    --mesh: radial-gradient(1200px 600px at 85% -10%, rgba(255,61,139,.10), transparent 60%),
+            radial-gradient(900px 500px at -5% 10%, rgba(124,92,255,.08), transparent 55%);
+
+    color-scheme: light;
+}
+
+/* ==========================================================
+   DARK — designed independently (near-black, medium borders)
+========================================================== */
+[data-theme='dark'] {
+    --bg-primary:      #0C0C0E;
+    --bg-app:          #0C0C0E;
+    --bg-secondary:    #121215;   /* sidebar */
+    --bg-warm:         #17151A;
+    --bg-warm-soft:    #141317;
+    --card-bg:         #151518;
+    --card-hover:      #1C1C20;
+    --border:          #26262B;
+    --border-light:    #1F1F23;
+    --border-strong:   #33333A;
+
+    --primary:         #FF4D97;
+    --primary-hover:   #FF63A6;
+    --primary-press:   #FF7DB5;
+    --primary-dark:    #FF4D97;
+    --primary-light:   #FF7DB5;
+    --accent-pink:     #FF4D97;
+    --accent-violet:   #8B6CFF;
+    --accent-violet-2: #9E85FF;
+    --primary-soft:    rgba(255, 77, 151, .14);
+    --primary-softer:  rgba(255, 77, 151, .08);
+    --violet-soft:     rgba(139, 108, 255, .14);
+
+    --success:         #2ED47A;
+    --success-soft:    rgba(46, 212, 122, .14);
+    --danger:          #FF5B60;
+    --danger-soft:     rgba(255, 91, 96, .14);
+    --warning:         #F5A623;
+    --info:            #5B8DEF;
+
+    --text-primary:    #F4F3F1;
+    --text-secondary:  #A9A5A0;
+    --text-muted:      #726E69;
+    --text-onprimary:  #FFFFFF;
+
+    --shadow-xs:    0 1px 2px rgba(0,0,0,.4);
+    --shadow-card:  0 1px 3px rgba(0,0,0,.5);
+    --shadow-hover: 0 12px 34px rgba(0,0,0,.55);
+    --shadow-pop:   0 20px 54px rgba(0,0,0,.65);
+
+    --dot: rgba(255, 255, 255, .045);
+    --mesh: radial-gradient(1200px 600px at 85% -10%, rgba(255,77,151,.10), transparent 60%),
+            radial-gradient(900px 500px at -5% 10%, rgba(139,108,255,.08), transparent 55%);
+
+    color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; }
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+}

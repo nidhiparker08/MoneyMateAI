@@ -1,0 +1,97 @@
+<div class="dashboard-cards">
+
+    <!-- This Month Income -->
+
+    <div class="dashboard-card">
+
+        <div class="card-top">
+
+            <div class="card-icon income">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+        </div>
+
+        <span class="card-title">
+            This Month Income
+        </span>
+
+        <h2 class="card-value">
+            ₹{{ this_month_income|floatformat:0 }}
+        </h2>
+
+    </div>
+
+
+
+    <!-- Previous Month Income -->
+
+    <div class="dashboard-card">
+
+        <div class="card-top">
+
+            <div class="card-icon income">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+
+        </div>
+
+        <span class="card-title">
+            Previous Month Income
+        </span>
+
+        <h2 class="card-value">
+            ₹{{ previous_month_income|floatformat:0 }}
+        </h2>
+
+    </div>
+
+
+
+    <!-- This Month Expense -->
+
+    <div class="dashboard-card">
+
+        <div class="card-top">
+
+            <div class="card-icon expense">
+                <i class="fa-solid fa-calendar-days"></i>
+            </div>
+
+        </div>
+
+        <span class="card-title">
+            This Month Expense
+        </span>
+
+        <h2 class="card-value">
+            ₹{{ this_month_expense|floatformat:0 }}
+        </h2>
+
+    </div>
+
+
+
+    <!-- Previous Month Expense -->
+
+    <div class="dashboard-card">
+
+        <div class="card-top">
+
+            <div class="card-icon expense">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+
+        </div>
+
+        <span class="card-title">
+            Previous Month Expense
+        </span>
+
+        <h2 class="card-value">
+            ₹{{ previous_month_expense|floatformat:0 }}
+        </h2>
+
+    </div>
+
+</div>

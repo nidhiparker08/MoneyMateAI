@@ -1,0 +1,33 @@
+{% load static %}
+<nav class="mobile-bottom-nav" aria-label="Primary mobile navigation">
+    <a href="{% url 'dashboard:index' %}"
+       class="mbn-item {% if active_page == 'dashboard' %}active{% endif %}"
+       data-testid="mbn-dashboard">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </a>
+    <a href="{% url 'transactions:index' %}"
+       class="mbn-item {% if active_page == 'transactions' %}active{% endif %}"
+       data-testid="mbn-transactions">
+        <i class="fa-solid fa-wallet"></i>
+        <span>Txns</span>
+    </a>
+    <a href="{% url 'goals:goal_list' %}"
+       class="mbn-item {% if request.resolver_match.app_name == 'goals' %}active{% endif %}"
+       data-testid="mbn-goals">
+        <i class="fa-solid fa-bullseye"></i>
+        <span>Goals</span>
+    </a>
+    <a href="{% url 'investments:investments' %}"
+       class="mbn-item {% if active_page == 'investments' %}active{% endif %}"
+       data-testid="mbn-investments">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Invest</span>
+    </a>
+    <a href="{% url 'ai:ai' %}"
+       class="mbn-item mbn-item-ai {% if active_page == 'ai' %}active{% endif %}"
+       data-testid="mbn-ai">
+        <i class="fa-solid fa-robot"></i>
+        <span>AI</span>
+    </a>
+</nav>

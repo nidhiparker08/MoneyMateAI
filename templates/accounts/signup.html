@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% load static %}
+
+{% block title %}Create your account — MoneyMate{% endblock %}
+
+{% block content %}
+<div class="mm-auth" data-testid="signup-page">
+
+    <!-- LEFT · form -->
+    <div class="mm-auth-form-col">
+        <div class="mm-auth-form-inner">
+
+            <a href="{% url 'core:index' %}" class="mm-auth-brand">
+                <span class="mm-logo-mark">M</span>
+                <span class="mm-logo-word">MoneyMate</span>
+            </a>
+
+            <div class="mm-auth-head">
+                <span class="mm-auth-eyebrow">Get started</span>
+                <h1>Create your workspace</h1>
+                <p>Set up MoneyMate once and manage your money in minutes.</p>
+            </div>
+
+            {% if form.errors %}
+            <div class="mm-auth-alert" data-testid="signup-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <div>
+                    {% for field in form %}{% for error in field.errors %}<span>{{ error }}</span>{% endfor %}{% endfor %}
+                    {% for error in form.non_field_errors %}<span>{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <form method="POST" class="mm-form" data-testid="signup-form">
+                {% csrf_token %}
+
+                <div class="mm-field">
+                    <label>Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="mm-field">
+                    <label>Email</label>
+                    {{ form.email }}
+                </div>
+                <div class="mm-field">
+                    <label>Password</label>
+                    <div class="mm-input-wrap">
+                        {{ form.password }}
+                        <i class="fa-solid fa-eye mm-eye" data-mm-eye role="button" aria-label="Show password"></i>
+                    </div>
+                </div>
+                <div class="mm-field">
+                    <label>Confirm password</label>
+                    <div class="mm-input-wrap">
+                        {{ form.confirm_password }}
+                        <i class="fa-solid fa-eye mm-eye" data-mm-eye role="button" aria-label="Show password"></i>
+                    </div>
+                </div>
+
+                <div id="strengthText" class="mm-meter-text"></div>
+                <div id="matchText" class="mm-meter-text"></div>
+
+                <label class="mm-check mm-check-block">
+                    <input type="checkbox" required>
+                    <span>I agree to the Terms &amp; Privacy Policy</span>
+                </label>
+
+                <button type="submit" class="mm-btn mm-btn-primary mm-btn-block" data-testid="signup-submit">
+                    Create account
+                </button>
+            </form>
+
+            <div class="mm-or"><span>OR</span></div>
+
+            <a href="{% provider_login_url 'google' %}" class="mm-btn mm-btn-ghost mm-btn-block" data-testid="signup-google">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="" width="18" height="18">
+                Sign up with Google
+            </a>
+
+            <p class="mm-auth-foot">
+                Already have an account?
+                <a href="{% url 'accounts:login' %}" class="mm-link-pink">Sign in</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT · showcase -->
+    <div class="mm-auth-aside">
+        <div class="mm-auth-aside-inner">
+            <span class="mm-auth-eyebrow">Why MoneyMate</span>
+            <h2 class="mm-auth-display">Money clarity,<br>without the busywork.</h2>
+            <p class="mm-auth-lead">Connect once and MoneyMate keeps your transactions, budgets and investments perfectly in order.</p>
+
+            <ul class="mm-auth-features">
+                <li><span class="mm-ico-tile pink"><i class="fa-solid fa-envelope-open-text"></i></span> Automatic Gmail statement sync</li>
+                <li><span class="mm-ico-tile violet"><i class="fa-solid fa-wand-magic-sparkles"></i></span> AI expense categorization</li>
+                <li><span class="mm-ico-tile pink"><i class="fa-solid fa-arrow-trend-up"></i></span> Investment &amp; goal tracking</li>
+                <li><span class="mm-ico-tile violet"><i class="fa-solid fa-shield-halved"></i></span> Bank-grade security</li>
+            </ul>
+
+            <div class="mm-auth-mini-card">
+                <div class="mm-amc-row"><span>Category accuracy</span><strong class="mm-pos">99.7%</strong></div>
+                <div class="mm-progress"><span style="width:92%"></span></div>
+                <div class="mm-amc-row"><span>Banks supported</span><strong>40+</strong></div>
+            </div>
+        </div>
+        <div class="mm-auth-grain" aria-hidden="true"></div>
+    </div>
+</div>
+
+<script src="{% static 'js/signup.js' %}"></script>
+{% endblock %}

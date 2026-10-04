@@ -1,0 +1,76 @@
+<section class="dashboard-hero">
+
+    <div class="hero-left">
+
+        <div class="hero-text">
+
+            <h1 id="hero-greeting"
+                data-username="{{ user.first_name|default:user.username }}">
+            </h1>
+
+            <p>
+                Welcome back! Here's your financial overview today.
+            </p>
+
+        </div>
+
+        <div class="hero-summary">
+
+            <span>
+
+                <strong>
+
+                    ₹{{ net_savings|floatformat:0 }}
+
+                </strong>
+
+                Saved
+
+            </span>
+
+            <span class="dot"></span>
+
+            <span>
+
+                <strong>
+
+                    {{ transaction_count }}
+
+                </strong>
+
+                Transactions
+
+            </span>
+
+            <span class="dot"></span>
+
+            <span>
+
+                <strong>
+
+                    {{ budget_count }}
+
+                </strong>
+
+                Active Budgets
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="hero-right">
+
+        <button type="button"
+                class="hero-btn primary open-transaction-modal">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Transaction
+
+        </button>
+
+    </div>
+
+</section>

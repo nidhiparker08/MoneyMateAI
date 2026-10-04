@@ -1,0 +1,122 @@
+<!-- ==========================================================
+     AI GOAL INSIGHTS  (real data — no hardcoded values)
+     Data comes from goals.insights.compute_goal_insights(user)
+========================================================== -->
+<section class="goal-ai-section" data-testid="goal-ai-section">
+    <div class="goal-ai-header">
+        <div class="goal-ai-title">
+            <div class="goal-ai-icon">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div>
+                <h2>MoneyMate Goal Coach</h2>
+                <p>Personalised guidance based on your goals & spending patterns.</p>
+            </div>
+        </div>
+
+        <a href="{% url 'goals:goal_list' %}?refresh=1"
+           class="goal-ai-refresh"
+           data-testid="goal-ai-refresh-btn">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            Refresh insights
+        </a>
+    </div>
+
+    {% if not goal_ai.has_goals %}
+        <div class="finsync-empty">
+            <i class="fa-solid fa-flag-checkered"></i>
+            <h3>No goals yet</h3>
+            <p>{{ goal_ai.summary }}</p>
+        </div>
+    {% else %}
+
+    <div class="goal-ai-grid">
+
+        <!-- Goal Health -->
+        <div class="goal-ai-card" data-testid="goal-ai-health">
+            <div class="goal-ai-card-icon purple">
+                <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <div>
+                <h4>Goal Health</h4>
+                <p>
+                    Overall progress across your goals is
+                    <strong>{{ goal_ai.health_score }}%</strong>.
+                </p>
+            </div>
+        </div>
+
+        <!-- Closest Goal -->
+        <div class="goal-ai-card" data-testid="goal-ai-closest">
+            <div class="goal-ai-card-icon green">
+                <i class="fa-solid fa-flag-checkered"></i>
+            </div>
+            <div>
+                <h4>Closest Goal</h4>
+                <p>
+                    {% if goal_ai.closest_goal %}
+                        <strong>{{ goal_ai.closest_goal.title }}</strong>
+                        is expected to be completed in
+                        <strong>{{ goal_ai.closest_months }} month{{ goal_ai.closest_months|pluralize }}.</strong>
+                    {% else %}
+                        Add contributions to see an estimate.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Recommendation -->
+        <div class="goal-ai-card" data-testid="goal-ai-recommendation">
+            <div class="goal-ai-card-icon blue">
+                <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <div>
+                <h4>Recommendation</h4>
+                <p>
+                    {% if goal_ai.recommend_monthly %}
+                        Save
+                        <strong>₹{{ goal_ai.recommend_monthly }}/month</strong>
+                        to hit
+                        <strong>{{ goal_ai.top_priority.title }}</strong>
+                        before its deadline.
+                    {% else %}
+                        Log some contributions and we'll compute a monthly target for you.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Warning -->
+        <div class="goal-ai-card" data-testid="goal-ai-warning">
+            <div class="goal-ai-card-icon orange">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h4>Needs Attention</h4>
+                <p>
+                    {% if goal_ai.behind_count %}
+                        <strong>{{ goal_ai.behind_count }} goal{{ goal_ai.behind_count|pluralize }}</strong>
+                        {{ goal_ai.behind_count|pluralize:"is,are" }} behind schedule.
+                        A small monthly contribution can pull them back on track.
+                    {% else %}
+                        All goals are healthy — great pacing across the board.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AI Summary -->
+    <div class="goal-ai-summary" data-testid="goal-ai-summary">
+        <div class="goal-ai-summary-icon">
+            <i class="fa-solid fa-sparkles"></i>
+        </div>
+        <div>
+            <h3>AI Summary</h3>
+            <p>{{ goal_ai.summary }}</p>
+        </div>
+    </div>
+
+    {% endif %}
+</section>

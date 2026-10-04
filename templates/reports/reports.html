@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Reports | MoneyMate
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard/responsive.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/reports/reports.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar-wrapper">
+
+        {% include "dashboard/sidebar.html" %}
+
+    </aside>
+
+    <main class="dashboard-main">
+
+        {% include "dashboard/navbar.html" %}
+
+        <section class="dashboard-content">
+
+            {% include "reports/header.html" %}
+
+            {% include "reports/stats.html" %}
+
+            <section class="reports-grid">
+
+                {% for report in report_cards %}
+
+                {% include "reports/report_card.html" with report=report %}
+
+                {% endfor %}
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% include "reports/custom_modal.html" %}
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="{% static 'js/dashboard/sidebar.js' %}"></script>
+
+<script src="{% static 'js/reports/reports.js' %}"></script>
+
+{% endblock %}

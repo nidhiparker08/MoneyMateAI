@@ -1,0 +1,103 @@
+/* ==========================================================
+   OVERVIEW STRIP
+========================================================== */
+
+.dashboard-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    padding: 12px 26px 34px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .dashboard-hero::before {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        left: -120px;
+        top: -140px;
+        background: radial-gradient(circle, rgba(139,92,246,.18), transparent 70%);
+        filter: blur(70px);
+    }
+
+/* ---------------- LEFT ---------------- */
+
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 2;
+    padding: 12px 20px 12px;
+}
+
+.hero-text h1 {
+    font-size: 34px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.hero-text p {
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+/* ---------------- SUMMARY ---------------- */
+
+.hero-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 15px;
+    color: var(--text-secondary);
+}
+
+    .hero-summary strong {
+        color: white;
+        font-size: 18px;
+    }
+
+.dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #8B5CF6;
+}
+
+/* ---------------- RIGHT ---------------- */
+
+.hero-right {
+    z-index: 2;
+    padding: 12px 20px 12px;
+}
+
+.hero-btn {
+    padding: 15px 28px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: .25s;
+}
+
+    .hero-btn.primary {
+        background: linear-gradient( 135deg, #8B5CF6, #6D28D9 );
+        color: white;
+    }
+
+        .hero-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(139,92,246,.35);
+        }

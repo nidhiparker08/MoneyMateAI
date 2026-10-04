@@ -1,0 +1,64 @@
+<!-- ==========================================================
+GOAL CARDS
+========================================================== --> <section class="goals-grid"> {% for goal in goals %}
+
+    <div class="goal-card"> <!-- Card Header --> <div class="goal-card-header"> <div class="goal-card-left"> <div class="goal-icon"> {% if goal.goal_type == "house" %}
+                    <i class="fa-solid fa-house"></i> {% elif goal.goal_type == "car" %}
+                    <i class="fa-solid fa-car"></i> {% elif goal.goal_type == "bike" %}
+                    <i class="fa-solid fa-motorcycle"></i> {% elif goal.goal_type == "vacation" %}
+                    <i class="fa-solid fa-plane"></i> {% elif goal.goal_type == "education" %}
+                    <i class="fa-solid fa-graduation-cap"></i> {% elif goal.goal_type == "wedding" %}
+                    <i class="fa-solid fa-ring"></i> {% elif goal.goal_type == "emergency" %}
+                    <i class="fa-solid fa-shield-halved"></i> {% elif goal.goal_type == "laptop" %}
+                    <i class="fa-solid fa-laptop"></i> {% elif goal.goal_type == "phone" %}
+                    <i class="fa-solid fa-mobile-screen"></i> {% else %}
+                    <i class="fa-solid fa-bullseye"></i> {% endif %}
+
+                </div> <div> <h3>{{ goal.title }}</h3> <span>{{ goal.get_goal_type_display }}</span> </div> </div> <span class="priority-badge {{ goal.priority }}"> {{ goal.get_priority_display }}
+
+            </span> </div> <!-- Progress --> <div class="goal-progress-section"> <div class="goal-progress-top"> <span> ₹{{ goal.current_amount|floatformat:0 }}
+
+                </span> <span> ₹{{ goal.target_amount|floatformat:0 }}
+
+                </span> </div> <div class="goal-progress-track"> <div class="goal-progress-fill"
+                     style="width: {{ goal.progress_percentage }}%;"></div> </div> <div class="goal-progress-bottom"> <span> {{ goal.progress_percentage }}% Completed
+
+                </span> <span> ₹{{ goal.remaining_amount|floatformat:0 }} Remaining
+
+                </span> </div> </div> <!-- Details --> <div class="goal-details-grid"> <div class="goal-detail-box"> <small>Monthly Target</small> <strong> ₹{{ goal.monthly_target|floatformat:0 }}
+
+                </strong> </div> <div class="goal-detail-box"> <small>Deadline</small> <strong> {{ goal.deadline|date:"d M Y" }}
+
+                </strong> </div> </div> <!-- Status --> <div class="goal-status-row"> <div class="goal-status {{ goal.status }}"> <i class="fa-solid fa-circle"></i> {{ goal.get_status_display }}
+
+            </div> </div> <!-- Notes --> {% if goal.notes %}
+
+        <div class="goal-notes"> <i class="fa-solid fa-note-sticky"></i> {{ goal.notes }}
+
+        </div> {% endif %}
+
+        <!-- Actions --> <div class="goal-actions"> <button class="goal-contribute-btn"
+                    data-goal-id="{{ goal.id }}"
+                    data-goal-title="{{ goal.title }}"
+                    data-current="{{ goal.current_amount }}"
+                    data-target="{{ goal.target_amount }}"> <i class="fa-solid fa-piggy-bank"></i> Contribute
+
+            </button> <a href="{% url 'goals:edit_goal' goal.id %}"
+               class="goal-edit-btn"> <i class="fa-solid fa-pen"></i> Edit
+
+            </a> <a href="{% url 'goals:delete_goal' goal.id %}"
+               class="goal-delete-btn"> <i class="fa-solid fa-trash"></i> Delete
+
+            </a> </div> </div> {% empty %}
+
+    <div class="empty-goals"> <div class="empty-goals-icon"> <i class="fa-solid fa-bullseye"></i> </div> <h2> No Goals Yet
+
+        </h2> <p> Create your first financial goal and let MoneyMate help you reach it.
+
+        </p> <button type="button"
+                class="goals-primary-btn"
+                id="empty-add-goal"> <i class="fa-solid fa-plus"></i> Create First Goal
+
+        </button> </div> {% endfor %}
+
+</section>

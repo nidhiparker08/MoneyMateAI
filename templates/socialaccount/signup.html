@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Complete your signup — MoneyMate{% endblock %}
+
+{% block content %}
+<div class="mm-auth" data-testid="social-signup-page">
+
+    <!-- LEFT · form -->
+    <div class="mm-auth-form-col">
+        <div class="mm-auth-form-inner">
+
+            <a href="{% url 'core:index' %}" class="mm-auth-brand">
+                <span class="mm-logo-mark">M</span>
+                <span class="mm-logo-word">MoneyMate</span>
+            </a>
+
+            <div class="mm-auth-head">
+                <span class="mm-auth-eyebrow">Almost there</span>
+                <h1>Complete your signup</h1>
+                <p>
+                    {% if account %}{{ account.get_provider.name }}{% else %}Your account{% endif %}
+                    didn't share an email address with MoneyMate.
+                    Add yours below to receive your verification code.
+                </p>
+            </div>
+
+            {% if form.errors %}
+            <div class="mm-auth-alert" data-testid="social-signup-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <div>
+                    {% for field in form %}{% for error in field.errors %}<span>{{ error }}</span>{% endfor %}{% endfor %}
+                    {% for error in form.non_field_errors %}<span>{{ error }}</span>{% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'socialaccount_signup' %}"
+                  class="mm-form" data-testid="social-signup-form">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    {% if field.is_hidden %}
+                        {{ field }}
+                    {% else %}
+                    <div class="mm-field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}<span class="mm-meter-text">{{ field.help_text }}</span>{% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+                {{ redirect_field }}
+
+                <button type="submit" class="mm-btn mm-btn-primary mm-btn-block"
+                        data-testid="social-signup-submit">
+                    Continue
+                </button>
+            </form>
+
+            <p class="mm-auth-foot">
+                Already have an account?
+                <a href="{% url 'accounts:login' %}" class="mm-link-pink">Sign in</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT · showcase -->
+    <div class="mm-auth-aside">
+        <div class="mm-auth-aside-inner">
+            <span class="mm-auth-eyebrow">One quick step</span>
+            <h2 class="mm-auth-display">Your email keeps<br>your money safe.</h2>
+            <p class="mm-auth-lead">We'll send a one-time verification code to the address you enter — then you're in.</p>
+
+            <ul class="mm-auth-features">
+                <li><span class="mm-ico-tile pink"><i class="fa-solid fa-shield-halved"></i></span> Protects your account from intruders</li>
+                <li><span class="mm-ico-tile violet"><i class="fa-solid fa-envelope-open-text"></i></span> Statements &amp; alerts reach real inbox</li>
+                <li><span class="mm-ico-tile pink"><i class="fa-solid fa-clock"></i></span> Takes less than a minute</li>
+                <li><span class="mm-ico-tile violet"><i class="fa-solid fa-lock"></i></span> Verified once — never again</li>
+            </ul>
+
+            <div class="mm-auth-mini-card">
+                <div class="mm-amc-row">
+                    <span>Verification</span>
+                    <strong class="mm-pos">1-time OTP</strong>
+                </div>
+                <div class="mm-progress"><span style="width:50%"></span></div>
+                <div class="mm-amc-row">
+                    <span>Delivery</span>
+                    <strong>Gmail SMTP</strong>
+                </div>
+            </div>
+        </div>
+        <div class="mm-auth-grain" aria-hidden="true"></div>
+    </div>
+</div>
+{% endblock %}

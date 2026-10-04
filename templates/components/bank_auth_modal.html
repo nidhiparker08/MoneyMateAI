@@ -1,0 +1,175 @@
+<div id="bankAuthModal" class="source-modal-overlay" data-testid="bank-auth-modal">
+
+    <div class="source-modal">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+        <div class="source-modal-header">
+
+            <div>
+                <span class="source-badge">
+                    <i class="fa-solid fa-lock"></i>
+                    Secure Connection
+                </span>
+
+                <h2 id="bankAuthHeading">Verify Your Identity</h2>
+
+                <p id="bankAuthSubheading">
+                    A quick verification is required before your bank shares data with MoneyMate.
+                </p>
+            </div>
+
+            <button id="closeBankAuthModal"
+                    class="source-close"
+                    type="button"
+                    aria-label="Close"
+                    data-testid="close-bank-auth-modal-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <!-- =========================
+             AUTH FORM
+        ========================== -->
+        <div id="bankAuthFormContainer">
+
+            <form id="bankAuthForm" data-testid="bank-auth-form">
+
+                {% csrf_token %}
+
+                <div class="bank-field">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text"
+                           id="bankUserName"
+                           placeholder="Full Name"
+                           autocomplete="off"
+                           data-testid="bank-name-input"
+                           required>
+                </div>
+
+                <div class="bank-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email"
+                           id="bankEmail"
+                           placeholder="Email Address"
+                           autocomplete="off"
+                           data-testid="bank-email-input"
+                           required>
+                </div>
+
+                <div class="bank-field">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel"
+                           id="bankPhone"
+                           placeholder="Phone Number"
+                           autocomplete="off"
+                           inputmode="tel"
+                           data-testid="bank-phone-input"
+                           required>
+                </div>
+
+                <div class="bank-auth-footer">
+
+                    <button type="submit"
+                            class="btn-primary"
+                            id="connectBankSubmit"
+                            data-testid="bank-submit-btn">
+                        <i class="fa-solid fa-plug-circle-bolt"></i>
+                        Connect Bank
+                    </button>
+
+                </div>
+
+                <div class="bank-auth-legal">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>
+                        MoneyMate uses read-only access via BankHub. Your credentials are never stored on our servers.
+                    </span>
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- =========================
+             LOADING SCREEN
+        ========================== -->
+        <div id="bankLoadingContainer"
+             class="bank-loading"
+             data-testid="bank-loading"
+             style="display:none;">
+
+            <div class="bank-loading-visual">
+                <div class="spinner-ring-outer"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-core">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+            </div>
+
+            <h2>Connecting your bank</h2>
+            <p class="bank-loading-sub">Please don&rsquo;t close this window.</p>
+
+            <div class="bank-progress" aria-label="Progress">
+                <div id="bankProgressFill" class="bank-progress-fill"></div>
+            </div>
+
+            <div id="bankLoadingStatus"
+                 class="bank-loading-message"
+                 data-testid="bank-loading-status">
+                <i class="fa-solid fa-key"></i>Authenticating&hellip;
+            </div>
+
+            <ul id="bankLoadingSteps" class="bank-loading-steps" data-testid="bank-loading-steps">
+                <li data-step="auth">        <span class="step-dot"></span> Authenticating</li>
+                <li data-step="account">     <span class="step-dot"></span> Fetching Account</li>
+                <li data-step="transactions"><span class="step-dot"></span> Importing Transactions</li>
+                <li data-step="investments"> <span class="step-dot"></span> Importing Investments</li>
+                <li data-step="memory">      <span class="step-dot"></span> Analyzing your spending</li>
+                <li data-step="finalize">    <span class="step-dot"></span> Finalizing</li>
+            </ul>
+
+        </div>
+
+        <!-- =========================
+             SUCCESS SCREEN
+        ========================== -->
+        <div id="bankSuccessContainer"
+             class="bank-success"
+             data-testid="bank-success"
+             style="display:none;">
+
+            <div class="bank-success-badge">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <h2>Bank Connected Successfully</h2>
+
+            <div id="bankSuccessBank" class="bank-success-bank" data-testid="bank-success-bank">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>&mdash;</span>
+            </div>
+
+            <div class="bank-success-summary">
+                <div class="bank-success-chip">
+                    <i class="fa-solid fa-check"></i>
+                    <span><span id="bankSuccessTxCount" class="num" data-testid="bank-success-tx-count">0</span> Transactions Imported</span>
+                </div>
+                <div class="bank-success-chip">
+                    <i class="fa-solid fa-check"></i>
+                    <span><span id="bankSuccessInvCount" class="num" data-testid="bank-success-inv-count">0</span> Investments Imported</span>
+                </div>
+            </div>
+
+            <div class="bank-success-refresh">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                Refreshing your dashboard&hellip;
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
